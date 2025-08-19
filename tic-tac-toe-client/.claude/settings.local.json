@@ -7,6 +7,7 @@
       "Bash(npm test:*)",
       "Bash(npx eslint:*)",
       "Bash(npx tsc:*)",
+      "mcp__jetbrains__create_new_file",
       "mcp__jetbrains__execute_terminal_command",
       "mcp__jetbrains__find_files_by_glob",
       "mcp__jetbrains__find_files_by_name_keyword",
@@ -22,7 +23,10 @@
       "mcp__playwright__browser_wait_for"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "additionalDirectories": [
+      "E:\\e\\tic-tac-toe"
+    ]
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
