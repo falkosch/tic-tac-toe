@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useMemo, useCallback } from 'react';
 
 import { cellCoordinates } from '../../mechanics/CellCoordinates';
 import { cellEdgeClassifiers, EdgeClassifier } from '../../mechanics/CellEdgeClassifiers';
@@ -26,42 +26,61 @@ const selectBorderWidth = (upperEdge: boolean): string => {
   return upperEdge ? '0' : `${grid.value}${grid.unit}`;
 };
 
-export const CellView: FC<{
+interface Props {
   boardDimensions: Readonly<BoardDimensions>;
   cellAt: number;
   cellOwner: Readonly<CellOwner>;
   consecutive: ReadonlyArray<Consecutive>;
-}> = ({ boardDimensions, cellAt, cellOwner, consecutive }) => {
-  const actionTokenDispatch = useContext(ActionTokenDispatch);
+}
 
-  const cellOwnerImage = mapCellOwnerToImage(cellOwner);
-  const consecutiveDirectionImages = coveredConsecutiveDirections(cellAt, consecutive).map((d) =>
-    mapConsecutiveDirectionToImage(d),
-  );
+export const CellView: FC<Props> = React.memo(
+  ({ boardDimensions, cellAt, cellOwner, consecutive }) => {
+    const actionTokenDispatch = useContext(ActionTokenDispatch);
 
-  const edgeClassifiers = cellEdgeClassifiers(
-    cellCoordinates(cellAt, boardDimensions),
-    boardDimensions,
-  );
+    const cellOwnerImage = useMemo(() => mapCellOwnerToImage(cellOwner), [cellOwner]);
 
-  const gridStyle = {
-    borderRightWidth: selectBorderWidth(edgeClassifiers.x === EdgeClassifier.Upper),
-    borderBottomWidth: selectBorderWidth(edgeClassifiers.y === EdgeClassifier.Upper),
-    height: tileSize(boardDimensions.height),
-    width: tileSize(boardDimensions.width),
-  };
+    const consecutiveDirectionImages = useMemo(
+      () =>
+        coveredConsecutiveDirections(cellAt, consecutive).map((d) =>
+          mapConsecutiveDirectionToImage(d),
+        ),
+      [cellAt, consecutive],
+    );
 
-  const className = `${styles.view} position-relative bg-light border-secondary`;
+    const edgeClassifiers = useMemo(
+      () => cellEdgeClassifiers(cellCoordinates(cellAt, boardDimensions), boardDimensions),
+      [cellAt, boardDimensions],
+    );
 
-  const onClick = (): void => {
-    if (actionTokenDispatch) {
-      actionTokenDispatch([cellAt]);
-    }
-  };
+    const gridStyle = useMemo(
+      () => ({
+        borderRightWidth: selectBorderWidth(edgeClassifiers.x === EdgeClassifier.Upper),
+        borderBottomWidth: selectBorderWidth(edgeClassifiers.y === EdgeClassifier.Upper),
+        height: tileSize(boardDimensions.height),
+        width: tileSize(boardDimensions.width),
+      }),
+      [edgeClassifiers, boardDimensions],
+    );
 
-  return (
-    <button className={className} onClick={onClick} style={gridStyle} type="button">
-      <ImageStack imageSources={[cellOwnerImage, ...consecutiveDirectionImages]} />
-    </button>
-  );
-};
+    const className = `${styles.view} position-relative bg-light border-secondary`;
+
+    const onClick = useCallback((): void => {
+      if (actionTokenDispatch) {
+        actionTokenDispatch([cellAt]);
+      }
+    }, [actionTokenDispatch, cellAt]);
+
+    const imageSources = useMemo(
+      () => [cellOwnerImage, ...consecutiveDirectionImages],
+      [cellOwnerImage, consecutiveDirectionImages],
+    );
+
+    return (
+      <button className={className} onClick={onClick} style={gridStyle} type="button">
+        <ImageStack imageSources={imageSources} />
+      </button>
+    );
+  },
+);
+
+CellView.displayName = 'CellView';
