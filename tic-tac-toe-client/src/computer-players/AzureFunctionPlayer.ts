@@ -4,12 +4,19 @@ import { AttackGameAction } from '../meta-model/GameAction';
 import { PlayerCreator } from '../meta-model/Player';
 import { PlayerTurn } from '../meta-model/PlayerTurn';
 
-const MAX_RETRIES = 3;
-const RETRY_DELAY_MS = 1000;
+/**
+ * Configuration constants for Azure Function Player
+ */
+const AZURE_FUNCTION_CONFIG = {
+  MAX_RETRIES: 3,
+  BASE_DELAY_MS: 1000,
+  TIMEOUT_MS: 30000,
+  API_ENDPOINT: '/api/takeTurn',
+} as const;
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_AZURE_FUNCTION_BASE_URL,
-  timeout: 30000, // 30-second timeout for network requests
+  timeout: AZURE_FUNCTION_CONFIG.TIMEOUT_MS,
 });
 
 /**
@@ -56,8 +63,8 @@ const sleep = (ms: number): Promise<void> =>
  */
 const retryWithBackoff = async <T>(
   operation: () => Promise<T>,
-  maxRetries: number = MAX_RETRIES,
-  baseDelay: number = RETRY_DELAY_MS,
+  maxRetries: number = AZURE_FUNCTION_CONFIG.MAX_RETRIES,
+  baseDelay: number = AZURE_FUNCTION_CONFIG.BASE_DELAY_MS,
 ): Promise<T> => {
   let lastError: Error;
   let attempt = 0;
@@ -120,7 +127,7 @@ export const createAzureFunctionPlayer: PlayerCreator = async () => {
     async takeTurn(playerTurn: Readonly<PlayerTurn>): Promise<AttackGameAction> {
       try {
         return await retryWithBackoff(async () => {
-          const response = await axiosInstance.post('/api/takeTurn', playerTurn);
+          const response = await axiosInstance.post(AZURE_FUNCTION_CONFIG.API_ENDPOINT, playerTurn);
           return response.data;
         });
       } catch (error) {
