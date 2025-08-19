@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--init",
+        "--pull=always",
+        "--net=host",
+        "mcp/playwright"
+      ]
+    },
+    "jetbrains": {
+      "type": "sse",
+      "url": "http://localhost:64342/sse"
+    },
+    "jetbrains-proxy": {
+      "type": "stdio",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "-e",
+        "require('child_process').execSync('npx -y @jetbrains/mcp-proxy', {stdio: 'inherit'})"
+      ]
+    }
+  }
+}
