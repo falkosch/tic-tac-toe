@@ -54,7 +54,7 @@ const determineFreeCellsBalanceByDirection = (
   iteratorsToCoordinates: LineIteratorsToCoordinates,
 ): number => {
   // As a distinct middle line on a board is not part of either of the two adjacent sides, it is
-  // skipped when determining the balance, i.e. a 3x3 board has a distinct middle line while a
+  // skipped when determining the balance i.e., a 3x3 board has a distinct middle line while a
   // 2x2 board has not.
   const halfLengths = Math.floor(lineDimensions.j / 2);
   const distinctMiddleOffset = lineDimensions.j - halfLengths;

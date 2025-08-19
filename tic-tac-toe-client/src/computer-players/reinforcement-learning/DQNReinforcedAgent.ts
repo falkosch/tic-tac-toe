@@ -105,7 +105,7 @@ const loadBrainAndStatistics = async (
       wins: loadedAgentData.wins,
     };
 
-    // Defy an NPE in the DQN solver when the learn tick is not at an experience 0-offset.
+    // Defy an NPE in the DQN solver when a tick in the learning is not at an experience 0-offset.
     // Only concerns persisted DQN brains as their experience stack is not persisted.
     const keepExperienceInterval = solver.getOpt().get('keepExperienceInterval');
     const experienceOffset = loadedAgentData.wins % keepExperienceInterval;

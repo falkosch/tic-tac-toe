@@ -37,7 +37,7 @@ const remainingMoves = (cells: ReadonlyArray<CellOwner>): number =>
   cells.reduce((acc, cellOwner) => acc + (cellOwner === CellOwner.None ? 1 : 0), 0);
 
 export const isOneWinnerEnding = (gameView: Readonly<GameView>): boolean =>
-  // for now, occurrence of a first consecutive sequence ends the game
+  // for now, the occurrence of a first consecutive sequence ends the game
   gameView.consecutive.length > 0;
 
 export const isDrawEnding = (gameView: Readonly<GameView>): boolean =>

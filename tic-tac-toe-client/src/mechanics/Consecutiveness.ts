@@ -15,14 +15,14 @@ const findInCellOwnerSpans = (
   minimumSpan: number,
   iteratorToCoordinates: LineIteratorToCoordinates,
 ): void => {
-  // there are consecutive spans only if line dimension is big enough
+  // there are consecutive spans only if the line dimension is big enough
   if (lineDimension < minimumSpan) {
     return;
   }
 
   const { cells, dimensions } = board;
 
-  // first cell is our pivot cell for the first span
+  // the first cell is our pivot cell for the first span
   const pivotCellAt = cellAtCoordinate(iteratorToCoordinates(0), dimensions);
 
   // track spans of same CellOwners
@@ -48,7 +48,7 @@ const findInCellOwnerSpans = (
     cellsAt.push(iAsCellAt);
   }
 
-  // don't forget to check the last started span
+  // remember to check the last started span
   if (cellsAt.length >= minimumSpan && ownerOfSpan !== CellOwner.None) {
     consecutiveConsumer({ cellsAt, direction });
   }
