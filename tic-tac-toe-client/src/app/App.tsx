@@ -146,8 +146,22 @@ export const App: FC = () => {
     });
   };
 
+  // Check if Azure Function is available
+  const isAzureFunctionConfigured = (): boolean => {
+    const baseURL = process.env.REACT_APP_AZURE_FUNCTION_BASE_URL;
+    return !!baseURL && baseURL.trim() !== '';
+  };
+
   const createDropdownViewForCellOwner = (cellOwner: SpecificCellOwner): JSX.Element => {
     const dropdownId = `d${cellOwner}`;
+    const availablePlayers = Object.keys(players).filter((playerKey) => {
+      // Filter out Azure Function player if not configured
+      if (playerKey === PlayerType.Azure && !isAzureFunctionConfigured()) {
+        return false;
+      }
+      return true;
+    });
+
     return (
       <Col key={dropdownId} xs="12" sm="4" md="auto">
         <Dropdown className="mt-2 mt-md-0">
@@ -155,7 +169,7 @@ export const App: FC = () => {
             {`Player ${cellOwner}`}
           </Dropdown.Toggle>
           <Dropdown.Menu align="end">
-            {Object.keys(players).map((playerKey) => {
+            {availablePlayers.map((playerKey) => {
               const active = playerKey === configuration.playerTypes[cellOwner];
               const itemId = `d${cellOwner}${playerKey}`;
               return (
@@ -174,12 +188,19 @@ export const App: FC = () => {
     );
   };
 
+  // Create players object, conditionally including Azure Function player
   players = {
     [PlayerType.Human]: createHumanPlayer,
     [PlayerType.Mock]: createMockPlayer,
     [PlayerType.DQN]: createDQNPlayer,
     [PlayerType.Menace]: createMenacePlayer,
-    [PlayerType.Azure]: createAzureFunctionPlayer,
+    [PlayerType.Azure]: isAzureFunctionConfigured()
+      ? createAzureFunctionPlayer
+      : async () => {
+          throw new Error(
+            'Azure Function player is not configured. Please set REACT_APP_AZURE_FUNCTION_BASE_URL environment variable.'
+          );
+        },
   };
 
   return (
