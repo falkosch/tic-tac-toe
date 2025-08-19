@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, FC } from 'react';
+import React, { FC, ReactElement, ReactNode } from 'react';
 import { render, RenderOptions, RenderResult } from '@testing-library/react';
 import { GameProvider } from '../app/context/GameContext';
 import { GameStateType, initialGameState } from '../app/game-state/GameState';
@@ -33,13 +33,14 @@ const TestWrapper: FC<TestWrapperProps> = ({
 
 export const renderWithProviders = (
   component: ReactElement,
-  { initialGameState: gameState, initialGameConfiguration: gameConfig, ...renderOptions }: CustomRenderOptions = {},
+  {
+    initialGameState: gameState,
+    initialGameConfiguration: gameConfig,
+    ...renderOptions
+  }: CustomRenderOptions = {},
 ): RenderResult => {
   const Wrapper: FC<{ children: ReactNode }> = ({ children }) => (
-    <TestWrapper
-      initialGameState={gameState}
-      initialGameConfiguration={gameConfig}
-    >
+    <TestWrapper initialGameState={gameState} initialGameConfiguration={gameConfig}>
       {children}
     </TestWrapper>
   );

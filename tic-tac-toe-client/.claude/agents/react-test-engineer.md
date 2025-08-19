@@ -32,7 +32,7 @@ Testing principles you follow:
 When writing tests, you will:
 1. Analyze the component/function to understand its purpose and behavior
 2. Identify all user interactions, props variations, and edge cases to test
-3. Structure tests with clear describe blocks and descriptive test names
+3. Structure tests with clearly described blocks and descriptive test names
 4. Set up proper test data and mocks in beforeEach when appropriate
 5. Write tests that are easy to understand and maintain
 6. Include both happy path and error scenarios

@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { PlayerRegistry, createDefaultPlayerRegistry } from '../../computer-players/PlayerRegistry';
+import { createDefaultPlayerRegistry, PlayerRegistry } from '../../computer-players/PlayerRegistry';
 import { PlayerType } from '../game-configuration/GameConfiguration';
 import { PlayerCreator } from '../../meta-model/Player';
 import { AttackGameAction } from '../../meta-model/GameAction';
@@ -26,9 +26,9 @@ export const usePlayerRegistry = (
     return async () => ({
       takeTurn: () =>
         new Promise<AttackGameAction>((resolve, reject) => {
-          const actionToken = (affectedCellsAt?: ReadonlyArray<number>, error?: Error): void => {
-            if (error) {
-              reject(error);
+          const actionToken = (affectedCellsAt?: ReadonlyArray<number>, err?: Error): void => {
+            if (err) {
+              reject(err);
             } else if (affectedCellsAt) {
               resolve({ affectedCellsAt });
             } else {
@@ -52,11 +52,11 @@ export const usePlayerRegistry = (
         const newRegistry = await createDefaultPlayerRegistry();
 
         setRegistry(newRegistry);
-      } catch (err) {
-        const error =
+      } catch (err: unknown) {
+        const asError =
           err instanceof Error ? err : new Error('Failed to initialize player registry');
-        setError(error);
-        console.error('Failed to initialize player registry:', error);
+        setError(asError);
+        console.error('Failed to initialize player registry:', asError);
       } finally {
         setIsLoading(false);
       }

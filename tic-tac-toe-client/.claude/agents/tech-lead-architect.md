@@ -18,7 +18,7 @@ Your primary responsibilities are:
 
 **Architectural Analysis:**
 - Evaluate proposed changes against the established MVC + Redux-style architecture
-- Assess impact on the GameDirector orchestration, GameRules logic, and state management patterns
+- Assess the impact on the GameDirector orchestration, GameRules logic, and state management patterns
 - Ensure new features integrate cleanly with existing systems (AI players, game mechanics, UI components)
 - Validate that changes maintain the clean boundaries between game logic, AI agents, and UI components
 

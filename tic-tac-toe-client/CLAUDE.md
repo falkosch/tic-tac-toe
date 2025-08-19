@@ -25,7 +25,7 @@ using React's `useReducer`:
 - **GameState**: Manages current game view, action tokens, winners, and win counts
 - **GameConfiguration**: Handles player types and auto-game settings
 - **Reducer Pattern**: Pure functions for state transitions with typed actions
-- **Action Dispatch**: Centralized state updates via strongly-typed action system
+- **Action Dispatch**: Centralized state updates via a strongly typed action system
 
 #### 2. Game Engine (`mechanics/`)
 
@@ -71,7 +71,7 @@ interface Player {
 - **3x3 Board**: Traditional tic-tac-toe with configurable dimensions
 - **Turn-Based Play**: Alternating moves between X and O players
 - **Win Detection**: Automatic detection of rows, columns, and diagonals
-- **Draw Handling**: Stalemate detection when board fills without winner
+- **Draw Handling**: Stalemate detection when the board fills without a winner
 - **Move Validation**: Prevents invalid moves on occupied cells
 
 ### AI Opponents
@@ -80,7 +80,7 @@ interface Player {
 
 - **Reinforcement Learning**: Learns optimal strategies through self-play
 - **Experience Replay**: Stores and replays past games for training
-- **Epsilon-Greedy Policy**: Balances exploration vs exploitation
+- **Epsilon-Greedy Policy**: Balances exploration vs. exploitation
 - **Persistent Brain**: Saves/loads neural network weights via localStorage
 - **Performance Tracking**: Maintains win/loss/draw statistics
 
@@ -90,12 +90,12 @@ interface Player {
 - **Bead-Based Strategy**: Uses colored beads to represent move preferences
 - **Adaptive Learning**: Adjusts strategy based on game outcomes
 - **State Normalization**: Handles board symmetries and rotations
-- **Pretrained Networks**: Ships with pre-trained decision trees
+- **Pretrained Networks**: Ships with pretrained decision trees
 
 ### User Experience
 
 - **Player Configuration**: Choose human or AI for X/O positions
-- **Auto-Game Mode**: Continuous AI vs AI gameplay for training
+- **Auto-Game Mode**: Continuous AI vs. AI gameplay for training
 - **Visual Feedback**: Animated strike-through for winning combinations
 - **Responsive Design**: Bootstrap-based layout for mobile/desktop
 - **Real-time Updates**: Live game state updates during play
@@ -117,7 +117,7 @@ interface Player {
 
 ### Development Tools
 
-- **ESLint**: Code quality with Airbnb style guide
+- **ESLint**: Code quality with an Airbnb style guide
 - **Prettier**: Consistent code formatting
 - **Stylelint**: SCSS linting and standards
 - **Jest**: Unit testing framework
@@ -188,7 +188,7 @@ npm run lint:stylelint   # Run SCSS linting
 1. **Separation of Concerns**: Clear boundaries between UI, game logic, and AI systems
 2. **Type Safety**: Comprehensive TypeScript coverage with strict compiler settings
 3. **Testability**: Modular design enables focused unit testing
-4. **Extensibility**: Plugin-style AI system allows easy addition of new opponents
+4. **Extensibility**: A plugin-style AI system allows easy addition of new opponents
 5. **Performance**: Lazy loading and memoization for optimal rendering
 6. **Maintainability**: Consistent patterns and comprehensive documentation
 
