@@ -3,9 +3,16 @@
     "allow": [
       "Bash(npm run lint:*)",
       "Bash(npx eslint:*)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "playwright",
+    "jetbrains",
+    "jetbrains-proxy"
+  ]
 }
