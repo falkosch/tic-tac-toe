@@ -191,10 +191,10 @@ describe(`${App.name}`, () => {
         it('includes all standard players in Player X dropdown', async () => {
           const user = userEvent.setup();
           render(<App />);
-          
+
           const playerXDropdown = screen.getByText('Player X');
           await user.click(playerXDropdown);
-          
+
           expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();
@@ -204,10 +204,10 @@ describe(`${App.name}`, () => {
         it('includes all standard players in Player O dropdown', async () => {
           const user = userEvent.setup();
           render(<App />);
-          
+
           const playerODropdown = screen.getByText('Player O');
           await user.click(playerODropdown);
-          
+
           expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();

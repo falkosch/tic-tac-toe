@@ -1,7 +1,7 @@
 import { CellOwner, SpecificCellOwner } from '../../meta-model/CellOwner';
 import { PlayerCreator } from '../../meta-model/Player';
 
-export const enum PlayerType {
+export enum PlayerType {
   Human = 'Human player',
   Mock = 'Random AI (local)',
   DQN = 'DQN AI (local)',

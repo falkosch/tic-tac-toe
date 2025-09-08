@@ -2,9 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(mkdir:*)",
+      "Bash(find:*)",
       "Bash(npm run lint:*)",
       "Bash(npm start)",
       "Bash(npm test:*)",
+      "Bash(timeout:*)",
       "mcp__jetbrains__create_new_file",
       "mcp__jetbrains__execute_run_configuration",
       "mcp__jetbrains__execute_terminal_command",
@@ -15,19 +17,19 @@
       "mcp__jetbrains__list_directory_tree",
       "mcp__jetbrains__replace_text_in_file",
       "mcp__jetbrains__search_in_files_by_text",
-      "mcp__playwright__browser_click",
-      "mcp__playwright__browser_console_messages",
-      "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_navigate",
-      "mcp__playwright__browser_resize",
-      "mcp__playwright__browser_snapshot",
-      "mcp__playwright__browser_take_screenshot",
-      "mcp__playwright__browser_wait_for"
+      "mcp__playwright-npx__browser_click",
+      "mcp__playwright-npx__browser_console_messages",
+      "mcp__playwright-npx__browser_evaluate",
+      "mcp__playwright-npx__browser_install",
+      "mcp__playwright-npx__browser_navigate",
+      "mcp__playwright-npx__browser_resize",
+      "mcp__playwright-npx__browser_snapshot",
+      "mcp__playwright-npx__browser_take_screenshot",
+      "mcp__playwright-npx__browser_wait_for"
     ],
     "deny": [],
     "ask": [],
-    "additionalDirectories": [
-    ]
+    "additionalDirectories": []
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [

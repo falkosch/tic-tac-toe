@@ -2,7 +2,9 @@ import { AxiosError } from 'axios';
 import { AttackGameAction } from '../meta-model/GameAction';
 import { PlayerTurn } from '../meta-model/PlayerTurn';
 import { CellOwner } from '../meta-model/CellOwner';
-import { GameView } from '../meta-model/GameView';
+
+// Now import the module after mocking
+import { createAzureFunctionPlayer } from './AzureFunctionPlayer';
 
 // Mock axios instance that will be returned by axios.create
 const mockAxiosInstance = {
@@ -22,9 +24,6 @@ const mockAxios = {
 // Set up the mock before importing the module
 jest.doMock('axios', () => mockAxios);
 
-// Now import the module after mocking
-import { createAzureFunctionPlayer } from './AzureFunctionPlayer';
-
 describe('AzureFunctionPlayer', () => {
   const mockPlayerTurn: PlayerTurn = {
     cellOwner: CellOwner.X,
@@ -43,7 +42,12 @@ describe('AzureFunctionPlayer', () => {
           CellOwner.None,
         ],
       },
-    } as GameView,
+      consecutive: [],
+      points: {
+        X: 0,
+        O: 0,
+      },
+    },
   };
 
   const mockResponse: AttackGameAction = {
@@ -55,9 +59,9 @@ describe('AzureFunctionPlayer', () => {
 
     // Set up axios.create to return our mock instance
     mockAxios.create.mockReturnValue(mockAxiosInstance);
-    
+
     // Set up isAxiosError to work properly
-    mockAxios.isAxiosError.mockImplementation((error: any) => {
+    mockAxios.isAxiosError.mockImplementation((error) => {
       return error && error.constructor && error.constructor.name === 'AxiosError';
     });
 
@@ -82,7 +86,7 @@ describe('AzureFunctionPlayer', () => {
 
       it('should detect Azure Function as unavailable with missing environment variable', async () => {
         await expect(createAzureFunctionPlayer()).rejects.toThrow(
-          'Azure Function player is not configured. Please check your environment variables.'
+          'Azure Function player is not configured. Please check your environment variables.',
         );
       });
 
@@ -90,7 +94,7 @@ describe('AzureFunctionPlayer', () => {
         process.env.REACT_APP_AZURE_FUNCTION_BASE_URL = '';
 
         await expect(createAzureFunctionPlayer()).rejects.toThrow(
-          'Azure Function player is not configured. Please check your environment variables.'
+          'Azure Function player is not configured. Please check your environment variables.',
         );
       });
 
@@ -98,7 +102,7 @@ describe('AzureFunctionPlayer', () => {
         process.env.REACT_APP_AZURE_FUNCTION_BASE_URL = '   ';
 
         await expect(createAzureFunctionPlayer()).rejects.toThrow(
-          'Azure Function player is not configured. Please check your environment variables.'
+          'Azure Function player is not configured. Please check your environment variables.',
         );
       });
     });
@@ -162,7 +166,7 @@ describe('AzureFunctionPlayer', () => {
         expect.objectContaining({
           cellOwner: CellOwner.X,
           gameView: expect.any(Object),
-        })
+        }),
       );
     });
   });
@@ -191,10 +195,10 @@ describe('AzureFunctionPlayer', () => {
 
         // First retry - 1000ms delay (1000 * 2^0)
         await jest.advanceTimersByTimeAsync(1000);
-        
+
         // Second retry - 2000ms delay (1000 * 2^1)
         await jest.advanceTimersByTimeAsync(2000);
-        
+
         // Third retry - 4000ms delay (1000 * 2^2)
         await jest.advanceTimersByTimeAsync(4000);
 
@@ -216,7 +220,7 @@ describe('AzureFunctionPlayer', () => {
 
         // First retry: 1000 * 2^0 = 1000ms
         await jest.advanceTimersByTimeAsync(1000);
-        
+
         // Second retry: 1000 * 2^1 = 2000ms
         await jest.advanceTimersByTimeAsync(2000);
 
@@ -301,7 +305,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.'
+          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.',
         );
 
         expect(mockAxiosInstance.post).toHaveBeenCalledTimes(1);
@@ -315,7 +319,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: bad request'
+          'Azure Function service is currently unavailable: bad request',
         );
 
         expect(mockAxiosInstance.post).toHaveBeenCalledTimes(1);
@@ -349,7 +353,7 @@ describe('AzureFunctionPlayer', () => {
         await jest.advanceTimersByTimeAsync(4000); // Third retry
 
         await expect(promise).rejects.toThrow(
-          'Azure Function request timed out. The service may be slow or unavailable.'
+          'Azure Function request timed out. The service may be slow or unavailable.',
         );
 
         // Original call + 3 retries = 4 total calls
@@ -387,7 +391,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function request timed out. The service may be slow or unavailable.'
+          'Azure Function request timed out. The service may be slow or unavailable.',
         );
       });
 
@@ -399,7 +403,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.'
+          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.',
         );
       });
 
@@ -410,7 +414,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Cannot connect to Azure Function service. Please check your network connection and try again.'
+          'Cannot connect to Azure Function service. Please check your network connection and try again.',
         );
       });
 
@@ -421,7 +425,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Cannot connect to Azure Function service. Please check your network connection and try again.'
+          'Cannot connect to Azure Function service. Please check your network connection and try again.',
         );
       });
 
@@ -432,7 +436,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: some other error'
+          'Azure Function service is currently unavailable: some other error',
         );
       });
     });
@@ -459,7 +463,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: axios error'
+          'Azure Function service is currently unavailable: axios error',
         );
 
         expect(mockAxios.isAxiosError).toHaveBeenCalledWith(axiosError);
@@ -486,7 +490,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          `Azure Function service is currently unavailable: ${originalMessage}`
+          `Azure Function service is currently unavailable: ${originalMessage}`,
         );
       });
 
@@ -498,7 +502,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: undefined'
+          'Azure Function service is currently unavailable: undefined',
         );
       });
     });
@@ -576,6 +580,11 @@ describe('AzureFunctionPlayer', () => {
               CellOwner.None,
             ]),
           }),
+          consecutive: [],
+          points: {
+            X: 0,
+            O: 0,
+          },
         }),
       });
 
