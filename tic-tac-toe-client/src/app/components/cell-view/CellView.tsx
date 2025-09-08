@@ -8,7 +8,7 @@ import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
 import { BoardDimensions } from '../../../meta-model/Board';
 import { CellOwner } from '../../../meta-model/CellOwner';
 import { Consecutive } from '../../../meta-model/GameView';
-import { ImageStack } from '../image-stack/ImageStack';
+import { ImageStack, ImageWithAlt } from '../image-stack/ImageStack';
 
 import styles from './CellView.module.scss';
 
@@ -70,14 +70,34 @@ export const CellView: FC<Props> = React.memo(
       }
     }, [actionTokenDispatch, cellAt]);
 
-    const imageSources = useMemo(
-      () => [cellOwnerImage, ...consecutiveDirectionImages],
-      [cellOwnerImage, consecutiveDirectionImages],
-    );
+    const images = useMemo((): ImageWithAlt[] => {
+      const result: ImageWithAlt[] = [];
+
+      // Add cell owner image (X or O)
+      if (cellOwnerImage) {
+        const ownerTypeX = cellOwner === CellOwner.X ? 'X' : 'Empty';
+        result.push({
+          src: cellOwnerImage,
+          alt: cellOwner === CellOwner.O ? 'O' : ownerTypeX,
+        });
+      }
+
+      // Add consecutive direction images (strike-through lines)
+      consecutiveDirectionImages.forEach((src) => {
+        if (src) {
+          result.push({
+            src,
+            alt: 'Winning line',
+          });
+        }
+      });
+
+      return result;
+    }, [cellOwnerImage, consecutiveDirectionImages, cellOwner]);
 
     return (
       <button className={className} onClick={onClick} style={gridStyle} type="button">
-        <ImageStack imageSources={imageSources} />
+        <ImageStack images={images} />
       </button>
     );
   },

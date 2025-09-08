@@ -118,6 +118,12 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
 
   const changePlayerType = useCallback(
     (cellOwner: SpecificCellOwner, playerType: PlayerType): void => {
+      // Cancel current game if in progress
+      const { actionToken } = gameRef.current.gameState;
+      if (actionToken) {
+        actionToken();
+      }
+
       dispatchGameState({
         type: GameStateActionType.ResetWins,
         payload: {
@@ -131,8 +137,13 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
           playerType,
         },
       });
+
+      // Start new game with updated configuration if there was a game in progress
+      if (actionToken) {
+        setTimeout(createNewGame, 0);
+      }
     },
-    [dispatchGameState, dispatchConfiguration],
+    [dispatchGameState, dispatchConfiguration, createNewGame],
   );
 
   return {

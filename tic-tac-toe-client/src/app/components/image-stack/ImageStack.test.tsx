@@ -1,16 +1,16 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { ImageStack } from './ImageStack';
+import { ImageStack, ImageWithAlt } from './ImageStack';
 
 describe(`${ImageStack.name}`, () => {
-  let imageSources: ReadonlyArray<string>;
+  let images: ReadonlyArray<ImageWithAlt>;
 
   beforeEach(() => {
-    imageSources = [];
+    images = [];
   });
 
   it('renders without crashing', () => {
-    render(<ImageStack imageSources={imageSources} />);
+    render(<ImageStack images={images} />);
   });
 });
