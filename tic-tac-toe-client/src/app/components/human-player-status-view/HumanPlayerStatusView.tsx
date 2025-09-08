@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 
-import { ActionTokenDispatch } from '../game-state/ActionTokenDispatch';
+import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
 
 import styles from './HumanPlayerStatusView.module.scss';
 

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { CellOwner, SpecificCellOwner } from '../../meta-model/CellOwner';
-import { Points } from '../../meta-model/GameView';
+import { CellOwner, SpecificCellOwner } from '../../../meta-model/CellOwner';
+import { Points } from '../../../meta-model/GameView';
 
 import styles from './WinnerView.module.scss';
 

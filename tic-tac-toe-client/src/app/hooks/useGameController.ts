@@ -1,12 +1,12 @@
 import { useCallback, useRef, useState } from 'react';
 
-import { useGame, useGameState, useGameConfiguration } from '../context/GameContext';
+import { useGame, useGameConfiguration, useGameState } from '../context/GameContext';
 import { runNewGame } from '../../mechanics/GameDirector';
 import { GameStateActionType } from '../game-state/GameStateReducer';
 import { GameConfigurationActionType } from '../game-configuration/GameConfigurationReducer';
 import { CellOwner, SpecificCellOwner } from '../../meta-model/CellOwner';
-import { PlayerType } from '../game-configuration/GameConfiguration';
-import { Player, PlayerCreator } from '../../meta-model/Player';
+import { PlayerCreators, PlayerType } from '../game-configuration/GameConfiguration';
+import { Player } from '../../meta-model/Player';
 import { AttackGameAction } from '../../meta-model/GameAction';
 
 interface UseGameControllerReturn {
@@ -18,9 +18,7 @@ interface UseGameControllerReturn {
   createHumanPlayer: () => Promise<Player>;
 }
 
-export const useGameController = (
-  playerCreators: Record<PlayerType, PlayerCreator>,
-): UseGameControllerReturn => {
+export const useGameController = (playerCreators: PlayerCreators): UseGameControllerReturn => {
   const { gameState, configuration } = useGame();
   const { dispatch: dispatchGameState } = useGameState();
   const { dispatch: dispatchConfiguration } = useGameConfiguration();
@@ -105,13 +103,9 @@ export const useGameController = (
   }, [runningGame, playerCreators, dispatchGameState]);
 
   const canCreateNewGame = useCallback((): boolean => {
-    return (
-      configuration.autoNewGame &&
-      gameState.gameView !== undefined &&
-      gameState.actionToken === undefined &&
-      gameState.winner === undefined
-    );
-  }, [configuration.autoNewGame, gameState.gameView, gameState.actionToken, gameState.winner]);
+    // Can't create a game if actionToken is active (game in progress)
+    return !gameState.actionToken;
+  }, [gameState.actionToken]);
 
   const toggleAutoNewGame = useCallback((): void => {
     dispatchConfiguration({

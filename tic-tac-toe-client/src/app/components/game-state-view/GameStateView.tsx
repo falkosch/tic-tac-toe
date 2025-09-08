@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { ActionTokenDispatch } from '../game-state/ActionTokenDispatch';
-import { GameStateType } from '../game-state/GameState';
+import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
+import { GameStateType } from '../../game-state/GameState';
 import { GameView } from '../game-view/GameView';
 import { HumanPlayerStatusView } from '../human-player-status-view/HumanPlayerStatusView';
 import { WinnerView } from '../winner-view/WinnerView';

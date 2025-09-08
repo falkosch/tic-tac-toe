@@ -14,18 +14,18 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
 
 interface TestWrapperProps {
   children: ReactNode;
-  initialGameState?: GameStateType;
-  initialGameConfiguration?: GameConfigurationType;
+  providedGameState?: GameStateType;
+  providedGameConfiguration?: GameConfigurationType;
 }
 
 const TestWrapper: FC<TestWrapperProps> = ({
   children,
-  initialGameState: providedGameState = initialGameState,
-  initialGameConfiguration: providedGameConfiguration = initialGameConfiguration,
+  providedGameState = initialGameState,
+  providedGameConfiguration = initialGameConfiguration,
 }) => (
   <GameProvider
-    initialGameState={providedGameState}
-    initialGameConfiguration={providedGameConfiguration}
+    providedGameState={providedGameState}
+    providedGameConfiguration={providedGameConfiguration}
   >
     {children}
   </GameProvider>
@@ -40,7 +40,7 @@ export const renderWithProviders = (
   }: CustomRenderOptions = {},
 ): RenderResult => {
   const Wrapper: FC<{ children: ReactNode }> = ({ children }) => (
-    <TestWrapper initialGameState={gameState} initialGameConfiguration={gameConfig}>
+    <TestWrapper providedGameState={gameState} providedGameConfiguration={gameConfig}>
       {children}
     </TestWrapper>
   );

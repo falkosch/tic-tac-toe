@@ -1,7 +1,7 @@
 import { Board } from './Board';
 import { SpecificCellOwner } from './CellOwner';
 
-export enum ConsecutiveDirection {
+export const enum ConsecutiveDirection {
   Horizontal = 'H',
   Vertical = 'V',
   DiagonalTR2BL = 'TR2BL',

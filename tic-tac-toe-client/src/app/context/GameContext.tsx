@@ -6,10 +6,10 @@ import {
 } from '../game-configuration/GameConfiguration';
 import { GameStateType, initialGameState } from '../game-state/GameState';
 import {
-  gameConfigurationReducer,
   GameConfigurationAction,
+  gameConfigurationReducer,
 } from '../game-configuration/GameConfigurationReducer';
-import { gameStateReducer, GameStateAction } from '../game-state/GameStateReducer';
+import { GameStateAction, gameStateReducer } from '../game-state/GameStateReducer';
 
 interface GameContextValue {
   gameState: GameStateType;
@@ -24,14 +24,14 @@ const GameContext = createContext<GameContextValue | null>(null);
 
 interface GameProviderProps {
   children: ReactNode;
-  initialGameState?: GameStateType;
-  initialGameConfiguration?: GameConfigurationType;
+  providedGameState?: GameStateType;
+  providedGameConfiguration?: GameConfigurationType;
 }
 
 export const GameProvider: FC<GameProviderProps> = ({
   children,
-  initialGameState: providedGameState = initialGameState,
-  initialGameConfiguration: providedGameConfiguration = initialGameConfiguration,
+  providedGameState = initialGameState,
+  providedGameConfiguration = initialGameConfiguration,
 }) => {
   const [gameState, dispatchGameState] = useReducer(gameStateReducer, providedGameState);
   const [configuration, dispatchConfiguration] = useReducer(
@@ -39,20 +39,10 @@ export const GameProvider: FC<GameProviderProps> = ({
     providedGameConfiguration,
   );
 
-  const gameActions = useMemo(
-    () => ({
-      dispatchGameState,
-      dispatchConfiguration,
-    }),
-    [],
-  );
+  const gameActions = useMemo(() => ({ dispatchGameState, dispatchConfiguration }), []);
 
   const contextValue = useMemo(
-    () => ({
-      gameState,
-      configuration,
-      gameActions,
-    }),
+    () => ({ gameState, configuration, gameActions }),
     [gameState, configuration, gameActions],
   );
 

@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
 
 import { CellView } from '../cell-view/CellView';
-import { GameView as ModelGameView } from '../../meta-model/GameView';
-import { CellOwner } from '../../meta-model/CellOwner';
+import { GameView as ModelGameView } from '../../../meta-model/GameView';
+import { CellOwner } from '../../../meta-model/CellOwner';
 
 import styles from './GameView.module.scss';
 

@@ -4,29 +4,19 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import React, { FC, JSX, useCallback } from 'react';
 
-import { GameProvider, useGameState, useGameConfiguration } from './context/GameContext';
+import { GameProvider, useGameConfiguration, useGameState } from './context/GameContext';
 import { useGameController } from './hooks/useGameController';
-import { usePlayerRegistry } from './hooks/usePlayerRegistry';
-import { GameStateActionType } from './game-state/GameStateReducer';
 import { PlayerType } from './game-configuration/GameConfiguration';
 import { SpecificCellOwner } from '../meta-model/CellOwner';
-import { GameStateView } from './game-state-view/GameStateView';
-import { Header } from './header/Header';
-import { GameErrorBoundary, AIErrorBoundary } from './components/ErrorBoundary';
+import { GameStateView } from './components/game-state-view/GameStateView';
+import { Header } from './components/header/Header';
+import { AIErrorBoundary, GameErrorBoundary } from './components/error-boundary/ErrorBoundary';
 
 import styles from './App.module.scss';
 
 const AppContent: FC = () => {
   const { gameState } = useGameState();
   const { configuration } = useGameConfiguration();
-  const { dispatch: dispatchGameState } = useGameState();
-
-  const { playerCreators, isLoading, error } = usePlayerRegistry((actionToken) => {
-    dispatchGameState({
-      type: GameStateActionType.SetActionToken,
-      payload: { actionToken },
-    });
-  });
 
   const { createNewGame, canCreateNewGame, toggleAutoNewGame, changePlayerType } =
     useGameController(playerCreators);
@@ -90,7 +80,7 @@ const AppContent: FC = () => {
             <Col xs="12" sm="4" md="auto">
               <Button
                 className="mt-2 mt-md-0"
-                disabled={canCreateNewGame()}
+                disabled={!canCreateNewGame()}
                 onClick={createNewGame}
               >
                 New game

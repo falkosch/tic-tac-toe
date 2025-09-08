@@ -1,13 +1,13 @@
-import React, { FC, useContext, useMemo, useCallback } from 'react';
+import React, { FC, useCallback, useContext, useMemo } from 'react';
 
-import { cellCoordinates } from '../../mechanics/CellCoordinates';
-import { cellEdgeClassifiers, EdgeClassifier } from '../../mechanics/CellEdgeClassifiers';
-import { coveredConsecutiveDirections } from '../../mechanics/Consecutiveness';
-import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from '../../mechanics/MapToImage';
-import { ActionTokenDispatch } from '../game-state/ActionTokenDispatch';
-import { BoardDimensions } from '../../meta-model/Board';
-import { CellOwner } from '../../meta-model/CellOwner';
-import { Consecutive } from '../../meta-model/GameView';
+import { cellCoordinates } from '../../../mechanics/CellCoordinates';
+import { cellEdgeClassifiers, EdgeClassifier } from '../../../mechanics/CellEdgeClassifiers';
+import { coveredConsecutiveDirections } from '../../../mechanics/Consecutiveness';
+import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from '../../../mechanics/MapToImage';
+import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
+import { BoardDimensions } from '../../../meta-model/Board';
+import { CellOwner } from '../../../meta-model/CellOwner';
+import { Consecutive } from '../../../meta-model/GameView';
 import { ImageStack } from '../image-stack/ImageStack';
 
 import styles from './CellView.module.scss';

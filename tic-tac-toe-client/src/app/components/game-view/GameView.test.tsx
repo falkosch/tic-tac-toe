@@ -1,8 +1,8 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from '../../test-utils/testUtils';
-import { createMockGameView, createWinningGameView } from '../../test-utils/mockData';
-import { CellOwner } from '../../meta-model/CellOwner';
+import { renderWithProviders } from '../../../test-utils/testUtils';
+import { createMockGameView, createWinningGameView } from '../../../test-utils/mockData';
+import { CellOwner } from '../../../meta-model/CellOwner';
 import { GameView } from './GameView';
 
 describe('GameView', () => {
