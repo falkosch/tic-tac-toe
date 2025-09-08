@@ -54,7 +54,7 @@ interface Player {
 - **DQNPlayer**: Deep Q-Network using `reinforce-js` library with experience replay
 - **MenacePlayer**: Matchbox Educable Noughts and Crosses Engine with epsilon-greedy strategy
 - **MockPlayer**: Random move generator for testing
-- **AzureFunctionPlayer**: Remote AI via HTTP API calls
+- **AzureFunctionPlayer**: Remote AI via HTTP API calls with robust error handling
 - **Human Player**: Interactive player with UI callbacks
 
 #### 4. UI Components (`app/`)
@@ -91,6 +91,15 @@ interface Player {
 - **Adaptive Learning**: Adjusts strategy based on game outcomes
 - **State Normalization**: Handles board symmetries and rotations
 - **Pretrained Networks**: Ships with pretrained decision trees
+
+#### Azure Function AI (Remote Network AI)
+
+- **HTTP API Integration**: Communicates with external Azure Function endpoints
+- **Robust Error Handling**: User-friendly messages for network failures
+- **Exponential Backoff Retry**: Smart retry mechanism for transient network issues
+- **Timeout Protection**: 30-second timeout prevents hanging requests
+- **Conditional Configuration**: Only available when properly configured
+- **Graceful Degradation**: Game continues functioning when remote AI is unavailable
 
 ### User Experience
 
@@ -190,7 +199,60 @@ npm run lint:stylelint   # Run SCSS linting
 3. **Testability**: Modular design enables focused unit testing
 4. **Extensibility**: A plugin-style AI system allows easy addition of new opponents
 5. **Performance**: Lazy loading and memoization for optimal rendering
-6. **Maintainability**: Consistent patterns and comprehensive documentation
+6. **Error Resilience**: Robust error handling with user-friendly messages and graceful degradation
+7. **Network Reliability**: Exponential backoff retry mechanisms for external service integration
+8. **Maintainability**: Consistent patterns and comprehensive documentation
+
+## Error Handling Patterns
+
+The project implements comprehensive error handling strategies, particularly for network operations and external service integration:
+
+### Network Error Handling
+
+**AzureFunctionPlayer Error Strategy:**
+- **User-Friendly Messages**: Converts technical network errors into clear user messaging
+- **Selective Retry Logic**: Only retries on retryable errors (timeouts, server errors, connection failures)
+- **Exponential Backoff**: Implements `delay = baseDelay × 2^attempt` for retry delays
+- **Maximum Retry Limits**: Prevents infinite retry loops with configurable retry counts
+- **Timeout Protection**: 30-second timeouts prevent hanging requests
+
+### Error Classification System
+
+**Retryable Errors:**
+- `ECONNABORTED` - Network timeouts
+- `ECONNREFUSED` - Connection refused
+- `ENOTFOUND` - DNS lookup failures  
+- HTTP 500, 502, 503, 504 - Server errors
+
+**Non-Retryable Errors:**
+- HTTP 404 - Service not found
+- HTTP 400-499 - Client errors (except server errors above)
+
+### Configuration-Based Error Handling
+
+**Conditional Feature Availability:**
+- Azure Function player only appears when `REACT_APP_AZURE_FUNCTION_BASE_URL` is configured
+- Graceful degradation when external services are unavailable
+- Environment-based feature flags for optional integrations
+
+### Error Message Patterns
+
+```typescript
+// User-friendly error transformation
+const createNetworkError = (originalError: AxiosError): Error => {
+  // Transform technical errors into user-readable messages
+  // while preserving original error context for debugging
+};
+```
+
+**Error Message Examples:**
+- Timeout: "Azure Function request timed out. The service may be slow or unavailable."
+- 404: "Azure Function service is not available. The backend may not be deployed."
+- Connection: "Cannot connect to Azure Function service. Please check your network."
+
+This comprehensive error handling approach ensures the application remains stable and user-friendly even when external dependencies fail.
+
+## Project Excellence
 
 This project serves as an excellent example of modern React application architecture with
 sophisticated AI integration and clean code principles.
