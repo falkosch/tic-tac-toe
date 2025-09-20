@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 import { CellOwner } from '../../../meta-model/CellOwner';
 import { type Points } from '../../../meta-model/GameView';

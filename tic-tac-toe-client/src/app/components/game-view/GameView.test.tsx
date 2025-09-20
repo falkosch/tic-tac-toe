@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 import { renderWithProviders } from '../../../test-utils/testUtils';
 import { createMockGameView, createWinningGameView } from '../../../test-utils/mockData';
 import { CellOwner } from '../../../meta-model/CellOwner';

@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
+import { describe, it, beforeEach } from 'vitest';
 
 import { CellView } from './CellView';
 import { type BoardDimensions } from '../../../meta-model/Board';
