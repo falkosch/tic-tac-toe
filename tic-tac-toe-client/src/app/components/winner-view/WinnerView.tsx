@@ -10,23 +10,24 @@ import {
 import { type Points } from '../../../meta-model/GameView';
 
 import styles from './WinnerView.module.css';
+import { type AxiosError } from 'axios';
 
-const representsError = (value: unknown): boolean => {
+const representsError = (value: unknown): value is Error => {
   return value instanceof Error;
 };
 
-const representsAxiosError = (value: unknown): boolean => {
+const representsAxiosError = (value: unknown): value is AxiosError => {
   if (!value || typeof value !== 'object') {
     return false;
   }
   return 'isAxiosError' in value && !!value.isAxiosError;
 };
 
-const representsDraw = (value: unknown): boolean => {
+const representsDraw = (value: unknown): value is typeof CellOwnerNone => {
   return value === CellOwnerNone;
 };
 
-const representsSpecificWinner = (value: unknown): boolean => {
+const representsSpecificWinner = (value: unknown): value is SpecificCellOwner => {
   return value === CellOwnerO || value === CellOwnerX;
 };
 

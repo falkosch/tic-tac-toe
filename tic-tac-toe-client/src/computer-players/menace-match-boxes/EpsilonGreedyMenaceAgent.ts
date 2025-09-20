@@ -95,11 +95,12 @@ export const getMenaceAgent: AIAgentCreator<MenaceAgent> = async (cellOwner, boa
   return {
     cellOwner,
 
-    async startNewGame(): Promise<void> {
+    startNewGame(): Promise<void> {
       menaceMemory.playedMoves = [];
+      return Promise.resolve();
     },
 
-    async decide(stateSpace): Promise<Decision> {
+    decide(stateSpace): Promise<Decision> {
       const { boardAsString } = stateSpace;
 
       // Add first beads for still unknown game states
@@ -112,9 +113,7 @@ export const getMenaceAgent: AIAgentCreator<MenaceAgent> = async (cellOwner, boa
         bead,
       });
 
-      return {
-        cellsAtToAttack: [bead],
-      };
+      return Promise.resolve({ cellsAtToAttack: [bead] });
     },
 
     async rememberDraw(): Promise<void> {

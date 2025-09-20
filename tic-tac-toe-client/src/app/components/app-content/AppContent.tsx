@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useCallback } from 'react';
 
 import { type SpecificCellOwner } from '../../../meta-model/CellOwner';
 import { AIErrorBoundary } from '../error-boundary/ErrorBoundary';
@@ -27,6 +27,10 @@ export const AppContent: FC = () => {
   const { createNewGame, canCreateNewGame, toggleAutoNewGame, changePlayerType } =
     useGameController(playerCreators);
 
+  const onCreateNewGame = useCallback(() => {
+    createNewGame().catch(console.error);
+  }, [createNewGame]);
+
   if (isLoading) {
     return (
       <div className={`${styles.view} flex h-full flex-col items-center justify-center`}>
@@ -50,7 +54,7 @@ export const AppContent: FC = () => {
           <button
             className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400"
             disabled={!canCreateNewGame()}
-            onClick={createNewGame}
+            onClick={onCreateNewGame}
           >
             New game
           </button>
