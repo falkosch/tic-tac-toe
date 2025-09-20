@@ -1,10 +1,10 @@
 import { CellOwner } from '../../meta-model/CellOwner';
 
 export interface Decision {
-  cellsAtToAttack: ReadonlyArray<number>;
+  cellsAtToAttack: readonly number[];
 }
 
-export const findFreeCellIndices = (cells: ReadonlyArray<CellOwner>): number[] => {
+export const findFreeCellIndices = (cells: readonly CellOwner[]): number[] => {
   const freeCellIndices: number[] = [];
   cells.forEach((cellOwner, index) => {
     if (cellOwner === CellOwner.None) {
@@ -14,7 +14,7 @@ export const findFreeCellIndices = (cells: ReadonlyArray<CellOwner>): number[] =
   return freeCellIndices;
 };
 
-export const takeAny = (freeCellIndices: ReadonlyArray<number>): number[] => {
+export const takeAny = (freeCellIndices: readonly number[]): number[] => {
   if (freeCellIndices.length === 0) {
     return [];
   }

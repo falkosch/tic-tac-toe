@@ -1,4 +1,5 @@
-import { CellOwner, SpecificCellOwner } from '../../meta-model/CellOwner';
+import { CellOwner, type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type PlayerCreator } from '../../meta-model/Player';
 
 export enum PlayerType {
   Human = 'Human player',
@@ -7,6 +8,8 @@ export enum PlayerType {
   Menace = 'Menace AI (local)',
   Azure = 'Azure function (remote)',
 }
+
+export type PlayerCreators = Record<Readonly<PlayerType>, PlayerCreator>;
 
 export type PlayerConfiguration = Record<SpecificCellOwner, Readonly<PlayerType>>;
 

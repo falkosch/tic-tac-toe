@@ -1,5 +1,5 @@
-import { GameView } from './GameView';
-import { SpecificCellOwner } from './CellOwner';
+import { type GameView } from './GameView';
+import { type SpecificCellOwner } from './CellOwner';
 
 export interface GameEndStateVisitor {
   drawEndState(moveLimitReached: boolean): void;
@@ -9,9 +9,7 @@ export interface GameEndStateVisitor {
   erroneousEndState(error: Readonly<Error>): void;
 }
 
-export interface GameEndStateVisit {
-  (visitor: Readonly<Partial<GameEndStateVisitor>>): void;
-}
+export type GameEndStateVisit = (visitor: Readonly<Partial<GameEndStateVisitor>>) => void;
 
 export interface GameEndState {
   visit: GameEndStateVisit;

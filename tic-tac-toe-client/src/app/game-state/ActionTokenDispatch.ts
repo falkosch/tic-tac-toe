@@ -1,9 +1,5 @@
-import React from 'react';
+import { createContext } from 'react';
 
-export interface ActionTokenDispatchType {
-  (cellsAt: ReadonlyArray<number>): void;
-}
+export type ActionTokenDispatchType = (cellsAt: readonly number[]) => void;
 
-export const ActionTokenDispatch = React.createContext<ActionTokenDispatchType | undefined>(
-  undefined,
-);
+export const ActionTokenDispatch = createContext<ActionTokenDispatchType | undefined>(undefined);

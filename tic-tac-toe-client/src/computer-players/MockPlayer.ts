@@ -1,7 +1,7 @@
 import { findFreeCellIndices, takeAny } from './ai-agent/Decision';
-import { AttackGameAction } from '../meta-model/GameAction';
-import { PlayerCreator } from '../meta-model/Player';
-import { PlayerTurn } from '../meta-model/PlayerTurn';
+import { type AttackGameAction } from '../meta-model/GameAction';
+import { type PlayerCreator } from '../meta-model/Player';
+import { type PlayerTurn } from '../meta-model/PlayerTurn';
 
 export const createMockPlayer: PlayerCreator = async () => ({
   async takeTurn(playerTurn: Readonly<PlayerTurn>): Promise<AttackGameAction> {

@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "playwright": {
+    "playwright-docker": {
       "command": "docker",
       "args": [
         "run",
@@ -10,6 +10,12 @@
         "--pull=always",
         "--net=host",
         "mcp/playwright"
+      ]
+    },
+    "playwright-npx": {
+      "command": "cmd",
+      "args": [
+        "/c", "npx", "@playwright/mcp@latest"
       ]
     },
     "jetbrains": {

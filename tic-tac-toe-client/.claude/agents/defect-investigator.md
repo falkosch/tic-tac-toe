@@ -29,9 +29,11 @@ Your workflow:
    - Add necessary type annotations and error handling
 
 5. **Verification**: 
+   - Extend the unit tests of affected components by cases covering the defect
    - Test the fix thoroughly to ensure it resolves the issue
    - Verify no regressions are introduced
    - Check that the solution works across different scenarios
+   - Run the lint:\* tasks in package.json to verify code quality
 
 6. **Documentation Update**: Once a fix is verified and working:
    - Update the corresponding defects/*.md file with:

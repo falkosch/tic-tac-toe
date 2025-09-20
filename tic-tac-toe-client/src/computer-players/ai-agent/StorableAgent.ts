@@ -20,9 +20,10 @@ interface BrainPersistence {
   ): Promise<StorableAgent<BrainType> | undefined>;
 }
 
-interface DatabaseInitializationCallback {
-  (database?: Readonly<IDBDatabase>, error?: Readonly<Error>): void;
-}
+type DatabaseInitializationCallback = (
+  database?: Readonly<IDBDatabase>,
+  error?: Readonly<Error>,
+) => void;
 
 const indexedDBConfiguration = {
   database: 'tic-tac-toe-agents',
@@ -85,20 +86,10 @@ const createIndexedDBPersistence = (database: Readonly<IDBDatabase>): BrainPersi
 };
 
 const initializeDatabase = (callback: DatabaseInitializationCallback): void => {
-  if (!window.indexedDB || !window.indexedDB.open) {
-    callback(undefined, new Error('indexedDB not supported'));
-    return;
-  }
-
   const dbOpenRequest = window.indexedDB.open(
     indexedDBConfiguration.database,
     indexedDBConfiguration.version,
   );
-
-  if (!dbOpenRequest) {
-    callback(undefined, new Error('failed to open indexedDB database'));
-    return;
-  }
 
   dbOpenRequest.onerror = () => {
     callback(undefined, new Error(dbOpenRequest.error?.message));

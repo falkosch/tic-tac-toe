@@ -1,17 +1,17 @@
 import {
-  AIAgent,
+  type AIAgent,
   buildNormalizedStateSpace,
   findDecisionForStateSpace,
-  NormalizedStateSpace,
+  type NormalizedStateSpace,
 } from '../ai-agent/AIAgent';
-import { Decision, findFreeCellIndices, takeAny } from '../ai-agent/Decision';
+import { type Decision, findFreeCellIndices, takeAny } from '../ai-agent/Decision';
 import { transformBoardCells } from '../../mechanics/BoardNormalization';
-import { Board } from '../../meta-model/Board';
+import { type Board } from '../../meta-model/Board';
 import { CellOwner } from '../../meta-model/CellOwner';
 
 export interface MenaceStateSpace extends NormalizedStateSpace {
   boardAsString: string;
-  boardAsCellOwners: ReadonlyArray<CellOwner>;
+  boardAsCellOwners: readonly CellOwner[];
 }
 
 export interface MenaceAgent extends AIAgent<MenaceStateSpace> {
@@ -22,11 +22,11 @@ export const findFreeBeads = (stateSpace: Readonly<MenaceStateSpace>): number[] 
   return findFreeCellIndices(stateSpace.boardAsCellOwners);
 };
 
-export const randomBead = (beads: ReadonlyArray<number>): number[] => {
+export const randomBead = (beads: readonly number[]): number[] => {
   return takeAny(beads);
 };
 
-export const multiplyBeads = (beads: ReadonlyArray<number>): number[] => {
+export const multiplyBeads = (beads: readonly number[]): number[] => {
   const multipliedBeadsCount = Math.floor((beads.length + 2) / 2);
   let multipliedBeads: number[] = [];
   for (let i = 0; i < multipliedBeadsCount; i += 1) {

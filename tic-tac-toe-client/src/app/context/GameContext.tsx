@@ -1,0 +1,81 @@
+import React, {
+  createContext,
+  type FC,
+  type ReactNode,
+  useContext,
+  useMemo,
+  useReducer,
+} from 'react';
+
+import {
+  type GameConfigurationType,
+  initialGameConfiguration,
+} from '../game-configuration/GameConfiguration';
+import { type GameStateType, initialGameState } from '../game-state/GameState';
+import {
+  type GameConfigurationAction,
+  gameConfigurationReducer,
+} from '../game-configuration/GameConfigurationReducer';
+import { type GameStateAction, gameStateReducer } from '../game-state/GameStateReducer';
+
+interface GameContextValue {
+  gameState: GameStateType;
+  configuration: GameConfigurationType;
+  gameActions: {
+    dispatchGameState: (action: GameStateAction) => void;
+    dispatchConfiguration: (action: GameConfigurationAction) => void;
+  };
+}
+
+const GameContext = createContext<GameContextValue | null>(null);
+
+interface GameProviderProps {
+  children: ReactNode;
+  providedGameState?: GameStateType;
+  providedGameConfiguration?: GameConfigurationType;
+}
+
+export const GameProvider: FC<GameProviderProps> = ({
+  children,
+  providedGameState = initialGameState,
+  providedGameConfiguration = initialGameConfiguration,
+}) => {
+  const [gameState, dispatchGameState] = useReducer(gameStateReducer, providedGameState);
+  const [configuration, dispatchConfiguration] = useReducer(
+    gameConfigurationReducer,
+    providedGameConfiguration,
+  );
+
+  const gameActions = useMemo(() => ({ dispatchGameState, dispatchConfiguration }), []);
+
+  const contextValue = useMemo(
+    () => ({ gameState, configuration, gameActions }),
+    [gameState, configuration, gameActions],
+  );
+
+  return <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>;
+};
+
+export const useGame = (): GameContextValue => {
+  const context = useContext(GameContext);
+  if (!context) {
+    throw new Error('useGame must be used within a GameProvider');
+  }
+  return context;
+};
+
+export const useGameState = () => {
+  const { gameState, gameActions } = useGame();
+  return {
+    gameState,
+    dispatch: gameActions.dispatchGameState,
+  };
+};
+
+export const useGameConfiguration = () => {
+  const { configuration, gameActions } = useGame();
+  return {
+    configuration,
+    dispatch: gameActions.dispatchConfiguration,
+  };
+};

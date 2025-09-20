@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from './App';
 import { PlayerType } from './game-configuration/GameConfiguration';
 
-describe(`${App.name}`, () => {
+describe('App', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
     process.env = { ...originalEnv };
   });
 
@@ -191,10 +191,10 @@ describe(`${App.name}`, () => {
         it('includes all standard players in Player X dropdown', async () => {
           const user = userEvent.setup();
           render(<App />);
-          
+
           const playerXDropdown = screen.getByText('Player X');
           await user.click(playerXDropdown);
-          
+
           expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();
@@ -204,10 +204,10 @@ describe(`${App.name}`, () => {
         it('includes all standard players in Player O dropdown', async () => {
           const user = userEvent.setup();
           render(<App />);
-          
+
           const playerODropdown = screen.getByText('Player O');
           await user.click(playerODropdown);
-          
+
           expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
           expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();

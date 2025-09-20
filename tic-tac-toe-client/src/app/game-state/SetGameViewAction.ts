@@ -1,5 +1,5 @@
-import { GameView } from '../../meta-model/GameView';
-import { GameStateType } from './GameState';
+import { type GameView } from '../../meta-model/GameView';
+import { type GameStateType } from './GameState';
 
 export interface SetGameViewActionPayload {
   gameView: Readonly<GameView> | undefined;

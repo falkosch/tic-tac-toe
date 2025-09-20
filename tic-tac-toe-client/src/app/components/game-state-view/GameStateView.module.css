@@ -1,0 +1,14 @@
+.view {
+  flex: 1 0 auto;
+}
+
+.status {
+  max-width: 80vw;
+}
+
+.new-game {
+  font-size: 2rem;
+  line-height: 3rem;
+  max-width: 70vw;
+  color: darkgrey;
+}

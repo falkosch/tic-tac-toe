@@ -1,4 +1,4 @@
-import { AttackGameAction } from './GameAction';
+import { type AttackGameAction } from './GameAction';
 
 export interface GameActionHistory {
   action: Readonly<AttackGameAction>;

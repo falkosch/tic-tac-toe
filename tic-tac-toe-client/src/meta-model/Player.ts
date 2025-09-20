@@ -1,8 +1,8 @@
-import { AttackGameAction } from './GameAction';
-import { GameEndState } from './GameEndState';
-import { GameView } from './GameView';
-import { PlayerTurn } from './PlayerTurn';
-import { SpecificCellOwner } from './CellOwner';
+import { type AttackGameAction } from './GameAction';
+import { type GameEndState } from './GameEndState';
+import { type GameView } from './GameView';
+import { type PlayerTurn } from './PlayerTurn';
+import { type SpecificCellOwner } from './CellOwner';
 
 /**
  * Enables players to interact with the game.
@@ -23,6 +23,4 @@ export interface Player {
   ): Promise<void>;
 }
 
-export interface PlayerCreator {
-  (): Promise<Player>;
-}
+export type PlayerCreator = () => Promise<Player>;

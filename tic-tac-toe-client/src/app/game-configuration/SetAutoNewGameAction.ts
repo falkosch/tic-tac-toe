@@ -1,4 +1,4 @@
-import { GameConfigurationType } from './GameConfiguration';
+import { type GameConfigurationType } from './GameConfiguration';
 
 export interface SetAutoNewGameActionPayload {
   value: boolean;

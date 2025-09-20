@@ -3,9 +3,9 @@
 ## Project Overview
 
 A sophisticated React-TypeScript tic-tac-toe game featuring multiple AI opponents, including Deep
-Q-Network (DQN) and Menace Matchboxes Engine implementations. The project demonstrates advanced
-software architecture patterns with a clean separation between game logic, AI agents, and UI
-components.
+Q-Network (DQN) and Menace Matchboxes Engine implementations. Built with modern Vite toolchain
+and TailwindCSS, the project demonstrates advanced software architecture patterns with a clean
+separation between game logic, AI agents, and UI components.
 
 ## Software Architecture
 
@@ -15,7 +15,7 @@ The application follows a **Model-View-Controller** pattern with **Redux-style s
 using React's `useReducer`:
 
 - **Model**: Domain objects in `meta-model/` (Board, CellOwner, GameView, Player, etc.)
-- **View**: React components in `app/` with modular SCSS styling
+- **View**: React components in `app/components/` with TailwindCSS and CSS modules
 - **Controller**: Game mechanics in `mechanics/` and state management via reducers
 
 ### Key Architectural Parts
@@ -25,7 +25,7 @@ using React's `useReducer`:
 - **GameState**: Manages current game view, action tokens, winners, and win counts
 - **GameConfiguration**: Handles player types and auto-game settings
 - **Reducer Pattern**: Pure functions for state transitions with typed actions
-- **Action Dispatch**: Centralized state updates via strongly-typed action system
+- **Action Dispatch**: Centralized state updates via a strongly typed action system
 
 #### 2. Game Engine (`mechanics/`)
 
@@ -59,9 +59,9 @@ interface Player {
 
 #### 4. UI Components (`app/`)
 
-- **Component-per-Feature**: Each UI element has its own directory with TypeScript, tests, and SCSS
-- **Bootstrap Integration**: Uses React Bootstrap for responsive layout
-- **SCSS Modules**: Scoped styling to prevent CSS conflicts
+- **Component-per-Feature**: Each UI element has its own directory with TypeScript, tests, and CSS modules
+- **TailwindCSS Integration**: Uses TailwindCSS for utility-first responsive styling
+- **CSS Modules**: Scoped styling to prevent CSS conflicts
 - **Image System**: SVG-based rendering for X/O marks and strike-through lines
 
 ## Features
@@ -71,7 +71,7 @@ interface Player {
 - **3x3 Board**: Traditional tic-tac-toe with configurable dimensions
 - **Turn-Based Play**: Alternating moves between X and O players
 - **Win Detection**: Automatic detection of rows, columns, and diagonals
-- **Draw Handling**: Stalemate detection when board fills without winner
+- **Draw Handling**: Stalemate detection when the board fills without a winner
 - **Move Validation**: Prevents invalid moves on occupied cells
 
 ### AI Opponents
@@ -80,7 +80,7 @@ interface Player {
 
 - **Reinforcement Learning**: Learns optimal strategies through self-play
 - **Experience Replay**: Stores and replays past games for training
-- **Epsilon-Greedy Policy**: Balances exploration vs exploitation
+- **Epsilon-Greedy Policy**: Balances exploration vs. exploitation
 - **Persistent Brain**: Saves/loads neural network weights via localStorage
 - **Performance Tracking**: Maintains win/loss/draw statistics
 
@@ -90,7 +90,7 @@ interface Player {
 - **Bead-Based Strategy**: Uses colored beads to represent move preferences
 - **Adaptive Learning**: Adjusts strategy based on game outcomes
 - **State Normalization**: Handles board symmetries and rotations
-- **Pretrained Networks**: Ships with pre-trained decision trees
+- **Pretrained Networks**: Ships with pretrained decision trees
 
 #### Azure Function AI (Remote Network AI)
 
@@ -104,33 +104,33 @@ interface Player {
 ### User Experience
 
 - **Player Configuration**: Choose human or AI for X/O positions
-- **Auto-Game Mode**: Continuous AI vs AI gameplay for training
+- **Auto-Game Mode**: Continuous AI vs. AI gameplay for training
 - **Visual Feedback**: Animated strike-through for winning combinations
-- **Responsive Design**: Bootstrap-based layout for mobile/desktop
+- **Responsive Design**: TailwindCSS-based layout for mobile/desktop
 - **Real-time Updates**: Live game state updates during play
 
 ## Development Stack
 
 ### Core Technologies
 
-- **React 18.3.1**: Modern React with hooks and strict mode
-- **TypeScript 4.9.5**: Strong typing for enhanced developer experience
-- **SCSS/Bootstrap**: Responsive styling with component-scoped CSS
-- **Create React App**: Zero-config build toolchain
+- **React 19.1.1**: Latest React with hooks and strict mode
+- **TypeScript 5.9.2**: Strong typing with the latest language features
+- **TailwindCSS 4.1.13**: Utility-first CSS framework with CSS modules
+- **Vite 7.1.6**: Fast build tool with hot module replacement
 
 ### AI/ML Libraries
 
 - **reinforce-js 1.5.1**: Deep Q-Network implementation
 - **recurrent-js 1.7.4**: Recurrent neural network utilities
-- **axios 1.7.7**: HTTP client for remote AI services
+- **axios 1.12.2**: HTTP client for remote AI services
 
 ### Development Tools
 
-- **ESLint**: Code quality with Airbnb style guide
-- **Prettier**: Consistent code formatting
-- **Stylelint**: SCSS linting and standards
-- **Jest**: Unit testing framework
-- **React Testing Library**: Component testing utilities
+- **ESLint 9.36.0**: Code quality with modern flat config
+- **Prettier 3.6.2**: Consistent code formatting with TailwindCSS plugin
+- **Vitest 3.2.4**: Fast unit testing framework
+- **React Testing Library 16.3.0**: Component testing utilities
+- **TypeScript ESLint**: Advanced TypeScript linting
 
 ## Testing Strategy
 
@@ -138,32 +138,39 @@ interface Player {
 
 - **Component Tests**: Every React component has corresponding `.test.tsx` files
 - **Render Tests**: Basic smoke tests ensuring components render without crashing
-- **Jest Configuration**: Configured with React Testing Library and custom matchers
+- **Vitest Configuration**: Configured with React Testing Library and jsdom environment
 - **Test Commands**:
-  - `npm test` - Run test suite in watch mode
-  - `npm run lint:eslint` - ESLint code quality checks
-  - `npm run lint:tsc` - TypeScript compiler checks
-  - `npm run lint:stylelint` - SCSS style validation
+  - `npm test` - Run test suite with Vitest
+  - `npm run lint` - ESLint code quality checks
+  - `npm run lint:fix` - Auto-fix ESLint issues
 
 ### Build Process
 
-- **Development**: `npm start` - Hot reload development server
-- **Production**: `npm run build` - Optimized production build
+- **Development**: `npm start` - Vite dev server with hot module replacement, go to http://localhost:5173/
+- **Production**: `npm run build` - Vite optimized production build
+- **Preview**: `npm run serve` - Preview production builds locally
 - **Quality Gates**: All linting must pass before deployment
 
 ## File Structure
 
 ```
 src/
-├── app/                          # React components
+├── app/                          # React application
 │   ├── App.tsx                   # Main application component
-│   ├── cell-view/                # Individual game cell
+│   ├── components/               # React components
+│   │   ├── app-content/          # Main app layout
+│   │   ├── cell-view/            # Individual game cell
+│   │   ├── error-boundary/       # Error handling
+│   │   ├── game-state-view/      # Game status display
+│   │   ├── game-view/            # Main board component
+│   │   ├── header/               # Application header
+│   │   ├── human-player-status-view/ # Player status
+│   │   ├── image-stack/          # Image components
+│   │   └── winner-view/          # Win/draw display
+│   ├── context/                  # React contexts
 │   ├── game-configuration/       # Player selection & settings
 │   ├── game-state/              # Game state management
-│   ├── game-state-view/         # Game status display
-│   ├── game-view/               # Main board component
-│   ├── header/                  # Application header
-│   └── winner-view/             # Win/draw display
+│   └── hooks/                    # Custom React hooks
 ├── computer-players/            # AI implementations
 │   ├── ai-agent/                # Base AI interfaces
 │   ├── menace-match-boxes/      # Menace AI system
@@ -175,21 +182,25 @@ src/
 │   ├── GameRules.ts             # Win/draw logic
 │   └── *.ts                     # Utility functions
 ├── meta-model/                  # Domain objects
-└── scss/                       # Global styles
+├── test-utils/                   # Testing utilities
+├── index.css                     # Global styles with TailwindCSS
+├── main.tsx                      # Application entry point
+├── setupTests.ts                 # Test configuration
+└── vite-env.d.ts                # Vite type definitions
 ```
 
 ## Key Development Commands
 
 ```bash
 # Development
-npm start                 # Start development server (localhost:3000)
-npm test                  # Run test suite
+npm start                 # Start Vite development server
+npm test                  # Run Vitest test suite
 npm run build            # Create production build
+npm run serve            # Preview production build
 
 # Code Quality
-npm run lint:eslint      # Run ESLint checks
-npm run lint:tsc         # Run TypeScript compiler checks  
-npm run lint:stylelint   # Run SCSS linting
+npm run lint             # Run ESLint checks
+npm run lint:fix         # Auto-fix ESLint issues
 ```
 
 ## Architecture Highlights
@@ -197,7 +208,7 @@ npm run lint:stylelint   # Run SCSS linting
 1. **Separation of Concerns**: Clear boundaries between UI, game logic, and AI systems
 2. **Type Safety**: Comprehensive TypeScript coverage with strict compiler settings
 3. **Testability**: Modular design enables focused unit testing
-4. **Extensibility**: Plugin-style AI system allows easy addition of new opponents
+4. **Extensibility**: A plugin-style AI system allows easy addition of new opponents
 5. **Performance**: Lazy loading and memoization for optimal rendering
 6. **Error Resilience**: Robust error handling with user-friendly messages and graceful degradation
 7. **Network Reliability**: Exponential backoff retry mechanisms for external service integration
@@ -219,14 +230,14 @@ The project implements comprehensive error handling strategies, particularly for
 ### Error Classification System
 
 **Retryable Errors:**
-- `ECONNABORTED` - Network timeouts
-- `ECONNREFUSED` - Connection refused
-- `ENOTFOUND` - DNS lookup failures  
-- HTTP 500, 502, 503, 504 - Server errors
+- `ECONNABORTED` — Network timeouts
+- `ECONNREFUSED` — Connection refused
+- `ENOTFOUND` — DNS lookup failures  
+- HTTP 500, 502, 503, 504 — Server errors
 
 **Non-Retryable Errors:**
-- HTTP 404 - Service not found
-- HTTP 400-499 - Client errors (except server errors above)
+- HTTP 404 — Service not found
+- HTTP 400-499 — Client errors (except server errors above)
 
 ### Configuration-Based Error Handling
 
@@ -252,7 +263,10 @@ const createNetworkError = (originalError: AxiosError): Error => {
 
 This comprehensive error handling approach ensures the application remains stable and user-friendly even when external dependencies fail.
 
-## Project Excellence
 
-This project serves as an excellent example of modern React application architecture with
-sophisticated AI integration and clean code principles.
+## Important Instruction Reminders
+
+- Do what has been asked; nothing more, nothing less.
+- NEVER create files unless they're absolutely necessary for achieving your goal.
+- ALWAYS prefer editing an existing file to creating a new one.
+- NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.

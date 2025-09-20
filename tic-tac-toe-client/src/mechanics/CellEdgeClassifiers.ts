@@ -1,6 +1,6 @@
-import { BoardDimensions } from '../meta-model/Board';
-import { CellCoordinates } from './CellCoordinates';
-import { Coordinates } from './Coordinates';
+import { type BoardDimensions } from '../meta-model/Board';
+import { type CellCoordinates } from './CellCoordinates';
+import { type Coordinates } from './Coordinates';
 
 export enum EdgeClassifier {
   Lower = 'l',

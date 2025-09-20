@@ -1,3 +1,3 @@
 export interface AttackGameAction {
-  affectedCellsAt: ReadonlyArray<number>;
+  affectedCellsAt: readonly number[];
 }

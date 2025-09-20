@@ -1,5 +1,5 @@
-import { GameConfigurationType, PlayerType } from './GameConfiguration';
-import { SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type GameConfigurationType, PlayerType } from './GameConfiguration';
+import { type SpecificCellOwner } from '../../meta-model/CellOwner';
 
 export interface SetPlayerTypeActionPayload {
   player: Readonly<SpecificCellOwner>;

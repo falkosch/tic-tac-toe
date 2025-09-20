@@ -1,4 +1,4 @@
-import { StorableMenaceAgent } from './StorableMenaceAgent';
+import { type StorableMenaceAgent } from './StorableMenaceAgent';
 
 import menaceO3x3 from './brains/menace-O-3x3.json';
 import menaceX3x3 from './brains/menace-X-3x3.json';

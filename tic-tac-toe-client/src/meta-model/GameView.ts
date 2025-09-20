@@ -1,7 +1,7 @@
-import { Board } from './Board';
-import { SpecificCellOwner } from './CellOwner';
+import { type Board } from './Board';
+import { type SpecificCellOwner } from './CellOwner';
 
-export enum ConsecutiveDirection {
+export const enum ConsecutiveDirection {
   Horizontal = 'H',
   Vertical = 'V',
   DiagonalTR2BL = 'TR2BL',
@@ -9,7 +9,7 @@ export enum ConsecutiveDirection {
 }
 
 export interface Consecutive {
-  cellsAt: ReadonlyArray<number>;
+  cellsAt: readonly number[];
   direction: Readonly<ConsecutiveDirection>;
 }
 
@@ -17,6 +17,6 @@ export type Points = Record<SpecificCellOwner, number>;
 
 export interface GameView {
   board: Readonly<Board>;
-  consecutive: ReadonlyArray<Consecutive>;
+  consecutive: readonly Consecutive[];
   points: Readonly<Points>;
 }

@@ -1,4 +1,4 @@
-export enum CellOwner {
+export const enum CellOwner {
   None = ' ',
   X = 'X',
   O = 'O',

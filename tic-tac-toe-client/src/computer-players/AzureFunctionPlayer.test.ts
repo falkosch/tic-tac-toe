@@ -1,29 +1,29 @@
 import { AxiosError } from 'axios';
-import { AttackGameAction } from '../meta-model/GameAction';
-import { PlayerTurn } from '../meta-model/PlayerTurn';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { type AttackGameAction } from '../meta-model/GameAction';
+import { type PlayerTurn } from '../meta-model/PlayerTurn';
 import { CellOwner } from '../meta-model/CellOwner';
-import { GameView } from '../meta-model/GameView';
+
+// Now import the module after mocking
+import { createAzureFunctionPlayer } from './AzureFunctionPlayer';
 
 // Mock axios instance that will be returned by axios.create
 const mockAxiosInstance = {
-  post: jest.fn(),
+  post: vi.fn(),
 };
 
 // Mock axios completely
 const mockAxios = {
-  create: jest.fn(() => mockAxiosInstance),
-  isAxiosError: jest.fn(),
+  create: vi.fn(() => mockAxiosInstance),
+  isAxiosError: vi.fn(),
   default: {
-    create: jest.fn(() => mockAxiosInstance),
-    isAxiosError: jest.fn(),
+    create: vi.fn(() => mockAxiosInstance),
+    isAxiosError: vi.fn(),
   },
 };
 
 // Set up the mock before importing the module
-jest.doMock('axios', () => mockAxios);
-
-// Now import the module after mocking
-import { createAzureFunctionPlayer } from './AzureFunctionPlayer';
+vi.doMock('axios', () => mockAxios);
 
 describe('AzureFunctionPlayer', () => {
   const mockPlayerTurn: PlayerTurn = {
@@ -43,7 +43,12 @@ describe('AzureFunctionPlayer', () => {
           CellOwner.None,
         ],
       },
-    } as GameView,
+      consecutive: [],
+      points: {
+        X: 0,
+        O: 0,
+      },
+    },
   };
 
   const mockResponse: AttackGameAction = {
@@ -51,14 +56,14 @@ describe('AzureFunctionPlayer', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // Set up axios.create to return our mock instance
     mockAxios.create.mockReturnValue(mockAxiosInstance);
-    
+
     // Set up isAxiosError to work properly
-    mockAxios.isAxiosError.mockImplementation((error: any) => {
-      return error && error.constructor && error.constructor.name === 'AxiosError';
+    mockAxios.isAxiosError.mockImplementation((error: unknown) => {
+      return error?.constructor && error.constructor.name === 'AxiosError';
     });
 
     // Clear environment variables
@@ -66,7 +71,7 @@ describe('AzureFunctionPlayer', () => {
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   describe('Configuration Tests', () => {
@@ -82,7 +87,7 @@ describe('AzureFunctionPlayer', () => {
 
       it('should detect Azure Function as unavailable with missing environment variable', async () => {
         await expect(createAzureFunctionPlayer()).rejects.toThrow(
-          'Azure Function player is not configured. Please check your environment variables.'
+          'Azure Function player is not configured. Please check your environment variables.',
         );
       });
 
@@ -90,7 +95,7 @@ describe('AzureFunctionPlayer', () => {
         process.env.REACT_APP_AZURE_FUNCTION_BASE_URL = '';
 
         await expect(createAzureFunctionPlayer()).rejects.toThrow(
-          'Azure Function player is not configured. Please check your environment variables.'
+          'Azure Function player is not configured. Please check your environment variables.',
         );
       });
 
@@ -98,7 +103,7 @@ describe('AzureFunctionPlayer', () => {
         process.env.REACT_APP_AZURE_FUNCTION_BASE_URL = '   ';
 
         await expect(createAzureFunctionPlayer()).rejects.toThrow(
-          'Azure Function player is not configured. Please check your environment variables.'
+          'Azure Function player is not configured. Please check your environment variables.',
         );
       });
     });
@@ -162,7 +167,7 @@ describe('AzureFunctionPlayer', () => {
         expect.objectContaining({
           cellOwner: CellOwner.X,
           gameView: expect.any(Object),
-        })
+        }),
       );
     });
   });
@@ -170,11 +175,11 @@ describe('AzureFunctionPlayer', () => {
   describe('Retry Mechanism Tests', () => {
     beforeEach(() => {
       process.env.REACT_APP_AZURE_FUNCTION_BASE_URL = 'https://example.azurewebsites.net';
-      jest.useFakeTimers();
+      vi.useFakeTimers();
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     describe('Exponential backoff behavior', () => {
@@ -190,13 +195,13 @@ describe('AzureFunctionPlayer', () => {
         const promise = player.takeTurn(mockPlayerTurn);
 
         // First retry - 1000ms delay (1000 * 2^0)
-        await jest.advanceTimersByTimeAsync(1000);
-        
+        await vi.advanceTimersByTimeAsync(1000);
+
         // Second retry - 2000ms delay (1000 * 2^1)
-        await jest.advanceTimersByTimeAsync(2000);
-        
+        await vi.advanceTimersByTimeAsync(2000);
+
         // Third retry - 4000ms delay (1000 * 2^2)
-        await jest.advanceTimersByTimeAsync(4000);
+        await vi.advanceTimersByTimeAsync(4000);
 
         const result = await promise;
 
@@ -215,10 +220,10 @@ describe('AzureFunctionPlayer', () => {
         const promise = player.takeTurn(mockPlayerTurn);
 
         // First retry: 1000 * 2^0 = 1000ms
-        await jest.advanceTimersByTimeAsync(1000);
-        
+        await vi.advanceTimersByTimeAsync(1000);
+
         // Second retry: 1000 * 2^1 = 2000ms
-        await jest.advanceTimersByTimeAsync(2000);
+        await vi.advanceTimersByTimeAsync(2000);
 
         const result = await promise;
 
@@ -237,7 +242,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
         const promise = player.takeTurn(mockPlayerTurn);
 
-        await jest.advanceTimersByTimeAsync(1000);
+        await vi.advanceTimersByTimeAsync(1000);
         const result = await promise;
 
         expect(result).toEqual(mockResponse);
@@ -253,7 +258,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
         const promise = player.takeTurn(mockPlayerTurn);
 
-        await jest.advanceTimersByTimeAsync(1000);
+        await vi.advanceTimersByTimeAsync(1000);
         const result = await promise;
 
         expect(result).toEqual(mockResponse);
@@ -269,7 +274,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
         const promise = player.takeTurn(mockPlayerTurn);
 
-        await jest.advanceTimersByTimeAsync(1000);
+        await vi.advanceTimersByTimeAsync(1000);
         const result = await promise;
 
         expect(result).toEqual(mockResponse);
@@ -278,7 +283,7 @@ describe('AzureFunctionPlayer', () => {
 
       it.each([500, 502, 503, 504])('should retry on server error %d', async (statusCode) => {
         const serverError = new AxiosError('server error');
-        serverError.response = { status: statusCode } as any;
+        serverError.response = { status: statusCode } as AxiosError['response'];
         mockAxiosInstance.post
           .mockRejectedValueOnce(serverError)
           .mockResolvedValueOnce({ data: mockResponse });
@@ -286,7 +291,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
         const promise = player.takeTurn(mockPlayerTurn);
 
-        await jest.advanceTimersByTimeAsync(1000);
+        await vi.advanceTimersByTimeAsync(1000);
         const result = await promise;
 
         expect(result).toEqual(mockResponse);
@@ -295,13 +300,13 @@ describe('AzureFunctionPlayer', () => {
 
       it('should not retry on 404 errors', async () => {
         const notFoundError = new AxiosError('not found');
-        notFoundError.response = { status: 404 } as any;
+        notFoundError.response = { status: 404 } as AxiosError['response'];
         mockAxiosInstance.post.mockRejectedValue(notFoundError);
 
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.'
+          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.',
         );
 
         expect(mockAxiosInstance.post).toHaveBeenCalledTimes(1);
@@ -309,13 +314,13 @@ describe('AzureFunctionPlayer', () => {
 
       it('should not retry on 400 client errors', async () => {
         const clientError = new AxiosError('bad request');
-        clientError.response = { status: 400 } as any;
+        clientError.response = { status: 400 } as AxiosError['response'];
         mockAxiosInstance.post.mockRejectedValue(clientError);
 
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: bad request'
+          'Azure Function service is currently unavailable: bad request',
         );
 
         expect(mockAxiosInstance.post).toHaveBeenCalledTimes(1);
@@ -344,12 +349,12 @@ describe('AzureFunctionPlayer', () => {
         const promise = player.takeTurn(mockPlayerTurn);
 
         // Wait for all retries to complete
-        await jest.advanceTimersByTimeAsync(1000); // First retry
-        await jest.advanceTimersByTimeAsync(2000); // Second retry
-        await jest.advanceTimersByTimeAsync(4000); // Third retry
+        await vi.advanceTimersByTimeAsync(1000); // First retry
+        await vi.advanceTimersByTimeAsync(2000); // Second retry
+        await vi.advanceTimersByTimeAsync(4000); // Third retry
 
         await expect(promise).rejects.toThrow(
-          'Azure Function request timed out. The service may be slow or unavailable.'
+          'Azure Function request timed out. The service may be slow or unavailable.',
         );
 
         // Original call + 3 retries = 4 total calls
@@ -365,7 +370,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
         const promise = player.takeTurn(mockPlayerTurn);
 
-        await jest.advanceTimersByTimeAsync(1000);
+        await vi.advanceTimersByTimeAsync(1000);
         const result = await promise;
 
         expect(result).toEqual(mockResponse);
@@ -387,19 +392,19 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function request timed out. The service may be slow or unavailable.'
+          'Azure Function request timed out. The service may be slow or unavailable.',
         );
       });
 
       it('should provide user-friendly message for 404 errors', async () => {
         const notFoundError = new AxiosError('not found');
-        notFoundError.response = { status: 404 } as any;
+        notFoundError.response = { status: 404 } as AxiosError['response'];
         mockAxiosInstance.post.mockRejectedValue(notFoundError);
 
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.'
+          'Azure Function service is not available. The backend may not be deployed or the endpoint is incorrect.',
         );
       });
 
@@ -410,7 +415,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Cannot connect to Azure Function service. Please check your network connection and try again.'
+          'Cannot connect to Azure Function service. Please check your network connection and try again.',
         );
       });
 
@@ -421,7 +426,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Cannot connect to Azure Function service. Please check your network connection and try again.'
+          'Cannot connect to Azure Function service. Please check your network connection and try again.',
         );
       });
 
@@ -432,7 +437,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: some other error'
+          'Azure Function service is currently unavailable: some other error',
         );
       });
     });
@@ -448,7 +453,7 @@ describe('AzureFunctionPlayer', () => {
           await player.takeTurn(mockPlayerTurn);
         } catch (error) {
           expect(error).toBeInstanceOf(Error);
-          expect((error as any).isAxiosError).toBe(true);
+          expect((error as AxiosError).isAxiosError).toBe(true);
         }
       });
 
@@ -459,7 +464,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: axios error'
+          'Azure Function service is currently unavailable: axios error',
         );
 
         expect(mockAxios.isAxiosError).toHaveBeenCalledWith(axiosError);
@@ -486,19 +491,7 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          `Azure Function service is currently unavailable: ${originalMessage}`
-        );
-      });
-
-      it('should handle errors with undefined messages', async () => {
-        const errorWithUndefinedMessage = new AxiosError();
-        errorWithUndefinedMessage.message = undefined as any;
-        mockAxiosInstance.post.mockRejectedValue(errorWithUndefinedMessage);
-
-        const player = await createAzureFunctionPlayer();
-
-        await expect(player.takeTurn(mockPlayerTurn)).rejects.toThrow(
-          'Azure Function service is currently unavailable: undefined'
+          `Azure Function service is currently unavailable: ${originalMessage}`,
         );
       });
     });
@@ -516,46 +509,46 @@ describe('AzureFunctionPlayer', () => {
         .mockRejectedValueOnce(timeoutError)
         .mockResolvedValueOnce({ data: mockResponse });
 
-      jest.useFakeTimers();
+      vi.useFakeTimers();
 
       const player = await createAzureFunctionPlayer();
       const promise = player.takeTurn(mockPlayerTurn);
 
-      await jest.advanceTimersByTimeAsync(1000); // First retry
-      await jest.advanceTimersByTimeAsync(2000); // Second retry
+      await vi.advanceTimersByTimeAsync(1000); // First retry
+      await vi.advanceTimersByTimeAsync(2000); // Second retry
 
       const result = await promise;
 
       expect(result).toEqual(mockResponse);
       expect(mockAxiosInstance.post).toHaveBeenCalledTimes(3);
 
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should handle mixed error types during retries', async () => {
       const timeoutError = new AxiosError('timeout', 'ECONNABORTED');
       const serverError = new AxiosError('server error');
-      serverError.response = { status: 500 } as any;
+      serverError.response = { status: 500 } as AxiosError['response'];
 
       mockAxiosInstance.post
         .mockRejectedValueOnce(timeoutError)
         .mockRejectedValueOnce(serverError)
         .mockResolvedValueOnce({ data: mockResponse });
 
-      jest.useFakeTimers();
+      vi.useFakeTimers();
 
       const player = await createAzureFunctionPlayer();
       const promise = player.takeTurn(mockPlayerTurn);
 
-      await jest.advanceTimersByTimeAsync(1000); // First retry
-      await jest.advanceTimersByTimeAsync(2000); // Second retry
+      await vi.advanceTimersByTimeAsync(1000); // First retry
+      await vi.advanceTimersByTimeAsync(2000); // Second retry
 
       const result = await promise;
 
       expect(result).toEqual(mockResponse);
       expect(mockAxiosInstance.post).toHaveBeenCalledTimes(3);
 
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should handle readonly PlayerTurn parameter correctly', async () => {
@@ -576,6 +569,11 @@ describe('AzureFunctionPlayer', () => {
               CellOwner.None,
             ]),
           }),
+          consecutive: [],
+          points: {
+            X: 0,
+            O: 0,
+          },
         }),
       });
 

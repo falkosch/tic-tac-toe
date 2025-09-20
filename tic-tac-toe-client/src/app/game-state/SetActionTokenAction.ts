@@ -1,4 +1,4 @@
-import { ActionToken, GameStateType } from './GameState';
+import { type ActionToken, type GameStateType } from './GameState';
 
 export interface SetActionTokenActionPayload {
   actionToken?: ActionToken;

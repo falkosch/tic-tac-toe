@@ -1,81 +1,51 @@
-import { Reducer } from 'react';
+import { type Reducer } from 'react';
 
-import { addWin, AddWinActionPayload } from './AddWinAction';
-import { endGame, EndGameActionPayload } from './EndGameAction';
-import { resetWins, ResetWinsActionPayload } from './ResetWinsAction';
-import { setActionToken, SetActionTokenActionPayload } from './SetActionTokenAction';
-import { setGameView, SetGameViewActionPayload } from './SetGameViewAction';
-import { setWinner, SetWinnerActionPayload } from './SetWinnerAction';
-import { startNewGame, StartNewGameActionPayload } from './StartNewGameAction';
-import { updateGame, UpdateGameActionPayload } from './UpdateGameAction';
-import { GameStateType } from './GameState';
-
-export enum GameStateActionType {
-  AddWin,
-  EndGame,
-  ResetWins,
-  SetActionToken,
-  SetGameView,
-  SetWinner,
-  StartNewGame,
-  UpdateGame,
-}
-
-export type GameStateActionPayload =
-  | AddWinActionPayload
-  | EndGameActionPayload
-  | ResetWinsActionPayload
-  | SetActionTokenActionPayload
-  | SetGameViewActionPayload
-  | SetWinnerActionPayload
-  | StartNewGameActionPayload
-  | UpdateGameActionPayload;
-
-export interface GameStateAction {
-  type: Readonly<GameStateActionType>;
-  payload: Readonly<GameStateActionPayload>;
-}
-
-interface ActionDelegate {
-  (prevState: Readonly<GameStateType>, payload: Readonly<GameStateActionPayload>): GameStateType;
-}
-
-const typeToAction: Readonly<Record<GameStateActionType, ActionDelegate>> = {
-  [GameStateActionType.AddWin]: (prevState, payload) =>
-    addWin(prevState, payload as AddWinActionPayload),
-
-  [GameStateActionType.EndGame]: (prevState, payload) =>
-    endGame(prevState, payload as EndGameActionPayload),
-
-  [GameStateActionType.ResetWins]: (prevState, payload) =>
-    resetWins(prevState, payload as ResetWinsActionPayload),
-
-  [GameStateActionType.SetActionToken]: (prevState, payload) =>
-    setActionToken(prevState, payload as SetActionTokenActionPayload),
-
-  [GameStateActionType.SetGameView]: (prevState, payload) =>
-    setGameView(prevState, payload as SetGameViewActionPayload),
-
-  [GameStateActionType.SetWinner]: (prevState, payload) =>
-    setWinner(prevState, payload as SetWinnerActionPayload),
-
-  [GameStateActionType.StartNewGame]: (prevState, payload) =>
-    startNewGame(prevState, payload as StartNewGameActionPayload),
-
-  [GameStateActionType.UpdateGame]: (prevState, payload) =>
-    updateGame(prevState, payload as UpdateGameActionPayload),
-};
+import { addWin } from './AddWinAction';
+import { endGame } from './EndGameAction';
+import { resetWins } from './ResetWinsAction';
+import { setActionToken } from './SetActionTokenAction';
+import { setGameView } from './SetGameViewAction';
+import { setWinner } from './SetWinnerAction';
+import { startNewGame } from './StartNewGameAction';
+import { updateGame } from './UpdateGameAction';
+import { type GameStateType } from './GameState';
+import { assertNever, type GameStateAction, GameStateActionType } from './GameStateActions';
 
 export type GameStateReducer = Reducer<GameStateType, GameStateAction>;
 
 export const gameStateReducer: GameStateReducer = (
   prevState: Readonly<GameStateType>,
-  gameStateAction: Readonly<GameStateAction>,
-) => {
-  const { type, payload } = gameStateAction;
-  const actionDelegate = typeToAction[type];
-  if (actionDelegate) {
-    return actionDelegate(prevState, payload);
+  action: Readonly<GameStateAction>,
+): GameStateType => {
+  switch (action.type) {
+    case GameStateActionType.AddWin:
+      return addWin(prevState, action.payload);
+
+    case GameStateActionType.EndGame:
+      return endGame(prevState, action.payload);
+
+    case GameStateActionType.ResetWins:
+      return resetWins(prevState, action.payload);
+
+    case GameStateActionType.SetActionToken:
+      return setActionToken(prevState, action.payload);
+
+    case GameStateActionType.SetGameView:
+      return setGameView(prevState, action.payload);
+
+    case GameStateActionType.SetWinner:
+      return setWinner(prevState, action.payload);
+
+    case GameStateActionType.StartNewGame:
+      return startNewGame(prevState, action.payload);
+
+    case GameStateActionType.UpdateGame:
+      return updateGame(prevState, action.payload);
+
+    default:
+      return assertNever(action);
   }
-  throw new Error('unknown game state reducer action type');
 };
+
+export { GameStateActionType } from './GameStateActions';
+export type { GameStateAction } from './GameStateActions';

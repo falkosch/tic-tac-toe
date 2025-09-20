@@ -1,8 +1,8 @@
 import axios, { AxiosError } from 'axios';
 
-import { AttackGameAction } from '../meta-model/GameAction';
-import { PlayerCreator } from '../meta-model/Player';
-import { PlayerTurn } from '../meta-model/PlayerTurn';
+import { type AttackGameAction } from '../meta-model/GameAction';
+import { type PlayerCreator } from '../meta-model/Player';
+import { type PlayerTurn } from '../meta-model/PlayerTurn';
 
 /**
  * Configuration constants for Azure Function Player
@@ -69,10 +69,8 @@ const retryWithBackoff = async <T>(
   let lastError: Error;
   let attempt = 0;
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
-      // eslint-disable-next-line no-await-in-loop
       return await operation();
     } catch (error) {
       lastError = error as Error;
@@ -94,7 +92,6 @@ const retryWithBackoff = async <T>(
 
         if (isRetryableError) {
           const delay = baseDelay * 2 ** attempt;
-          // eslint-disable-next-line no-await-in-loop
           await sleep(delay);
           attempt += 1;
         } else {
@@ -106,7 +103,6 @@ const retryWithBackoff = async <T>(
     }
   }
 
-  // eslint-disable-next-line no-throw-literal
   throw lastError!;
 };
 

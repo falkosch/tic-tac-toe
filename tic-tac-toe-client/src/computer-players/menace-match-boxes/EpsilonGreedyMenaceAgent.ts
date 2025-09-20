@@ -1,20 +1,18 @@
 import {
   findFreeBeads,
-  MenaceAgent,
-  MenaceStateSpace,
+  type MenaceAgent,
+  type MenaceStateSpace,
   multiplyBeads,
   randomBead,
 } from './MenaceAgent';
 import { loadAgent, persistAgent } from '../ai-agent/StorableAgent';
-import { Decision, takeAny } from '../ai-agent/Decision';
-import { AIAgentCreator } from '../ai-agent/AIAgent';
+import { type Decision, takeAny } from '../ai-agent/Decision';
+import { type AIAgentCreator } from '../ai-agent/AIAgent';
 import { CellOwner } from '../../meta-model/CellOwner';
-import { StorableMenaceAgent } from './StorableMenaceAgent';
+import { type StorableMenaceAgent } from './StorableMenaceAgent';
 import { Brains } from './EpsilonGreedyMenacePretrainedBrain';
 
-interface LearnPolicy {
-  (beadsMemory: ReadonlyArray<number>, playedBead: number): number[];
-}
+type LearnPolicy = (beadsMemory: readonly number[], playedBead: number) => number[];
 
 const menaceAgents: Record<string, StorableMenaceAgent> = {};
 
@@ -36,7 +34,7 @@ const loadMenaceAgent = async (id: string): Promise<StorableMenaceAgent> => {
   }
 
   const loadedBrain = await loadAgent<StorableMenaceAgent>(id, menaceObjectVersion, Brains[id]);
-  const agent = loadedBrain || newAgent();
+  const agent = loadedBrain ?? newAgent();
   menaceAgents[id] = agent;
   return agent;
 };
