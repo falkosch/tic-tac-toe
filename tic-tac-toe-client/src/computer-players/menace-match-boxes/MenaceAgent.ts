@@ -7,7 +7,7 @@ import {
 import { type Decision, findFreeCellIndices, takeAny } from '../ai-agent/Decision';
 import { transformBoardCells } from '../../mechanics/BoardNormalization';
 import { type Board } from '../../meta-model/Board';
-import { CellOwner } from '../../meta-model/CellOwner';
+import { type CellOwner } from '../../meta-model/CellOwner';
 
 export interface MenaceStateSpace extends NormalizedStateSpace {
   boardAsString: string;

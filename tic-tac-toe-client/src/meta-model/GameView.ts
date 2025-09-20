@@ -1,12 +1,6 @@
 import { type Board } from './Board';
 import { type SpecificCellOwner } from './CellOwner';
-
-export const enum ConsecutiveDirection {
-  Horizontal = 'H',
-  Vertical = 'V',
-  DiagonalTR2BL = 'TR2BL',
-  DiagonalTL2BR = 'TL2BR',
-}
+import { type ConsecutiveDirection } from './ConsecutiveDirection.ts';
 
 export interface Consecutive {
   cellsAt: readonly number[];

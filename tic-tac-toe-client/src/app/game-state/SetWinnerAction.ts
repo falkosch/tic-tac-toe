@@ -1,4 +1,4 @@
-import { CellOwner } from '../../meta-model/CellOwner';
+import { type CellOwner } from '../../meta-model/CellOwner';
 import { type GameStateType } from './GameState';
 
 export interface SetWinnerActionPayload {

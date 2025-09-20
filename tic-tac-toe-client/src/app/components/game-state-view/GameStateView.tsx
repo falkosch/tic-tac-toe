@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import { type GameStateType } from '../../game-state/GameState';
 import { GameView } from '../game-view/GameView';

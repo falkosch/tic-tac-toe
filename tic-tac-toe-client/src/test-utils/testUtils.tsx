@@ -1,4 +1,4 @@
-import React, { type FC, type ReactElement, type ReactNode } from 'react';
+import { type FC, type ReactElement, type ReactNode } from 'react';
 import { render, type RenderOptions, type RenderResult } from '@testing-library/react';
 import { GameProvider } from '../app/context/GameContext';
 import { type GameStateType, initialGameState } from '../app/game-state/GameState';

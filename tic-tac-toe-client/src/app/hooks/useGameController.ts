@@ -2,12 +2,22 @@ import { useCallback, useRef, useState } from 'react';
 
 import { useGame, useGameConfiguration, useGameState } from '../context/GameContext';
 import { runNewGame } from '../../mechanics/GameDirector';
-import { GameStateActionType } from '../game-state/GameStateReducer';
-import { GameConfigurationActionType } from '../game-configuration/GameConfigurationReducer';
-import { CellOwner, type SpecificCellOwner } from '../../meta-model/CellOwner';
-import { type PlayerCreators, PlayerType } from '../game-configuration/GameConfiguration';
+import { CellOwnerO, CellOwnerX, type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type PlayerCreators } from '../game-configuration/GameConfiguration';
 import { type Player } from '../../meta-model/Player';
 import { type AttackGameAction } from '../../meta-model/GameAction';
+import { type PlayerType } from '../game-configuration/PlayerType.ts';
+import {
+  GameConfigurationActionTypeSetAutoNewGame,
+  GameConfigurationActionTypeSetPlayerType,
+} from '../game-configuration/GameConfigurationActionType.ts';
+import {
+  GameStateActionTypeEndGame,
+  GameStateActionTypeResetWins,
+  GameStateActionTypeSetActionToken,
+  GameStateActionTypeStartNewGame,
+  GameStateActionTypeUpdateGame,
+} from '../game-state/GameStateActions.ts';
 
 interface UseGameControllerReturn {
   runningGame: Promise<unknown>;
@@ -34,7 +44,7 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
         new Promise<AttackGameAction>((resolve, reject) => {
           const actionToken = (affectedCellsAt?: readonly number[], error?: Error): void => {
             dispatchGameState({
-              type: GameStateActionType.SetActionToken,
+              type: GameStateActionTypeSetActionToken,
               payload: { actionToken: undefined },
             });
 
@@ -48,7 +58,7 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
           };
 
           dispatchGameState({
-            type: GameStateActionType.SetActionToken,
+            type: GameStateActionTypeSetActionToken,
             payload: { actionToken },
           });
         }),
@@ -67,29 +77,29 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
 
     const { playerTypes } = gameRef.current.configuration;
     const joiningPlayers = {
-      [CellOwner.X]: playerCreators[playerTypes[CellOwner.X] as PlayerType],
-      [CellOwner.O]: playerCreators[playerTypes[CellOwner.O] as PlayerType],
+      [CellOwnerX]: playerCreators[playerTypes[CellOwnerX] as PlayerType],
+      [CellOwnerO]: playerCreators[playerTypes[CellOwnerO] as PlayerType],
     };
 
     const newRunningGame = runNewGame(
       joiningPlayers,
       (newGameView) => {
         dispatchGameState({
-          type: GameStateActionType.StartNewGame,
+          type: GameStateActionTypeStartNewGame,
           payload: { gameView: newGameView },
         });
         return Promise.resolve();
       },
       (newGameView) => {
         dispatchGameState({
-          type: GameStateActionType.UpdateGame,
+          type: GameStateActionTypeUpdateGame,
           payload: { gameView: newGameView },
         });
         return Promise.resolve();
       },
       (endState) => {
         dispatchGameState({
-          type: GameStateActionType.EndGame,
+          type: GameStateActionTypeEndGame,
           payload: { endState },
         });
         return Promise.resolve();
@@ -117,7 +127,7 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
 
   const toggleAutoNewGame = useCallback((): void => {
     dispatchConfiguration({
-      type: GameConfigurationActionType.SetAutoNewGame,
+      type: GameConfigurationActionTypeSetAutoNewGame,
       payload: {
         value: !configuration.autoNewGame,
       },
@@ -133,13 +143,13 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
       }
 
       dispatchGameState({
-        type: GameStateActionType.ResetWins,
+        type: GameStateActionTypeResetWins,
         payload: {
           player: cellOwner,
         },
       });
       dispatchConfiguration({
-        type: GameConfigurationActionType.SetPlayerType,
+        type: GameConfigurationActionTypeSetPlayerType,
         payload: {
           player: cellOwner,
           playerType,

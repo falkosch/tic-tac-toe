@@ -6,7 +6,7 @@ import {
 } from '../ai-agent/AIAgent';
 import { transformBoardCells } from '../../mechanics/BoardNormalization';
 import { type Board } from '../../meta-model/Board';
-import { CellOwner, type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { CellOwnerNone, type SpecificCellOwner } from '../../meta-model/CellOwner';
 import { type Decision } from '../ai-agent/Decision';
 
 export interface ReinforcedStateSpace extends NormalizedStateSpace {
@@ -23,7 +23,7 @@ const buildReinforcedStateSpace = (
   return {
     ...normalizedStateSpace,
     states: transformBoardCells(board, normalizedStateSpace.normalization).map((cellOwner) => {
-      if (cellOwner === CellOwner.None) {
+      if (cellOwner === CellOwnerNone) {
         return 0.0;
       }
       if (cellOwner === agentCellOwner) {

@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'vitest';
 
 import { CellView } from './CellView';
 import { type BoardDimensions } from '../../../meta-model/Board';
-import { CellOwner } from '../../../meta-model/CellOwner';
+import { type CellOwner, CellOwnerX } from '../../../meta-model/CellOwner';
 
 describe('CellView', () => {
   let boardDimensions: BoardDimensions;
@@ -14,7 +14,7 @@ describe('CellView', () => {
       height: 1,
       width: 1,
     };
-    cellOwner = CellOwner.X;
+    cellOwner = CellOwnerX;
   });
 
   it('renders without crashing', () => {

@@ -2,7 +2,7 @@ import React, { type FC, useMemo } from 'react';
 
 import { CellView } from '../cell-view/CellView';
 import { type GameView as ModelGameView } from '../../../meta-model/GameView';
-import { CellOwner } from '../../../meta-model/CellOwner';
+import { type CellOwner } from '../../../meta-model/CellOwner';
 
 import styles from './GameView.module.css';
 

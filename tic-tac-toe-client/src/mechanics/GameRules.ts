@@ -1,5 +1,11 @@
 import { type Board } from '../meta-model/Board';
-import { CellOwner, type SpecificCellOwner } from '../meta-model/CellOwner';
+import {
+  type CellOwner,
+  CellOwnerNone,
+  CellOwnerO,
+  CellOwnerX,
+  type SpecificCellOwner,
+} from '../meta-model/CellOwner';
 import { type Consecutive, type GameView } from '../meta-model/GameView';
 
 type Points = Record<SpecificCellOwner, number>;
@@ -9,12 +15,12 @@ export const countPoints = (
   consecutive: readonly Consecutive[],
 ): Points => {
   const pointsTracking = {
-    [CellOwner.O]: 0,
-    [CellOwner.X]: 0,
+    [CellOwnerO]: 0,
+    [CellOwnerX]: 0,
   };
   consecutive.forEach(({ cellsAt }) => {
     const cellOwner = board.cells[cellsAt[0]];
-    if (cellOwner !== CellOwner.None) {
+    if (cellOwner !== CellOwnerNone) {
       pointsTracking[cellOwner] += cellsAt.length;
     }
   });
@@ -34,7 +40,7 @@ export const pointsLeader = (points: Readonly<Points>): SpecificCellOwner | unde
 };
 
 const remainingMoves = (cells: readonly CellOwner[]): number =>
-  cells.reduce((acc, cellOwner) => acc + (cellOwner === CellOwner.None ? 1 : 0), 0);
+  cells.reduce((acc, cellOwner) => acc + (cellOwner === CellOwnerNone ? 1 : 0), 0);
 
 export const isOneWinnerEnding = (gameView: Readonly<GameView>): boolean =>
   // for now, the occurrence of a first consecutive sequence ends the game

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { beforeEach, describe, it } from 'vitest';
 
-import { CellOwner } from '../../../meta-model/CellOwner';
+import { CellOwnerO, CellOwnerX } from '../../../meta-model/CellOwner';
 import { type GameStateType } from '../../game-state/GameState';
 import { GameStateView } from './GameStateView';
 
@@ -11,8 +11,8 @@ describe('GameStateView', () => {
   beforeEach(() => {
     gameState = {
       wins: {
-        [CellOwner.O]: 0,
-        [CellOwner.X]: 0,
+        [CellOwnerO]: 0,
+        [CellOwnerX]: 0,
       },
     };
   });

@@ -8,7 +8,7 @@ import {
 import { loadAgent, persistAgent } from '../ai-agent/StorableAgent';
 import { type Decision, takeAny } from '../ai-agent/Decision';
 import { type AIAgentCreator } from '../ai-agent/AIAgent';
-import { CellOwner } from '../../meta-model/CellOwner';
+import { CellOwnerNone } from '../../meta-model/CellOwner';
 import { type StorableMenaceAgent } from './StorableMenaceAgent';
 import { Brains } from './EpsilonGreedyMenacePretrainedBrain';
 
@@ -52,7 +52,7 @@ const selectEpsilonGreedyAction = (
   }
 
   const freeCellsAt = stateSpace.boardAsCellOwners
-    .map((v, i) => (v === CellOwner.None ? i : -1))
+    .map((v, i) => (v === CellOwnerNone ? i : -1))
     .filter((v) => v >= 0);
   return takeAny(freeCellsAt)[0];
 };

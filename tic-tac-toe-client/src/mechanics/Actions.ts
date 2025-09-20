@@ -1,5 +1,5 @@
 import { type AttackGameAction } from '../meta-model/GameAction';
-import { CellOwner } from '../meta-model/CellOwner';
+import { type CellOwner, CellOwnerNone } from '../meta-model/CellOwner';
 import { type Board } from '../meta-model/Board';
 
 export type BoardModifier = (board: Readonly<Board>) => Board;
@@ -17,7 +17,7 @@ export const buildCellModifier = (
     if (!attack.affectedCellsAt.includes(currentCellAt)) {
       return currentCellOwner;
     }
-    if (currentCellOwner !== CellOwner.None) {
+    if (currentCellOwner !== CellOwnerNone) {
       return currentCellOwner;
     }
     return newOwner;

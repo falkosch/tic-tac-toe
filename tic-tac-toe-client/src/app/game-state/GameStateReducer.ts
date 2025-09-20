@@ -9,7 +9,18 @@ import { setWinner } from './SetWinnerAction';
 import { startNewGame } from './StartNewGameAction';
 import { updateGame } from './UpdateGameAction';
 import { type GameStateType } from './GameState';
-import { assertNever, type GameStateAction, GameStateActionType } from './GameStateActions';
+import {
+  assertNever,
+  type GameStateAction,
+  GameStateActionTypeAddWin,
+  GameStateActionTypeEndGame,
+  GameStateActionTypeResetWins,
+  GameStateActionTypeSetActionToken,
+  GameStateActionTypeSetGameView,
+  GameStateActionTypeSetWinner,
+  GameStateActionTypeStartNewGame,
+  GameStateActionTypeUpdateGame,
+} from './GameStateActions';
 
 export type GameStateReducer = Reducer<GameStateType, GameStateAction>;
 
@@ -18,34 +29,31 @@ export const gameStateReducer: GameStateReducer = (
   action: Readonly<GameStateAction>,
 ): GameStateType => {
   switch (action.type) {
-    case GameStateActionType.AddWin:
+    case GameStateActionTypeAddWin:
       return addWin(prevState, action.payload);
 
-    case GameStateActionType.EndGame:
+    case GameStateActionTypeEndGame:
       return endGame(prevState, action.payload);
 
-    case GameStateActionType.ResetWins:
+    case GameStateActionTypeResetWins:
       return resetWins(prevState, action.payload);
 
-    case GameStateActionType.SetActionToken:
+    case GameStateActionTypeSetActionToken:
       return setActionToken(prevState, action.payload);
 
-    case GameStateActionType.SetGameView:
+    case GameStateActionTypeSetGameView:
       return setGameView(prevState, action.payload);
 
-    case GameStateActionType.SetWinner:
+    case GameStateActionTypeSetWinner:
       return setWinner(prevState, action.payload);
 
-    case GameStateActionType.StartNewGame:
+    case GameStateActionTypeStartNewGame:
       return startNewGame(prevState, action.payload);
 
-    case GameStateActionType.UpdateGame:
+    case GameStateActionTypeUpdateGame:
       return updateGame(prevState, action.payload);
 
     default:
       return assertNever(action);
   }
 };
-
-export { GameStateActionType } from './GameStateActions';
-export type { GameStateAction } from './GameStateActions';

@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren, useState } from 'react';
+import { type FC, type PropsWithChildren, useState } from 'react';
 
 import logo from './logo.svg';
 

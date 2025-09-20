@@ -2,7 +2,7 @@ import { addWin } from './AddWinAction';
 import { setActionToken } from './SetActionTokenAction';
 import { setGameView } from './SetGameViewAction';
 import { setWinner } from './SetWinnerAction';
-import { CellOwner } from '../../meta-model/CellOwner';
+import { CellOwnerNone } from '../../meta-model/CellOwner';
 import { type GameEndState } from '../../meta-model/GameEndState';
 import { type GameStateType } from './GameState';
 
@@ -24,7 +24,7 @@ export const endGame = (
 
   visit({
     drawEndState() {
-      nextGameState = setWinner(nextGameState, { value: CellOwner.None });
+      nextGameState = setWinner(nextGameState, { value: CellOwnerNone });
     },
     erroneousEndState(error) {
       nextGameState = setWinner(nextGameState, { value: error });

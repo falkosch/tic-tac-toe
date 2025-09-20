@@ -7,7 +7,7 @@ import {
   type LineIteratorsToCoordinates,
 } from './CellCoordinates';
 import { type Board, type BoardDimensions } from '../meta-model/Board';
-import { CellOwner } from '../meta-model/CellOwner';
+import { type CellOwner, CellOwnerNone } from '../meta-model/CellOwner';
 import { type Coordinates } from './Coordinates';
 
 export interface BoardNormalization {
@@ -39,7 +39,7 @@ const countFreeCellsInRegion = (
 
   forEachLine(lineDimensions, iteratorsToCoordinates, (lineDimension, iteratorToCoordinates) => {
     forEachCellInLine(board.dimensions, lineDimension, iteratorToCoordinates, (cellAt) => {
-      if (board.cells[cellAt] === CellOwner.None) {
+      if (board.cells[cellAt] === CellOwnerNone) {
         freeCells += 1;
       }
     });

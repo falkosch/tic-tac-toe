@@ -1,7 +1,14 @@
 import { cellAtCoordinate, forEachLine, type LineIteratorToCoordinates } from './CellCoordinates';
 import { type Board } from '../meta-model/Board';
-import { CellOwner } from '../meta-model/CellOwner';
-import { type Consecutive, ConsecutiveDirection } from '../meta-model/GameView';
+import { CellOwnerNone } from '../meta-model/CellOwner';
+import {
+  type ConsecutiveDirection,
+  ConsecutiveDirectionDiagonalTL2BR,
+  ConsecutiveDirectionDiagonalTR2BL,
+  ConsecutiveDirectionHorizontal,
+  ConsecutiveDirectionVertical,
+} from '../meta-model/ConsecutiveDirection.ts';
+import { type Consecutive } from '../meta-model/GameView.ts';
 
 type ConsecutiveConsumer = (nextConsecutive: Readonly<Consecutive>) => void;
 
@@ -34,7 +41,7 @@ const findInCellOwnerSpans = (
     // when the CellOwner changes, a span ends
     if (ownerOfSpan !== ownerAtCell) {
       // add span as consecutive if it exceeds the minimum span length
-      if (cellsAt.length >= minimumSpan && ownerOfSpan !== CellOwner.None) {
+      if (cellsAt.length >= minimumSpan && ownerOfSpan !== CellOwnerNone) {
         consecutiveConsumer({ cellsAt, direction });
       }
       // start next span
@@ -47,7 +54,7 @@ const findInCellOwnerSpans = (
   }
 
   // remember to check the last started span
-  if (cellsAt.length >= minimumSpan && ownerOfSpan !== CellOwner.None) {
+  if (cellsAt.length >= minimumSpan && ownerOfSpan !== CellOwnerNone) {
     consecutiveConsumer({ cellsAt, direction });
   }
 };
@@ -68,7 +75,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
     (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
-        ConsecutiveDirection.Horizontal,
+        ConsecutiveDirectionHorizontal,
         board,
         lineDimension,
         minimumSpan,
@@ -87,7 +94,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
     (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
-        ConsecutiveDirection.Vertical,
+        ConsecutiveDirectionVertical,
         board,
         lineDimension,
         minimumSpan,
@@ -107,7 +114,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
     (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
-        ConsecutiveDirection.DiagonalTL2BR,
+        ConsecutiveDirectionDiagonalTL2BR,
         board,
         lineDimension,
         minimumSpan,
@@ -126,7 +133,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
     (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
-        ConsecutiveDirection.DiagonalTL2BR,
+        ConsecutiveDirectionDiagonalTL2BR,
         board,
         lineDimension,
         minimumSpan,
@@ -149,7 +156,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
     (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
-        ConsecutiveDirection.DiagonalTR2BL,
+        ConsecutiveDirectionDiagonalTR2BL,
         board,
         lineDimension,
         minimumSpan,
@@ -171,7 +178,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
     (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
-        ConsecutiveDirection.DiagonalTR2BL,
+        ConsecutiveDirectionDiagonalTR2BL,
         board,
         lineDimension,
         minimumSpan,

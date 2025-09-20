@@ -1,16 +1,17 @@
 import React, { type FC, useCallback, useMemo } from 'react';
 
 import { cellCoordinates } from '../../../mechanics/CellCoordinates';
-import { cellEdgeClassifiers, EdgeClassifier } from '../../../mechanics/CellEdgeClassifiers';
+import { cellEdgeClassifiers } from '../../../mechanics/CellEdgeClassifiers';
 import { coveredConsecutiveDirections } from '../../../mechanics/Consecutiveness';
 import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from '../../../mechanics/MapToImage';
 import { useGameState } from '../../context/GameContext';
 import { type BoardDimensions } from '../../../meta-model/Board';
-import { CellOwner } from '../../../meta-model/CellOwner';
+import { type CellOwner, CellOwnerO, CellOwnerX } from '../../../meta-model/CellOwner';
 import { type Consecutive } from '../../../meta-model/GameView';
 import { ImageStack, type ImageWithAlt } from '../image-stack/ImageStack';
 
 import styles from './CellView.module.css';
+import { EdgeClassifierUpper } from '../../../mechanics/EdgeClassifier.ts';
 
 const grid = {
   value: 0.25,
@@ -54,8 +55,8 @@ export const CellView: FC<Props> = React.memo(
 
     const gridStyle = useMemo(
       () => ({
-        borderRightWidth: selectBorderWidth(edgeClassifiers.x === EdgeClassifier.Upper),
-        borderBottomWidth: selectBorderWidth(edgeClassifiers.y === EdgeClassifier.Upper),
+        borderRightWidth: selectBorderWidth(edgeClassifiers.x === EdgeClassifierUpper),
+        borderBottomWidth: selectBorderWidth(edgeClassifiers.y === EdgeClassifierUpper),
         height: tileSize(boardDimensions.height),
         width: tileSize(boardDimensions.width),
       }),
@@ -75,10 +76,13 @@ export const CellView: FC<Props> = React.memo(
 
       // Add cell owner image (X or O)
       if (cellOwnerImage) {
-        const ownerTypeX = cellOwner === CellOwner.X ? 'X' : 'Empty';
+        const ownerTypeToAltTextMap: Record<string, string> = {
+          [CellOwnerX]: 'X',
+          [CellOwnerO]: 'O',
+        };
         result.push({
           src: cellOwnerImage,
-          alt: cellOwner === CellOwner.O ? 'O' : ownerTypeX,
+          alt: ownerTypeToAltTextMap[cellOwner] ?? 'Empty',
         });
       }
 

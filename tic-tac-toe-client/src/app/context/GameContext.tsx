@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  type FC,
-  type ReactNode,
-  useContext,
-  useMemo,
-  useReducer,
-} from 'react';
+import { createContext, type FC, type ReactNode, useContext, useMemo, useReducer } from 'react';
 
 import {
   type GameConfigurationType,
@@ -16,7 +9,8 @@ import {
   type GameConfigurationAction,
   gameConfigurationReducer,
 } from '../game-configuration/GameConfigurationReducer';
-import { type GameStateAction, gameStateReducer } from '../game-state/GameStateReducer';
+import { gameStateReducer } from '../game-state/GameStateReducer';
+import { type GameStateAction } from '../game-state/GameStateActions.ts';
 
 interface GameContextValue {
   gameState: GameStateType;

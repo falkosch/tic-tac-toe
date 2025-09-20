@@ -1,6 +1,12 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
-import { CellOwner, type SpecificCellOwner } from '../../../meta-model/CellOwner';
+import {
+  type CellOwner,
+  CellOwnerNone,
+  CellOwnerO,
+  CellOwnerX,
+  type SpecificCellOwner,
+} from '../../../meta-model/CellOwner';
 import { type Points } from '../../../meta-model/GameView';
 
 import styles from './WinnerView.module.css';
@@ -17,11 +23,11 @@ const representsAxiosError = (value: unknown): boolean => {
 };
 
 const representsDraw = (value: unknown): boolean => {
-  return value === CellOwner.None;
+  return value === CellOwnerNone;
 };
 
 const representsSpecificWinner = (value: unknown): boolean => {
-  return value === CellOwner.O || value === CellOwner.X;
+  return value === CellOwnerO || value === CellOwnerX;
 };
 
 export const WinnerView: FC<{
