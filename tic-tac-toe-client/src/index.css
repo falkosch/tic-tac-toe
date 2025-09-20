@@ -24,26 +24,3 @@ body,
 body {
   min-width: 320px;
 }
-
-%
-hint-text {
-  font-size: 2rem;
-  line-height: 3rem;
-  max-width: 70vw;
-}
-
-%
-hint-color-neutral {
-  color: darkgrey;
-}
-
-%
-hint-color-attention {
-  color: darkseagreen;
-}
-
-%
-hint-color-alert {
-  color: darkred;
-}
-

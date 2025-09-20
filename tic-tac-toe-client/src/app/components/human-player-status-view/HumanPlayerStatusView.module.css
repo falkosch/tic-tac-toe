@@ -1,4 +1,6 @@
 .view {
-  @extend %hint-text;
-  @extend %hint-color-neutral;
+  font-size: 2rem;
+  line-height: 3rem;
+  max-width: 70vw;
+  color: darkgrey;
 }
