@@ -1,15 +1,15 @@
-import React, { type FC, useContext } from 'react';
+import React, { type FC } from 'react';
 
-import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
+import { useGameState } from '../../context/GameContext';
 
 import styles from './HumanPlayerStatusView.module.css';
 
 export const HumanPlayerStatusView: FC = () => {
-  const actionTokenDispatch = useContext(ActionTokenDispatch);
+  const { gameState } = useGameState();
 
   return (
     <div className={styles.view}>
-      {actionTokenDispatch ? <>It&apos;s your turn!</> : <>Other player is serving...</>}
+      {gameState.actionToken ? <>It&apos;s your turn!</> : <>Other player is serving...</>}
     </div>
   );
 };

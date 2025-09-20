@@ -1,6 +1,5 @@
 import React, { type FC } from 'react';
 
-import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
 import { type GameStateType } from '../../game-state/GameState';
 import { GameView } from '../game-view/GameView';
 import { HumanPlayerStatusView } from '../human-player-status-view/HumanPlayerStatusView';
@@ -14,17 +13,15 @@ export const GameStateView: FC<{
   <div className={`${styles.view} flex flex-col items-center justify-center`}>
     {!gameState.gameView && <div className={styles['new-game']}>Create a new game first.</div>}
     {gameState.gameView && (
-      <ActionTokenDispatch.Provider value={gameState.actionToken}>
-        <div className="flex h-full flex-col">
-          <div className="flex flex-1 items-center justify-center">
-            <GameView gameView={gameState.gameView} />
-          </div>
-          <div className={`${styles.status} flex items-center justify-center`}>
-            <WinnerView winner={gameState.winner} wins={gameState.wins} />
-            {!gameState.winner && <HumanPlayerStatusView />}
-          </div>
+      <div className="flex h-full flex-col">
+        <div className="flex flex-1 items-center justify-center">
+          <GameView gameView={gameState.gameView} />
         </div>
-      </ActionTokenDispatch.Provider>
+        <div className={`${styles.status} flex items-center justify-center`}>
+          <WinnerView winner={gameState.winner} wins={gameState.wins} />
+          {!gameState.winner && <HumanPlayerStatusView />}
+        </div>
+      </div>
     )}
   </div>
 );

@@ -28,8 +28,8 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
   const gameRef = useRef({ gameState, configuration, runningGame });
   gameRef.current = { gameState, configuration, runningGame };
 
-  const createHumanPlayer = useCallback(async (): Promise<Player> => {
-    return {
+  const createHumanPlayer = useCallback((): Promise<Player> => {
+    return Promise.resolve<Player>({
       takeTurn: () =>
         new Promise<AttackGameAction>((resolve, reject) => {
           const actionToken = (affectedCellsAt?: readonly number[], error?: Error): void => {
@@ -52,7 +52,7 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
             payload: { actionToken },
           });
         }),
-    };
+    });
   }, [dispatchGameState]);
 
   const createNewGame = useCallback(async (): Promise<void> => {
@@ -73,23 +73,26 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
 
     const newRunningGame = runNewGame(
       joiningPlayers,
-      async (newGameView) => {
+      (newGameView) => {
         dispatchGameState({
           type: GameStateActionType.StartNewGame,
           payload: { gameView: newGameView },
         });
+        return Promise.resolve();
       },
-      async (newGameView) => {
+      (newGameView) => {
         dispatchGameState({
           type: GameStateActionType.UpdateGame,
           payload: { gameView: newGameView },
         });
+        return Promise.resolve();
       },
-      async (endState) => {
+      (endState) => {
         dispatchGameState({
           type: GameStateActionType.EndGame,
           payload: { endState },
         });
+        return Promise.resolve();
       },
     );
 
@@ -101,7 +104,9 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
       gameRef.current.configuration.autoNewGame &&
       !(gameRef.current.gameState.winner instanceof Error)
     ) {
-      setTimeout(createNewGame, 0);
+      setTimeout(() => {
+        createNewGame().catch(console.error);
+      }, 0);
     }
   }, [runningGame, playerCreators, dispatchGameState]);
 
@@ -121,7 +126,7 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
 
   const changePlayerType = useCallback(
     (cellOwner: SpecificCellOwner, playerType: PlayerType): void => {
-      // Cancel current game if in progress
+      // Cancel the current game if in progress
       const { actionToken } = gameRef.current.gameState;
       if (actionToken) {
         actionToken();
@@ -143,7 +148,9 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
 
       // Start new game with updated configuration if there was a game in progress
       if (actionToken) {
-        setTimeout(createNewGame, 0);
+        setTimeout(() => {
+          createNewGame().catch(console.error);
+        }, 0);
       }
     },
     [dispatchGameState, dispatchConfiguration, createNewGame],

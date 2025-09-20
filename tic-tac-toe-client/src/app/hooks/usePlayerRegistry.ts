@@ -54,9 +54,11 @@ export const usePlayerRegistry = (
         setRegistry(newRegistry);
       } catch (err: unknown) {
         const asError =
-          err instanceof Error ? err : new Error('Failed to initialize player registry');
+          err instanceof Error
+            ? err
+            : new Error('Failed to initialize player registry', { cause: err });
         setError(asError);
-        console.error('Failed to initialize player registry:', asError);
+        console.error('initializeRegistry:', asError);
       } finally {
         setIsLoading(false);
       }

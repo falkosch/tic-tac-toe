@@ -1,10 +1,10 @@
-import React, { type FC, useCallback, useContext, useMemo } from 'react';
+import React, { type FC, useCallback, useMemo } from 'react';
 
 import { cellCoordinates } from '../../../mechanics/CellCoordinates';
 import { cellEdgeClassifiers, EdgeClassifier } from '../../../mechanics/CellEdgeClassifiers';
 import { coveredConsecutiveDirections } from '../../../mechanics/Consecutiveness';
 import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from '../../../mechanics/MapToImage';
-import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
+import { useGameState } from '../../context/GameContext';
 import { type BoardDimensions } from '../../../meta-model/Board';
 import { CellOwner } from '../../../meta-model/CellOwner';
 import { type Consecutive } from '../../../meta-model/GameView';
@@ -35,7 +35,7 @@ interface Props {
 
 export const CellView: FC<Props> = React.memo(
   ({ boardDimensions, cellAt, cellOwner, consecutive }) => {
-    const actionTokenDispatch = useContext(ActionTokenDispatch);
+    const { gameState } = useGameState();
 
     const cellOwnerImage = useMemo(() => mapCellOwnerToImage(cellOwner), [cellOwner]);
 
@@ -65,10 +65,10 @@ export const CellView: FC<Props> = React.memo(
     const className = `${styles.view} position-relative bg-light border-secondary`;
 
     const onClick = useCallback((): void => {
-      if (actionTokenDispatch) {
-        actionTokenDispatch([cellAt]);
+      if (gameState.actionToken) {
+        gameState.actionToken([cellAt]);
       }
-    }, [actionTokenDispatch, cellAt]);
+    }, [gameState, cellAt]);
 
     const images = useMemo((): ImageWithAlt[] => {
       const result: ImageWithAlt[] = [];
