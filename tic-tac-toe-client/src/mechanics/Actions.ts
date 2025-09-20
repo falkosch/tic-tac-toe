@@ -1,21 +1,20 @@
-import { AttackGameAction } from '../meta-model/GameAction';
+import { type AttackGameAction } from '../meta-model/GameAction';
 import { CellOwner } from '../meta-model/CellOwner';
-import { Board } from '../meta-model/Board';
+import { type Board } from '../meta-model/Board';
 
-export interface BoardModifier {
-  (board: Readonly<Board>): Board;
-}
+export type BoardModifier = (board: Readonly<Board>) => Board;
 
-export interface CellModifier {
-  (currentCellOwner: Readonly<CellOwner>, currentCellAt: number): CellOwner;
-}
+export type CellModifier = (
+  currentCellOwner: Readonly<CellOwner>,
+  currentCellAt: number,
+) => CellOwner;
 
 export const buildCellModifier = (
   attack: Readonly<AttackGameAction>,
   newOwner: Readonly<CellOwner>,
 ): CellModifier => {
   return (currentCellOwner, currentCellAt) => {
-    if (attack.affectedCellsAt.indexOf(currentCellAt) < 0) {
+    if (!attack.affectedCellsAt.includes(currentCellAt)) {
       return currentCellOwner;
     }
     if (currentCellOwner !== CellOwner.None) {

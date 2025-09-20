@@ -3,8 +3,8 @@ import { setActionToken } from './SetActionTokenAction';
 import { setGameView } from './SetGameViewAction';
 import { setWinner } from './SetWinnerAction';
 import { CellOwner } from '../../meta-model/CellOwner';
-import { GameEndState } from '../../meta-model/GameEndState';
-import { GameStateType } from './GameState';
+import { type GameEndState } from '../../meta-model/GameEndState';
+import { type GameStateType } from './GameState';
 
 export interface EndGameActionPayload {
   endState: Readonly<GameEndState>;

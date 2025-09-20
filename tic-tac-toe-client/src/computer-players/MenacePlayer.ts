@@ -1,12 +1,12 @@
 import { findMenaceDecision } from './menace-match-boxes/MenaceAgent';
 import { getMenaceAgent } from './menace-match-boxes/EpsilonGreedyMenaceAgent';
 import { notifyEndState } from './ai-agent/AIAgent';
-import { AttackGameAction } from '../meta-model/GameAction';
-import { GameEndState } from '../meta-model/GameEndState';
-import { GameView } from '../meta-model/GameView';
-import { PlayerCreator } from '../meta-model/Player';
-import { PlayerTurn } from '../meta-model/PlayerTurn';
-import { SpecificCellOwner } from '../meta-model/CellOwner';
+import { type AttackGameAction } from '../meta-model/GameAction';
+import { type GameEndState } from '../meta-model/GameEndState';
+import { type GameView } from '../meta-model/GameView';
+import { type PlayerCreator } from '../meta-model/Player';
+import { type PlayerTurn } from '../meta-model/PlayerTurn';
+import { type SpecificCellOwner } from '../meta-model/CellOwner';
 
 export const createMenacePlayer: PlayerCreator = async () => ({
   /**

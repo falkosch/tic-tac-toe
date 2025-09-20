@@ -1,12 +1,12 @@
-import { Board } from '../meta-model/Board';
-import { CellOwner, SpecificCellOwner } from '../meta-model/CellOwner';
-import { Consecutive, GameView } from '../meta-model/GameView';
+import { type Board } from '../meta-model/Board';
+import { CellOwner, type SpecificCellOwner } from '../meta-model/CellOwner';
+import { type Consecutive, type GameView } from '../meta-model/GameView';
 
 type Points = Record<SpecificCellOwner, number>;
 
 export const countPoints = (
   board: Readonly<Board>,
-  consecutive: ReadonlyArray<Consecutive>,
+  consecutive: readonly Consecutive[],
 ): Points => {
   const pointsTracking = {
     [CellOwner.O]: 0,
@@ -33,7 +33,7 @@ export const pointsLeader = (points: Readonly<Points>): SpecificCellOwner | unde
   return winner;
 };
 
-const remainingMoves = (cells: ReadonlyArray<CellOwner>): number =>
+const remainingMoves = (cells: readonly CellOwner[]): number =>
   cells.reduce((acc, cellOwner) => acc + (cellOwner === CellOwner.None ? 1 : 0), 0);
 
 export const isOneWinnerEnding = (gameView: Readonly<GameView>): boolean =>

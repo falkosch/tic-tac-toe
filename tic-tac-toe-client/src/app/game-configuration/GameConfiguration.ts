@@ -1,5 +1,5 @@
-import { CellOwner, SpecificCellOwner } from '../../meta-model/CellOwner';
-import { PlayerCreator } from '../../meta-model/Player';
+import { CellOwner, type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type PlayerCreator } from '../../meta-model/Player';
 
 export enum PlayerType {
   Human = 'Human player',

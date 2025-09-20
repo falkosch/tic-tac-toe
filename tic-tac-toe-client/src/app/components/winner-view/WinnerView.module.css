@@ -1,5 +1,3 @@
-@use '../../../scss/abstract';
-
 .view {
   @extend %hint-text;
 }

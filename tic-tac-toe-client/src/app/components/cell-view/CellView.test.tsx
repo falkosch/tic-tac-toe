@@ -2,10 +2,10 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import { CellView } from './CellView';
-import { BoardDimensions } from '../../../meta-model/Board';
+import { type BoardDimensions } from '../../../meta-model/Board';
 import { CellOwner } from '../../../meta-model/CellOwner';
 
-describe(`${CellView.name}`, () => {
+describe(CellView.name, () => {
   let boardDimensions: BoardDimensions;
   let cellOwner: CellOwner;
 

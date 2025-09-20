@@ -5,11 +5,11 @@ import React from 'react';
 import { App } from './App';
 import { PlayerType } from './game-configuration/GameConfiguration';
 
-describe(`${App.name}`, () => {
+describe(App.name, () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
     process.env = { ...originalEnv };
   });
 

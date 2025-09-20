@@ -4,10 +4,10 @@ import { useGame, useGameConfiguration, useGameState } from '../context/GameCont
 import { runNewGame } from '../../mechanics/GameDirector';
 import { GameStateActionType } from '../game-state/GameStateReducer';
 import { GameConfigurationActionType } from '../game-configuration/GameConfigurationReducer';
-import { CellOwner, SpecificCellOwner } from '../../meta-model/CellOwner';
-import { PlayerCreators, PlayerType } from '../game-configuration/GameConfiguration';
-import { Player } from '../../meta-model/Player';
-import { AttackGameAction } from '../../meta-model/GameAction';
+import { CellOwner, type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type PlayerCreators, PlayerType } from '../game-configuration/GameConfiguration';
+import { type Player } from '../../meta-model/Player';
+import { type AttackGameAction } from '../../meta-model/GameAction';
 
 interface UseGameControllerReturn {
   runningGame: Promise<unknown>;
@@ -32,7 +32,7 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
     return {
       takeTurn: () =>
         new Promise<AttackGameAction>((resolve, reject) => {
-          const actionToken = (affectedCellsAt?: ReadonlyArray<number>, error?: Error): void => {
+          const actionToken = (affectedCellsAt?: readonly number[], error?: Error): void => {
             dispatchGameState({
               type: GameStateActionType.SetActionToken,
               payload: { actionToken: undefined },
@@ -73,21 +73,24 @@ export const useGameController = (playerCreators: PlayerCreators): UseGameContro
 
     const newRunningGame = runNewGame(
       joiningPlayers,
-      async (newGameView) =>
+      async (newGameView) => {
         dispatchGameState({
           type: GameStateActionType.StartNewGame,
           payload: { gameView: newGameView },
-        }),
-      async (newGameView) =>
+        });
+      },
+      async (newGameView) => {
         dispatchGameState({
           type: GameStateActionType.UpdateGame,
           payload: { gameView: newGameView },
-        }),
-      async (endState) =>
+        });
+      },
+      async (endState) => {
         dispatchGameState({
           type: GameStateActionType.EndGame,
           payload: { endState },
-        }),
+        });
+      },
     );
 
     setRunningGame(newRunningGame);

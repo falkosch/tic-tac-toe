@@ -1,16 +1,16 @@
 import {
-  AIAgent,
+  type AIAgent,
   buildNormalizedStateSpace,
   findDecisionForStateSpace,
-  NormalizedStateSpace,
+  type NormalizedStateSpace,
 } from '../ai-agent/AIAgent';
 import { transformBoardCells } from '../../mechanics/BoardNormalization';
-import { Board } from '../../meta-model/Board';
-import { CellOwner, SpecificCellOwner } from '../../meta-model/CellOwner';
-import { Decision } from '../ai-agent/Decision';
+import { type Board } from '../../meta-model/Board';
+import { CellOwner, type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type Decision } from '../ai-agent/Decision';
 
 export interface ReinforcedStateSpace extends NormalizedStateSpace {
-  states: ReadonlyArray<number>;
+  states: readonly number[];
 }
 
 export type ReinforcedAgent = AIAgent<ReinforcedStateSpace>;

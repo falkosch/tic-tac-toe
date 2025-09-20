@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Header } from './Header';
 
-describe(`${Header.name}`, () => {
+describe(Header.name, () => {
   it('renders without crashing', () => {
     render(<Header />);
   });

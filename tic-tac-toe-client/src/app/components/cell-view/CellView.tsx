@@ -1,16 +1,16 @@
-import React, { FC, useCallback, useContext, useMemo } from 'react';
+import React, { type FC, useCallback, useContext, useMemo } from 'react';
 
 import { cellCoordinates } from '../../../mechanics/CellCoordinates';
 import { cellEdgeClassifiers, EdgeClassifier } from '../../../mechanics/CellEdgeClassifiers';
 import { coveredConsecutiveDirections } from '../../../mechanics/Consecutiveness';
 import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from '../../../mechanics/MapToImage';
 import { ActionTokenDispatch } from '../../game-state/ActionTokenDispatch';
-import { BoardDimensions } from '../../../meta-model/Board';
+import { type BoardDimensions } from '../../../meta-model/Board';
 import { CellOwner } from '../../../meta-model/CellOwner';
-import { Consecutive } from '../../../meta-model/GameView';
-import { ImageStack, ImageWithAlt } from '../image-stack/ImageStack';
+import { type Consecutive } from '../../../meta-model/GameView';
+import { ImageStack, type ImageWithAlt } from '../image-stack/ImageStack';
 
-import styles from './CellView.module.scss';
+import styles from './CellView.module.css';
 
 const grid = {
   value: 0.25,
@@ -30,7 +30,7 @@ interface Props {
   boardDimensions: Readonly<BoardDimensions>;
   cellAt: number;
   cellOwner: Readonly<CellOwner>;
-  consecutive: ReadonlyArray<Consecutive>;
+  consecutive: readonly Consecutive[];
 }
 
 export const CellView: FC<Props> = React.memo(

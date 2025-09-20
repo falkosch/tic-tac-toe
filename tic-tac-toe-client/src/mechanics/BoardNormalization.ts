@@ -1,14 +1,14 @@
 import {
   cellAtCoordinate,
-  CellCoordinates,
+  type CellCoordinates,
   forEachCellInLine,
   forEachLine,
-  LineDimensions,
-  LineIteratorsToCoordinates,
+  type LineDimensions,
+  type LineIteratorsToCoordinates,
 } from './CellCoordinates';
-import { Board, BoardDimensions } from '../meta-model/Board';
+import { type Board, type BoardDimensions } from '../meta-model/Board';
 import { CellOwner } from '../meta-model/CellOwner';
-import { Coordinates } from './Coordinates';
+import { type Coordinates } from './Coordinates';
 
 export interface BoardNormalization {
   mirroring: Coordinates<boolean>;
@@ -37,13 +37,13 @@ const countFreeCellsInRegion = (
 ): number => {
   let freeCells = 0;
 
-  forEachLine(lineDimensions, iteratorsToCoordinates, (lineDimension, iteratorToCoordinates) =>
+  forEachLine(lineDimensions, iteratorsToCoordinates, (lineDimension, iteratorToCoordinates) => {
     forEachCellInLine(board.dimensions, lineDimension, iteratorToCoordinates, (cellAt) => {
       if (board.cells[cellAt] === CellOwner.None) {
         freeCells += 1;
       }
-    }),
-  );
+    });
+  });
 
   return freeCells;
 };
@@ -128,12 +128,13 @@ export const transformBoardCells = (
       i: () => dimensions.width,
     },
     (j, i) => ({ x: i, y: j }),
-    (lineDimension, iteratorToCoordinates) =>
+    (lineDimension, iteratorToCoordinates) => {
       forEachCellInLine(dimensions, lineDimension, iteratorToCoordinates, (cellAt, coordinates) => {
         const transformedCoordinates = transformCoordinates(coordinates, dimensions, normalization);
         const transformedCellAt = cellAtCoordinate(transformedCoordinates, dimensions);
         transformedCells[transformedCellAt] = cells[cellAt];
-      }),
+      });
+    },
   );
 
   return transformedCells;

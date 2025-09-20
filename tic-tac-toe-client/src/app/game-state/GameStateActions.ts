@@ -1,11 +1,11 @@
-import { AddWinActionPayload } from './AddWinAction';
-import { EndGameActionPayload } from './EndGameAction';
-import { ResetWinsActionPayload } from './ResetWinsAction';
-import { SetActionTokenActionPayload } from './SetActionTokenAction';
-import { SetGameViewActionPayload } from './SetGameViewAction';
-import { SetWinnerActionPayload } from './SetWinnerAction';
-import { StartNewGameActionPayload } from './StartNewGameAction';
-import { UpdateGameActionPayload } from './UpdateGameAction';
+import { type AddWinActionPayload } from './AddWinAction';
+import { type EndGameActionPayload } from './EndGameAction';
+import { type ResetWinsActionPayload } from './ResetWinsAction';
+import { type SetActionTokenActionPayload } from './SetActionTokenAction';
+import { type SetGameViewActionPayload } from './SetGameViewAction';
+import { type SetWinnerActionPayload } from './SetWinnerAction';
+import { type StartNewGameActionPayload } from './StartNewGameAction';
+import { type UpdateGameActionPayload } from './UpdateGameAction';
 
 export enum GameStateActionType {
   AddWin = 'ADD_WIN',

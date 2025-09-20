@@ -1,6 +1,6 @@
 import { setGameView } from './SetGameViewAction';
-import { GameStateType } from './GameState';
-import { GameView } from '../../meta-model/GameView';
+import { type GameStateType } from './GameState';
+import { type GameView } from '../../meta-model/GameView';
 
 export interface UpdateGameActionPayload {
   gameView: Readonly<GameView>;

@@ -1,9 +1,9 @@
-import React, { FC, ReactElement, ReactNode } from 'react';
-import { render, RenderOptions, RenderResult } from '@testing-library/react';
+import React, { type FC, type ReactElement, type ReactNode } from 'react';
+import { render, type RenderOptions, type RenderResult } from '@testing-library/react';
 import { GameProvider } from '../app/context/GameContext';
-import { GameStateType, initialGameState } from '../app/game-state/GameState';
+import { type GameStateType, initialGameState } from '../app/game-state/GameState';
 import {
-  GameConfigurationType,
+  type GameConfigurationType,
   initialGameConfiguration,
 } from '../app/game-configuration/GameConfiguration';
 

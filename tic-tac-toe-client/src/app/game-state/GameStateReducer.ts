@@ -1,4 +1,4 @@
-import { Reducer } from 'react';
+import { type Reducer } from 'react';
 
 import { addWin } from './AddWinAction';
 import { endGame } from './EndGameAction';
@@ -8,8 +8,8 @@ import { setGameView } from './SetGameViewAction';
 import { setWinner } from './SetWinnerAction';
 import { startNewGame } from './StartNewGameAction';
 import { updateGame } from './UpdateGameAction';
-import { GameStateType } from './GameState';
-import { GameStateAction, GameStateActionType, assertNever } from './GameStateActions';
+import { type GameStateType } from './GameState';
+import { type GameStateAction, GameStateActionType, assertNever } from './GameStateActions';
 
 export type GameStateReducer = Reducer<GameStateType, GameStateAction>;
 

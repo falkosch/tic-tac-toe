@@ -1,5 +1,5 @@
-import { BoardDimensions } from '../meta-model/Board';
-import { Coordinates } from './Coordinates';
+import { type BoardDimensions } from '../meta-model/Board';
+import { type Coordinates } from './Coordinates';
 
 export type CellCoordinates = Coordinates<number>;
 
@@ -8,21 +8,19 @@ export interface LineDimensions {
   i: (atJ: number) => number;
 }
 
-export interface LineIteratorToCoordinates {
-  (i: number): CellCoordinates;
-}
+export type LineIteratorToCoordinates = (i: number) => CellCoordinates;
 
-export interface LineIteratorsToCoordinates {
-  (j: number, i: number): CellCoordinates;
-}
+export type LineIteratorsToCoordinates = (j: number, i: number) => CellCoordinates;
 
-export interface ForEachCellInLineCallback {
-  (cellAt: number, coordinates: Readonly<CellCoordinates>): void;
-}
+export type ForEachCellInLineCallback = (
+  cellAt: number,
+  coordinates: Readonly<CellCoordinates>,
+) => void;
 
-export interface ForEachLineCallback {
-  (lineDimension: number, iteratorToCoordinates: LineIteratorToCoordinates): void;
-}
+export type ForEachLineCallback = (
+  lineDimension: number,
+  iteratorToCoordinates: LineIteratorToCoordinates,
+) => void;
 
 export const cellCoordinates = (
   cellAt: number,

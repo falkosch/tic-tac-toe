@@ -1,11 +1,9 @@
-import { cellAtCoordinate, forEachLine, LineIteratorToCoordinates } from './CellCoordinates';
-import { Board } from '../meta-model/Board';
+import { cellAtCoordinate, forEachLine, type LineIteratorToCoordinates } from './CellCoordinates';
+import { type Board } from '../meta-model/Board';
 import { CellOwner } from '../meta-model/CellOwner';
-import { Consecutive, ConsecutiveDirection } from '../meta-model/GameView';
+import { type Consecutive, ConsecutiveDirection } from '../meta-model/GameView';
 
-interface ConsecutiveConsumer {
-  (nextConsecutive: Readonly<Consecutive>): void;
-}
+type ConsecutiveConsumer = (nextConsecutive: Readonly<Consecutive>) => void;
 
 const findInCellOwnerSpans = (
   consecutiveConsumer: ConsecutiveConsumer,
@@ -67,7 +65,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
       i: () => board.dimensions.width,
     },
     (j, i) => ({ x: i, y: j }),
-    (lineDimension, iteratorToCoordinates) =>
+    (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
         ConsecutiveDirection.Horizontal,
@@ -75,7 +73,8 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
         lineDimension,
         minimumSpan,
         iteratorToCoordinates,
-      ),
+      );
+    },
   );
 
   // find consecutive in each vertical span
@@ -85,7 +84,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
       i: () => board.dimensions.height,
     },
     (j, i) => ({ x: j, y: i }),
-    (lineDimension, iteratorToCoordinates) =>
+    (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
         ConsecutiveDirection.Vertical,
@@ -93,7 +92,8 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
         lineDimension,
         minimumSpan,
         iteratorToCoordinates,
-      ),
+      );
+    },
   );
 
   // find consecutive in each TL to BR diagonal span
@@ -104,7 +104,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
       i: (j: number) => Math.min(maxDiagonalLength, board.dimensions.width - j),
     },
     (j, i) => ({ x: j + i, y: i }),
-    (lineDimension, iteratorToCoordinates) =>
+    (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
         ConsecutiveDirection.DiagonalTL2BR,
@@ -112,7 +112,8 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
         lineDimension,
         minimumSpan,
         iteratorToCoordinates,
-      ),
+      );
+    },
   );
 
   // - j iterates from TL to BL
@@ -122,7 +123,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
       i: (j: number) => Math.min(maxDiagonalLength, board.dimensions.height - (j + 1)),
     },
     (j, i) => ({ x: i, y: j + 1 + i }),
-    (lineDimension, iteratorToCoordinates) =>
+    (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
         ConsecutiveDirection.DiagonalTL2BR,
@@ -130,7 +131,8 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
         lineDimension,
         minimumSpan,
         iteratorToCoordinates,
-      ),
+      );
+    },
   );
 
   // find consecutive in each TR to BL diagonal span
@@ -144,7 +146,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
       x: board.dimensions.width - 1 - (j + i),
       y: i,
     }),
-    (lineDimension, iteratorToCoordinates) =>
+    (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
         ConsecutiveDirection.DiagonalTR2BL,
@@ -152,7 +154,8 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
         lineDimension,
         minimumSpan,
         iteratorToCoordinates,
-      ),
+      );
+    },
   );
 
   // - j iterates from TR to BR
@@ -165,7 +168,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
       x: board.dimensions.width - 1 - i,
       y: j + 1 + i,
     }),
-    (lineDimension, iteratorToCoordinates) =>
+    (lineDimension, iteratorToCoordinates) => {
       findInCellOwnerSpans(
         consecutiveConsumer,
         ConsecutiveDirection.DiagonalTR2BL,
@@ -173,7 +176,8 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
         lineDimension,
         minimumSpan,
         iteratorToCoordinates,
-      ),
+      );
+    },
   );
 
   return consecutive;
@@ -181,7 +185,7 @@ export const findConsecutive = (board: Readonly<Board>, minimumSpan = 3): Consec
 
 export const coveredConsecutiveDirections = (
   cellAt: number,
-  consecutive: ReadonlyArray<Consecutive>,
+  consecutive: readonly Consecutive[],
 ): ConsecutiveDirection[] => {
   const directions: ConsecutiveDirection[] = [];
 

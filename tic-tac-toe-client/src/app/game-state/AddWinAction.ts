@@ -1,5 +1,5 @@
-import { GameStateType } from './GameState';
-import { SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type GameStateType } from './GameState';
+import { type SpecificCellOwner } from '../../meta-model/CellOwner';
 
 export interface AddWinActionPayload {
   player: Readonly<SpecificCellOwner> | undefined;

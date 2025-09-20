@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { createDefaultPlayerRegistry, PlayerRegistry } from '../../computer-players/PlayerRegistry';
 import { PlayerType } from '../game-configuration/GameConfiguration';
-import { PlayerCreator } from '../../meta-model/Player';
-import { AttackGameAction } from '../../meta-model/GameAction';
+import { type PlayerCreator } from '../../meta-model/Player';
+import { type AttackGameAction } from '../../meta-model/GameAction';
 
 interface UsePlayerRegistryReturn {
   registry: PlayerRegistry | null;
@@ -15,7 +15,7 @@ interface UsePlayerRegistryReturn {
 
 export const usePlayerRegistry = (
   onActionToken?: (
-    actionToken: (affectedCellsAt?: ReadonlyArray<number>, error?: Error) => void,
+    actionToken: (affectedCellsAt?: readonly number[], error?: Error) => void,
   ) => void,
 ): UsePlayerRegistryReturn => {
   const [registry, setRegistry] = useState<PlayerRegistry | null>(null);
@@ -26,7 +26,7 @@ export const usePlayerRegistry = (
     return async () => ({
       takeTurn: () =>
         new Promise<AttackGameAction>((resolve, reject) => {
-          const actionToken = (affectedCellsAt?: ReadonlyArray<number>, err?: Error): void => {
+          const actionToken = (affectedCellsAt?: readonly number[], err?: Error): void => {
             if (err) {
               reject(err);
             } else if (affectedCellsAt) {
@@ -68,16 +68,16 @@ export const usePlayerRegistry = (
   const playerCreators: Record<PlayerType, PlayerCreator> = {
     [PlayerType.Human]: createHumanPlayerCreator(),
     [PlayerType.Mock]:
-      registry?.create(PlayerType.Mock) ||
+      registry?.create(PlayerType.Mock) ??
       (() => Promise.reject(new Error('Mock player not available'))),
     [PlayerType.DQN]:
-      registry?.create(PlayerType.DQN) ||
+      registry?.create(PlayerType.DQN) ??
       (() => Promise.reject(new Error('DQN player not available'))),
     [PlayerType.Menace]:
-      registry?.create(PlayerType.Menace) ||
+      registry?.create(PlayerType.Menace) ??
       (() => Promise.reject(new Error('Menace player not available'))),
     [PlayerType.Azure]:
-      registry?.create(PlayerType.Azure) ||
+      registry?.create(PlayerType.Azure) ??
       (() => Promise.reject(new Error('Azure player not available'))),
   };
 

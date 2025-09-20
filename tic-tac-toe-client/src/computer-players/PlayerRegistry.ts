@@ -1,4 +1,4 @@
-import { PlayerCreator } from '../meta-model/Player';
+import { type PlayerCreator } from '../meta-model/Player';
 import { PlayerType } from '../app/game-configuration/GameConfiguration';
 
 export interface PlayerRegistryInterface {

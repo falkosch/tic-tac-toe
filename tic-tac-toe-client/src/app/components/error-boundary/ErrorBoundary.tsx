@@ -1,7 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -20,33 +17,43 @@ interface ErrorFallbackProps {
 }
 
 const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onRetry }) => (
-  <Container className="mt-4">
-    <Alert variant="danger">
-      <Alert.Heading>Oops! Something went wrong</Alert.Heading>
-      <p>
+  <div className="mx-auto mt-4 max-w-4xl p-4">
+    <div className="rounded-lg border border-red-200 bg-red-50 p-6">
+      <h2 className="mb-4 text-xl font-semibold text-red-800">Oops! Something went wrong</h2>
+      <p className="mb-4 text-red-700">
         The game encountered an unexpected error. This might be due to an issue with AI players or
         game logic.
       </p>
       {error && (
         <details className="mt-3">
-          <summary style={{ cursor: 'pointer' }}>Error Details</summary>
-          <pre className="mt-2" style={{ fontSize: '0.85em', whiteSpace: 'pre-wrap' }}>
+          <summary className="cursor-pointer text-red-700 hover:text-red-900">
+            Error Details
+          </summary>
+          <pre className="mt-2 overflow-auto rounded border bg-red-100 p-3 text-sm whitespace-pre-wrap">
             {error.message}
             {error.stack && `\n\n${error.stack}`}
           </pre>
         </details>
       )}
-      <hr />
-      <div className="d-flex gap-2">
-        <Button variant="outline-danger" onClick={onRetry}>
+      <hr className="my-4 border-red-200" />
+      <div className="flex gap-3">
+        <button
+          className="rounded-md border border-red-300 bg-white px-4 py-2 text-red-600 hover:bg-red-50 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+          onClick={onRetry}
+        >
           Try Again
-        </Button>
-        <Button variant="outline-secondary" onClick={() => window.location.reload()}>
+        </button>
+        <button
+          className="rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-600 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
           Reload Page
-        </Button>
+        </button>
       </div>
-    </Alert>
-  </Container>
+    </div>
+  </div>
 );
 
 export class GameErrorBoundary extends Component<Props, State> {
@@ -88,13 +95,18 @@ export class GameErrorBoundary extends Component<Props, State> {
 }
 
 const AIErrorFallback: React.FC<{ retry: () => void }> = ({ retry }) => (
-  <Alert variant="warning">
-    <Alert.Heading>AI Player Error</Alert.Heading>
-    <p>The AI player encountered an error. You can try again or switch to a different AI player.</p>
-    <Button variant="outline-warning" onClick={retry}>
+  <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-6">
+    <h3 className="mb-2 text-lg font-semibold text-yellow-800">AI Player Error</h3>
+    <p className="mb-4 text-yellow-700">
+      The AI player encountered an error. You can try again or switch to a different AI player.
+    </p>
+    <button
+      className="rounded-md border border-yellow-300 bg-white px-4 py-2 text-yellow-600 hover:bg-yellow-50 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:outline-none"
+      onClick={retry}
+    >
       Retry AI Move
-    </Button>
-  </Alert>
+    </button>
+  </div>
 );
 
 interface AIErrorBoundaryProps {
@@ -116,7 +128,7 @@ export const AIErrorBoundary: React.FC<AIErrorBoundaryProps> = ({
   );
 
   const fallbackComponent = React.useCallback(
-    (error: Error, retry: () => void) => <AIErrorFallback retry={retry} />,
+    (_error: Error, retry: () => void) => <AIErrorFallback retry={retry} />,
     [],
   );
 

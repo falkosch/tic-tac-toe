@@ -1,4 +1,4 @@
-import { BrainStatistics } from '../ai-agent/StorableAgent';
+import { type BrainStatistics } from '../ai-agent/StorableAgent';
 
 export interface PlayedMove {
   bead: number;

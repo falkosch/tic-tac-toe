@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 
-import { CellOwner, SpecificCellOwner } from '../../../meta-model/CellOwner';
-import { Points } from '../../../meta-model/GameView';
+import { CellOwner, type SpecificCellOwner } from '../../../meta-model/CellOwner';
+import { type Points } from '../../../meta-model/GameView';
 
-import styles from './WinnerView.module.scss';
+import styles from './WinnerView.module.css';
 
 const representsError = (value: unknown): boolean => {
   return value instanceof Error;

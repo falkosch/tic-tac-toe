@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { ImageStack, ImageWithAlt } from './ImageStack';
+import { ImageStack, type ImageWithAlt } from './ImageStack';
 
-describe(`${ImageStack.name}`, () => {
-  let images: ReadonlyArray<ImageWithAlt>;
+describe(ImageStack.name, () => {
+  let images: readonly ImageWithAlt[];
 
   beforeEach(() => {
     images = [];

@@ -1,10 +1,10 @@
-import React, { FC, useMemo } from 'react';
+import React, { type FC, useMemo } from 'react';
 
 import { CellView } from '../cell-view/CellView';
-import { GameView as ModelGameView } from '../../../meta-model/GameView';
+import { type GameView as ModelGameView } from '../../../meta-model/GameView';
 import { CellOwner } from '../../../meta-model/CellOwner';
 
-import styles from './GameView.module.scss';
+import styles from './GameView.module.css';
 
 interface Props {
   gameView: Readonly<ModelGameView>;
@@ -17,7 +17,6 @@ interface CellData {
   isWinning: boolean;
 }
 
-/* eslint-disable react/prop-types */
 export const GameView: FC<Props> = React.memo(({ gameView }) => {
   const memoizedCells = useMemo((): CellData[] => {
     return gameView.board.cells.map((cellOwner, cellAt) => ({
@@ -29,7 +28,7 @@ export const GameView: FC<Props> = React.memo(({ gameView }) => {
   }, [gameView.board.cells, gameView.consecutive]);
 
   return (
-    <div className={`${styles.view} d-flex flex-row flex-wrap border-secondary bg-light p-2`}>
+    <div className={`${styles.view} flex flex-row flex-wrap border-gray-300 bg-gray-100 p-2`}>
       {memoizedCells.map((cell) => (
         <CellView
           key={`c${cell.cellAt}`}

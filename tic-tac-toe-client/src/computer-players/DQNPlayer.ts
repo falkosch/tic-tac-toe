@@ -1,11 +1,11 @@
 import { findReinforcedDecision } from './reinforcement-learning/ReinforcedAgent';
 import { getDQNReinforcedAgent } from './reinforcement-learning/DQNReinforcedAgent';
 import { notifyEndState } from './ai-agent/AIAgent';
-import { AttackGameAction } from '../meta-model/GameAction';
-import { GameEndState } from '../meta-model/GameEndState';
-import { PlayerCreator } from '../meta-model/Player';
-import { PlayerTurn } from '../meta-model/PlayerTurn';
-import { SpecificCellOwner } from '../meta-model/CellOwner';
+import { type AttackGameAction } from '../meta-model/GameAction';
+import { type GameEndState } from '../meta-model/GameEndState';
+import { type PlayerCreator } from '../meta-model/Player';
+import { type PlayerTurn } from '../meta-model/PlayerTurn';
+import { type SpecificCellOwner } from '../meta-model/CellOwner';
 
 export const createDQNPlayer: PlayerCreator = async () => ({
   async takeTurn(playerTurn: Readonly<PlayerTurn>): Promise<AttackGameAction> {

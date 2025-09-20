@@ -1,13 +1,16 @@
 import { CellOwner } from '../meta-model/CellOwner';
-import { Board } from '../meta-model/Board';
-import { GameView, ConsecutiveDirection } from '../meta-model/GameView';
-import { GameStateType } from '../app/game-state/GameState';
-import { GameConfigurationType, PlayerType } from '../app/game-configuration/GameConfiguration';
-import { Player } from '../meta-model/Player';
+import { type Board } from '../meta-model/Board';
+import { type GameView, ConsecutiveDirection } from '../meta-model/GameView';
+import { type GameStateType } from '../app/game-state/GameState';
+import {
+  type GameConfigurationType,
+  PlayerType,
+} from '../app/game-configuration/GameConfiguration';
+import { type Player } from '../meta-model/Player';
 
 export const createMockBoard = (cells?: string[]): Board => ({
   dimensions: { width: 3, height: 3 },
-  cells: cells || Array(9).fill(CellOwner.None),
+  cells: cells ?? Array(9).fill(CellOwner.None),
 });
 
 export const createMockGameView = (overrides: Partial<GameView> = {}): GameView => ({
@@ -43,10 +46,10 @@ export const createMockGameConfiguration = (
 });
 
 export const createMockPlayer = (): Player => ({
-  takeTurn: jest.fn().mockResolvedValue({ affectedCellsAt: [0] }),
-  onGameStart: jest.fn().mockResolvedValue(undefined),
-  onGameEnd: jest.fn().mockResolvedValue(undefined),
-  onGameViewUpdate: jest.fn().mockResolvedValue(undefined),
+  takeTurn: vi.fn().mockResolvedValue({ affectedCellsAt: [0] }),
+  onGameStart: vi.fn().mockResolvedValue(undefined),
+  onGameEnd: vi.fn().mockResolvedValue(undefined),
+  onGameViewUpdate: vi.fn().mockResolvedValue(undefined),
 });
 
 export const createWinningGameView = (winner: CellOwner.X | CellOwner.O): GameView => {

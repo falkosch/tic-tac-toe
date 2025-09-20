@@ -1,21 +1,19 @@
 import { cellAtCoordinate, cellCoordinates } from '../../mechanics/CellCoordinates';
 import {
-  BoardNormalization,
+  type BoardNormalization,
   determineBoardNormalization,
   inverseNormalization,
   transformCoordinates,
 } from '../../mechanics/BoardNormalization';
-import { Board, BoardDimensions } from '../../meta-model/Board';
-import { SpecificCellOwner } from '../../meta-model/CellOwner';
-import { Decision } from './Decision';
-import { GameEndState } from '../../meta-model/GameEndState';
+import { type Board, type BoardDimensions } from '../../meta-model/Board';
+import { type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type Decision } from './Decision';
+import { type GameEndState } from '../../meta-model/GameEndState';
 
-export interface AIAgentCreator<AIAgentType> {
-  (
-    cellOwner: Readonly<SpecificCellOwner>,
-    boardDimensions: Readonly<BoardDimensions>,
-  ): Promise<AIAgentType>;
-}
+export type AIAgentCreator<AIAgentType> = (
+  cellOwner: Readonly<SpecificCellOwner>,
+  boardDimensions: Readonly<BoardDimensions>,
+) => Promise<AIAgentType>;
 
 export interface NormalizedStateSpace {
   dimensions: Readonly<BoardDimensions>;

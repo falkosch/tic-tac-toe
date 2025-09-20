@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 
-import styles from './ImageStack.module.scss';
+import styles from './ImageStack.module.css';
 
 export interface ImageWithAlt {
   src: string;
@@ -8,7 +8,7 @@ export interface ImageWithAlt {
 }
 
 export const ImageStack: FC<{
-  images: ReadonlyArray<ImageWithAlt>;
+  images: readonly ImageWithAlt[];
 }> = ({ images }) => (
   <div className={`${styles.top} position-absolute h-100 w-100`}>
     {images.map((image, index) => {
