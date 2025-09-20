@@ -48,5 +48,4 @@ export const renderWithProviders = (
   return render(component, { wrapper: Wrapper, ...renderOptions });
 };
 
-export * from '@testing-library/react';
 export { renderWithProviders as render };

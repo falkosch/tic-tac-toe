@@ -63,8 +63,8 @@ const sleep = (ms: number): Promise<void> =>
  */
 const retryWithBackoff = async <T>(
   operation: () => Promise<T>,
-  maxRetries: number = AZURE_FUNCTION_CONFIG.MAX_RETRIES,
-  baseDelay: number = AZURE_FUNCTION_CONFIG.BASE_DELAY_MS,
+  maxRetries = AZURE_FUNCTION_CONFIG.MAX_RETRIES,
+  baseDelay = AZURE_FUNCTION_CONFIG.BASE_DELAY_MS,
 ): Promise<T> => {
   let lastError: Error;
   let attempt = 0;
@@ -103,10 +103,10 @@ const retryWithBackoff = async <T>(
     }
   }
 
-  throw lastError!;
+  throw lastError;
 };
 
-export const createAzureFunctionPlayer: PlayerCreator = async () => {
+export const createAzureFunctionPlayer: PlayerCreator = () => {
   // Check if Azure Function is configured
   if (!isAzureFunctionAvailable()) {
     throw new Error(
@@ -114,7 +114,7 @@ export const createAzureFunctionPlayer: PlayerCreator = async () => {
     );
   }
 
-  return {
+  return Promise.resolve({
     /**
      * Posts the current game state in {@code playerTurn} to the Azure Function
      * {@code fstictactoegame}. The Azure function reacts on the game state by deciding for a
@@ -123,7 +123,10 @@ export const createAzureFunctionPlayer: PlayerCreator = async () => {
     async takeTurn(playerTurn: Readonly<PlayerTurn>): Promise<AttackGameAction> {
       try {
         return await retryWithBackoff(async () => {
-          const response = await axiosInstance.post(AZURE_FUNCTION_CONFIG.API_ENDPOINT, playerTurn);
+          const response = await axiosInstance.post<AttackGameAction>(
+            AZURE_FUNCTION_CONFIG.API_ENDPOINT,
+            playerTurn,
+          );
           return response.data;
         });
       } catch (error) {
@@ -133,5 +136,5 @@ export const createAzureFunctionPlayer: PlayerCreator = async () => {
         throw error;
       }
     },
-  };
+  });
 };

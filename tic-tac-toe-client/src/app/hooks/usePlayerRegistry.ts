@@ -30,24 +30,26 @@ export const usePlayerRegistry = (
   const [error, setError] = useState<Error | null>(null);
 
   const createHumanPlayerCreator = useCallback((): PlayerCreator => {
-    return async () => ({
-      takeTurn: () =>
-        new Promise<AttackGameAction>((resolve, reject) => {
-          const actionToken = (affectedCellsAt?: readonly number[], err?: Error): void => {
-            if (err) {
-              reject(err);
-            } else if (affectedCellsAt) {
-              resolve({ affectedCellsAt });
-            } else {
-              resolve({ affectedCellsAt: [] });
-            }
-          };
+    return () => {
+      return Promise.resolve({
+        takeTurn: () =>
+          new Promise<AttackGameAction>((resolve, reject) => {
+            const actionToken = (affectedCellsAt?: readonly number[], err?: Error): void => {
+              if (err) {
+                reject(err);
+              } else if (affectedCellsAt) {
+                resolve({ affectedCellsAt });
+              } else {
+                resolve({ affectedCellsAt: [] });
+              }
+            };
 
-          if (onActionToken) {
-            onActionToken(actionToken);
-          }
-        }),
-    });
+            if (onActionToken) {
+              onActionToken(actionToken);
+            }
+          }),
+      });
+    };
   }, [onActionToken]);
 
   useEffect(() => {

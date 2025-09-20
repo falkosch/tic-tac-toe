@@ -47,7 +47,7 @@ export const WinnerView: FC<{
     <div className={styles.winner}>
       {representsDraw(winner) && <>It&apos;s a draw!</>}
       {representsSpecificWinner(winner) &&
-        `Winner is ${winner} and has ${wins[winner as SpecificCellOwner]} wins so far.`}
+        `Winner is ${winner} and has ${wins[winner]} wins so far.`}
     </div>
   </div>
 );
