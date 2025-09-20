@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type AttackGameAction } from '../meta-model/GameAction';
 import { type PlayerTurn } from '../meta-model/PlayerTurn';
 import { CellOwner } from '../meta-model/CellOwner';
@@ -61,7 +62,7 @@ describe('AzureFunctionPlayer', () => {
     mockAxios.create.mockReturnValue(mockAxiosInstance);
 
     // Set up isAxiosError to work properly
-    mockAxios.isAxiosError.mockImplementation((error) => {
+    mockAxios.isAxiosError.mockImplementation((error: unknown) => {
       return error?.constructor && error.constructor.name === 'AxiosError';
     });
 

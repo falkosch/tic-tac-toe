@@ -70,7 +70,7 @@ const joinPlayers = (joiningPlayers: Readonly<JoiningPlayers>): Promise<JoinedPl
 };
 
 const isWithdrawAction = (action: Readonly<AttackGameAction>): boolean => {
-  return !action.affectedCellsAt || action.affectedCellsAt.length === 0;
+  return action.affectedCellsAt.length === 0;
 };
 
 const makeDrawEndState = (

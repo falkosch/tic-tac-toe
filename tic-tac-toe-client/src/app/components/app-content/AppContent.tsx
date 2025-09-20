@@ -1,4 +1,4 @@
-import React, { type FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { type SpecificCellOwner } from '../../../meta-model/CellOwner';
 import { AIErrorBoundary } from '../error-boundary/ErrorBoundary';

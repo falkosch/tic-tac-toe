@@ -1,11 +1,7 @@
 import { CellOwner } from '../../meta-model/CellOwner';
 import { type GameView, type Points } from '../../meta-model/GameView';
 
-export interface ActionToken {
-  (affectedCellsAt: readonly number[], error?: Readonly<Error>): void;
-
-  (): void;
-}
+export type ActionToken = (affectedCellsAt?: readonly number[], error?: Readonly<Error>) => void;
 
 export interface GameStateType {
   actionToken?: ActionToken;

@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from './App';
 import { PlayerType } from './game-configuration/GameConfiguration';
 
-describe(App.name, () => {
+describe('App', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {

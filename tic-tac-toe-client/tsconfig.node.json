@@ -29,9 +29,5 @@
   "include": [
     "vite.config.mts",
     "eslint.config.mts",
-    "src/setupTests.ts",
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx",
-    "src/test-utils/**/*",
   ]
 }

@@ -1,12 +1,11 @@
 import { render } from '@testing-library/react';
-import React from 'react';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, it } from 'vitest';
 
 import { CellOwner } from '../../../meta-model/CellOwner';
 import { type Points } from '../../../meta-model/GameView';
 import { WinnerView } from './WinnerView';
 
-describe(WinnerView.name, () => {
+describe('WinnerView', () => {
   let winner: Readonly<CellOwner>;
   let wins: Readonly<Points>;
 

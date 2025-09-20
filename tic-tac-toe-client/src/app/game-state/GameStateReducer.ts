@@ -9,7 +9,7 @@ import { setWinner } from './SetWinnerAction';
 import { startNewGame } from './StartNewGameAction';
 import { updateGame } from './UpdateGameAction';
 import { type GameStateType } from './GameState';
-import { type GameStateAction, GameStateActionType, assertNever } from './GameStateActions';
+import { assertNever, type GameStateAction, GameStateActionType } from './GameStateActions';
 
 export type GameStateReducer = Reducer<GameStateType, GameStateAction>;
 

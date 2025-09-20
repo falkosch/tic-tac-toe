@@ -1,12 +1,11 @@
 import { render } from '@testing-library/react';
-import React from 'react';
-import { describe, it, beforeEach } from 'vitest';
+import { beforeEach, describe, it } from 'vitest';
 
 import { CellView } from './CellView';
 import { type BoardDimensions } from '../../../meta-model/Board';
 import { CellOwner } from '../../../meta-model/CellOwner';
 
-describe(CellView.name, () => {
+describe('CellView', () => {
   let boardDimensions: BoardDimensions;
   let cellOwner: CellOwner;
 

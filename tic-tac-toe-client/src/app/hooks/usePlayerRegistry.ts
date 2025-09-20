@@ -62,7 +62,7 @@ export const usePlayerRegistry = (
       }
     };
 
-    initializeRegistry();
+    initializeRegistry().catch(console.error);
   }, []);
 
   const playerCreators: Record<PlayerType, PlayerCreator> = {

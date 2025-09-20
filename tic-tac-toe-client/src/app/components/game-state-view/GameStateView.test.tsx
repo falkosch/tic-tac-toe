@@ -1,12 +1,11 @@
 import { render } from '@testing-library/react';
-import React from 'react';
-import { describe, it, beforeEach } from 'vitest';
+import { beforeEach, describe, it } from 'vitest';
 
 import { CellOwner } from '../../../meta-model/CellOwner';
 import { type GameStateType } from '../../game-state/GameState';
 import { GameStateView } from './GameStateView';
 
-describe(GameStateView.name, () => {
+describe('GameStateView', () => {
   let gameState: GameStateType;
 
   beforeEach(() => {

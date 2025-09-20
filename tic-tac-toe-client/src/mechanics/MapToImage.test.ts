@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { CellOwner } from '../meta-model/CellOwner';
 import { ConsecutiveDirection } from '../meta-model/GameView';
 

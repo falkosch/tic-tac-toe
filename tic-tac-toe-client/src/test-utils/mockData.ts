@@ -1,6 +1,7 @@
+import { vi } from 'vitest';
 import { CellOwner } from '../meta-model/CellOwner';
 import { type Board } from '../meta-model/Board';
-import { type GameView, ConsecutiveDirection } from '../meta-model/GameView';
+import { ConsecutiveDirection, type GameView } from '../meta-model/GameView';
 import { type GameStateType } from '../app/game-state/GameState';
 import {
   type GameConfigurationType,
