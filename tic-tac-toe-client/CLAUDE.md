@@ -146,7 +146,7 @@ interface Player {
 
 ### Build Process
 
-- **Development**: `npm start` - Vite dev server with hot module replacement
+- **Development**: `npm start` - Vite dev server with hot module replacement, go to http://localhost:5173/
 - **Production**: `npm run build` - Vite optimized production build
 - **Preview**: `npm run serve` - Preview production builds locally
 - **Quality Gates**: All linting must pass before deployment
@@ -262,3 +262,11 @@ const createNetworkError = (originalError: AxiosError): Error => {
 - Connection: "Cannot connect to Azure Function service. Please check your network."
 
 This comprehensive error handling approach ensures the application remains stable and user-friendly even when external dependencies fail.
+
+
+## Important Instruction Reminders
+
+- Do what has been asked; nothing more, nothing less.
+- NEVER create files unless they're absolutely necessary for achieving your goal.
+- ALWAYS prefer editing an existing file to creating a new one.
+- NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.

@@ -6,12 +6,12 @@ A React Tic Tac Toe game where you can battle against different AI opponents or 
 
 Ever wondered if you could beat a neural network at tic-tac-toe? Now you can find out! This game features several AI players:
 
-- **DQN Player** - A Deep Q-Network that learns through reinforcement learning, using by [mvrahden's reinforce-js](https://github.com/mvrahden/reinforce-js).
-- **Menace Player** - The classic "matchbox" AI by Donald Michie's 1960s concept, implementation inspired by [andrewmccarthy's Python version](https://github.com/andrewmccarthy/menace).
-- **Azure AI** - Remote AI player (when configured)
-- **Mock Player** - Random moves for testing
+- **DQN Player** — A Deep Q-Network that learns through reinforcement learning, using [mvrahden's reinforce-js](https://github.com/mvrahden/reinforce-js).
+- **Menace Player** — The classic "matchbox" AI based on Donald Michie's 1960s concept, implementation inspired by [andrewmccarthy's Python version](https://github.com/andrewmccarthy/menace).
+- **Azure AI** — Remote AI player (when configured)
+- **Mock Player** — Random moves for testing
 
-You can play as human vs AI or even set up AI vs AI to see which AI reigns supreme.
+You can play as human vs. AI or even set up AI vs. AI to see which AI reigns supreme.
 
 ## Quick Start
 
@@ -26,7 +26,7 @@ You can play as human vs AI or even set up AI vs AI to see which AI reigns supre
 1. Choose your player types (Human or pick an AI)
 2. Click on the board to make moves when it is your turn
 3. Watch the AIs think and make their moves
-4. Enable "Auto Game" to watch AI vs AI battles
+4. Enable "Auto Game" to watch AI vs. AI battles
 
 That's it! Have fun and see if you can outsmart the machines. 🤖
 
@@ -36,7 +36,7 @@ Built with React 19, TypeScript, Vite, and TailwindCSS.
 
 ## Credits
 
-DQN player implementation by mvrahden's reinforce-js.
+DQN player uses mvrahden's reinforce-js library.
 
 Menace Matchboxes Engine based on andrewmccarthy's Python version.
 
