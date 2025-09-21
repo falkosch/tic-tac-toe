@@ -3,13 +3,11 @@ import { type FC, useCallback } from 'react';
 import { type SpecificCellOwner } from '../../../meta-model/CellOwner';
 import { AIErrorBoundary } from '../error-boundary/ErrorBoundary';
 import { GameStateView } from '../game-state-view/GameStateView';
-import { Header } from '../header/Header';
+import { AppHeader } from '../app-header/AppHeader.tsx';
 import { useGameConfiguration, useGameState } from '../../context/GameContext';
 import { useGameController } from '../../hooks/useGameController';
 import { usePlayerRegistry } from '../../hooks/usePlayerRegistry';
-
-import styles from './AppContent.module.css';
-import { PlayerDropdown } from './PlayerDropdown.tsx';
+import { PlayerDropdown } from '../player-dropdown/PlayerDropdown.tsx';
 import { GameStateActionTypeSetActionToken } from '../../game-state/GameStateActions.ts';
 
 export const AppContent: FC = () => {
@@ -33,58 +31,53 @@ export const AppContent: FC = () => {
 
   if (isLoading) {
     return (
-      <div className={`${styles.view} flex h-full flex-col items-center justify-center`}>
-        <div>Loading players...</div>
-      </div>
+      <div className="flex h-full flex-col items-center justify-center">Loading players...</div>
     );
   }
 
   if (error) {
     return (
-      <div className={`${styles.view} flex h-full flex-col items-center justify-center`}>
-        <div className="text-red-600">Error initializing players: {error.message}</div>
+      <div className="flex h-full flex-col items-center justify-center text-red-700">
+        Error initializing players: {error.message}
       </div>
     );
   }
 
   return (
-    <div className={`${styles.view} flex h-full flex-col`}>
-      <Header>
-        <div className="flex flex-col gap-4 md:flex-row md:items-center">
-          <button
-            className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400"
-            disabled={!canCreateNewGame()}
-            onClick={onCreateNewGame}
-          >
-            New game
-          </button>
+    <div className="flex h-full flex-col">
+      <AppHeader>
+        <button
+          className="rounded-md bg-white px-3 py-2 text-black shadow-sm shadow-indigo-500 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-35"
+          disabled={!canCreateNewGame()}
+          onClick={onCreateNewGame}
+        >
+          New game
+        </button>
 
-          <div className="flex flex-col gap-4 md:flex-row">
-            {Object.keys(configuration.playerTypes).map((cellOwnerKey) => (
-              <PlayerDropdown
-                key={cellOwnerKey}
-                cellOwner={cellOwnerKey as SpecificCellOwner}
-                currentPlayerType={configuration.playerTypes[cellOwnerKey as SpecificCellOwner]}
-                playerCreators={playerCreators}
-                onPlayerTypeChange={changePlayerType}
-              />
-            ))}
-          </div>
+        {Object.keys(configuration.playerTypes).map((cellOwnerKey) => (
+          <PlayerDropdown
+            key={cellOwnerKey}
+            cellOwner={cellOwnerKey as SpecificCellOwner}
+            currentPlayerType={configuration.playerTypes[cellOwnerKey as SpecificCellOwner]}
+            playerCreators={playerCreators}
+            onPlayerTypeChange={changePlayerType}
+          />
+        ))}
 
-          <div className="flex items-center">
-            <label className="flex cursor-pointer items-center space-x-2">
-              <input
-                id="autoNewGame"
-                type="checkbox"
-                checked={configuration.autoNewGame}
-                onChange={toggleAutoNewGame}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">Auto new game</span>
-            </label>
-          </div>
-        </div>
-      </Header>
+        <label
+          className="flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 text-black hover:bg-gray-300"
+          htmlFor="autoNewGame"
+        >
+          <input
+            className="focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+            id="autoNewGame"
+            type="checkbox"
+            checked={configuration.autoNewGame}
+            onChange={toggleAutoNewGame}
+          />
+          <span>Auto new game</span>
+        </label>
+      </AppHeader>
       <AIErrorBoundary>
         <GameStateView gameState={gameState} />
       </AIErrorBoundary>

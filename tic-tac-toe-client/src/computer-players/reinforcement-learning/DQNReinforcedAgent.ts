@@ -126,7 +126,7 @@ export const getDQNReinforcedAgent: AIAgentCreator<ReinforcedAgent> = async (
 ) => {
   const { height, width } = boardDimensions;
   const cellCount = width * height;
-  const id = `dqn-${cellOwner}-${width}x${height}-${cellCount}-${cellCount}`;
+  const id = `dqn-${cellOwner}-${width.toFixed()}x${height.toFixed()}-${cellCount.toFixed()}-${cellCount.toFixed()}`;
   const agentData = await loadBrainAndStatistics(id, () =>
     createSolver(width, height, cellCount, cellCount),
   );

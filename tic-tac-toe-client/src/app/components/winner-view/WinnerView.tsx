@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { type AxiosError } from 'axios';
 
 import {
   type CellOwner,
@@ -8,9 +9,6 @@ import {
   type SpecificCellOwner,
 } from '../../../meta-model/CellOwner';
 import { type Points } from '../../../meta-model/GameView';
-
-import styles from './WinnerView.module.css';
-import { type AxiosError } from 'axios';
 
 const representsError = (value: unknown): value is Error => {
   return value instanceof Error;
@@ -34,20 +32,25 @@ const representsSpecificWinner = (value: unknown): value is SpecificCellOwner =>
 export const WinnerView: FC<{
   winner?: Readonly<CellOwner> | Error;
   wins: Readonly<Points>;
-}> = ({ winner = undefined, wins }) => (
-  <div className={styles.view}>
-    <div className={styles.error}>
-      {representsError(winner) &&
-        representsAxiosError(winner) &&
-        'Azure player is not available, because the backend is not reachable. Please try another player type.'}
-      {representsError(winner) &&
-        !representsAxiosError(winner) &&
-        `Something unexpected happened: ${winner}`}
+}> = ({ winner = undefined, wins }) => {
+  return (
+    <div className="text-4xl">
+      {representsAxiosError(winner) && (
+        <span className="text-red-700">
+          Azure player is not available, because the backend is not reachable. Please try another
+          player type.
+        </span>
+      )}
+      {representsError(winner) && (
+        <span className="text-red-700">Something unexpected happened: {winner.message}</span>
+      )}
+
+      {representsDraw(winner) && <span className="text-yellow-700">It&apos;s a draw!</span>}
+      {representsSpecificWinner(winner) && (
+        <span className="text-yellow-700">
+          Winner is {winner} and has {wins[winner].toFixed()} wins so far.
+        </span>
+      )}
     </div>
-    <div className={styles.winner}>
-      {representsDraw(winner) && <>It&apos;s a draw!</>}
-      {representsSpecificWinner(winner) &&
-        `Winner is ${winner} and has ${wins[winner]} wins so far.`}
-    </div>
-  </div>
-);
+  );
+};

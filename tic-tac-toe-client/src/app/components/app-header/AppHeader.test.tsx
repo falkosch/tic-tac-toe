@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import { describe, it } from 'vitest';
 
-import { Header } from './Header';
+import { AppHeader } from './AppHeader.tsx';
 
-describe('Header', () => {
+describe('AppHeader', () => {
   it('renders without crashing', () => {
-    render(<Header />);
+    render(<AppHeader />);
   });
 });

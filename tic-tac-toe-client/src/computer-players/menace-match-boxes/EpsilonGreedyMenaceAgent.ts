@@ -79,7 +79,7 @@ const learn = (learnPolicy: LearnPolicy, getMenaceMemory: () => StorableMenaceAg
 };
 
 export const getMenaceAgent: AIAgentCreator<MenaceAgent> = async (cellOwner, boardDimensions) => {
-  const id = `menace-${cellOwner}-${boardDimensions.width}x${boardDimensions.height}`;
+  const id = `menace-${cellOwner}-${boardDimensions.width.toFixed()}x${boardDimensions.height.toFixed()}`;
   const menaceMemory = await loadMenaceAgent(id);
 
   const persist = (): Promise<void> => {
