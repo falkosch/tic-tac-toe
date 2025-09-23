@@ -1,8 +1,9 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { renderWithProviders } from '../../../test-utils/testUtils';
+
+import { CellOwnerNone, CellOwnerX } from '../../../meta-model/CellOwner';
 import { createMockGameView, createWinningGameView } from '../../../test-utils/mockData';
-import { CellOwner } from '../../../meta-model/CellOwner';
+import { renderWithProviders } from '../../../test-utils/testUtils';
 import { GameView } from './GameView';
 
 describe('GameView', () => {
@@ -20,7 +21,7 @@ describe('GameView', () => {
   });
 
   it('displays winning state correctly', () => {
-    const gameView = createWinningGameView(CellOwner.X);
+    const gameView = createWinningGameView(CellOwnerX);
     renderWithProviders(<GameView gameView={gameView} />);
 
     const cells = screen.getAllByRole('button');
@@ -31,7 +32,7 @@ describe('GameView', () => {
     const gameView = createMockGameView({
       board: {
         dimensions: { width: 3, height: 3 },
-        cells: Array(9).fill(CellOwner.None),
+        cells: Array(9).fill(CellOwnerNone),
       },
     });
 

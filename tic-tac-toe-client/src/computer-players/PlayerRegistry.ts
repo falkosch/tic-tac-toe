@@ -1,5 +1,11 @@
+import {
+  type PlayerType,
+  PlayerTypeAzure,
+  PlayerTypeDQN,
+  PlayerTypeMenace,
+  PlayerTypeMock,
+} from '../app/game-configuration/PlayerType.ts';
 import { type PlayerCreator } from '../meta-model/Player';
-import { PlayerType } from '../app/game-configuration/GameConfiguration';
 
 export interface PlayerRegistryInterface {
   register(type: PlayerType, creator: PlayerCreator): void;
@@ -32,14 +38,6 @@ export class PlayerRegistry implements PlayerRegistryInterface {
   isRegistered(type: PlayerType): boolean {
     return this.players.has(type);
   }
-
-  createAll(): Record<PlayerType, PlayerCreator> {
-    const result = {} as Record<PlayerType, PlayerCreator>;
-    this.players.forEach((creator, type) => {
-      result[type] = creator;
-    });
-    return result;
-  }
 }
 
 export const createDefaultPlayerRegistry = async (): Promise<PlayerRegistry> => {
@@ -55,10 +53,10 @@ export const createDefaultPlayerRegistry = async (): Promise<PlayerRegistry> => 
     ]);
 
     // Register all available players
-    registry.register(PlayerType.Mock, mockModule.createMockPlayer);
-    registry.register(PlayerType.DQN, dqnModule.createDQNPlayer);
-    registry.register(PlayerType.Menace, menaceModule.createMenacePlayer);
-    registry.register(PlayerType.Azure, azureModule.createAzureFunctionPlayer);
+    registry.register(PlayerTypeMock, mockModule.createMockPlayer);
+    registry.register(PlayerTypeDQN, dqnModule.createDQNPlayer);
+    registry.register(PlayerTypeMenace, menaceModule.createMenacePlayer);
+    registry.register(PlayerTypeAzure, azureModule.createAzureFunctionPlayer);
   } catch (error) {
     console.error('Failed to load player modules:', error);
     throw error;

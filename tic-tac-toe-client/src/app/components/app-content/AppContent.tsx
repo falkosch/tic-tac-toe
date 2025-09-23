@@ -1,83 +1,14 @@
-import { type FC, useState } from 'react';
+import { type FC, useCallback } from 'react';
 
 import { type SpecificCellOwner } from '../../../meta-model/CellOwner';
-import { AIErrorBoundary } from '../error-boundary/ErrorBoundary';
-import { GameStateView } from '../game-state-view/GameStateView';
-import { Header } from '../header/Header';
-import { GameStateActionType } from '../../game-state/GameStateReducer';
-import { PlayerType } from '../../game-configuration/GameConfiguration';
 import { useGameConfiguration, useGameState } from '../../context/GameContext';
+import { GameStateActionTypeSetActionToken } from '../../game-state/GameStateActions.ts';
 import { useGameController } from '../../hooks/useGameController';
 import { usePlayerRegistry } from '../../hooks/usePlayerRegistry';
-
-import styles from './AppContent.module.css';
-
-interface PlayerDropdownProps {
-  cellOwner: SpecificCellOwner;
-  currentPlayerType: string;
-  onPlayerTypeChange: (cellOwner: SpecificCellOwner, playerType: PlayerType) => void;
-}
-
-const PlayerDropdown: FC<PlayerDropdownProps> = ({
-  cellOwner,
-  currentPlayerType,
-  onPlayerTypeChange,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownId = `d${cellOwner}`;
-
-  return (
-    <div key={dropdownId} className="relative mt-2 w-full sm:w-auto md:mt-0">
-      <button
-        id={dropdownId}
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        className="flex w-full items-center justify-between rounded-md bg-gray-500 px-4 py-2 text-white hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none"
-      >
-        <span>{`Player ${cellOwner}`}</span>
-        <svg
-          className={`ml-2 h-5 w-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-      {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          />
-          <div className="absolute right-0 z-20 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-lg">
-            {Object.keys(PlayerType).map((playerKey) => {
-              const active = playerKey === currentPlayerType;
-              const itemId = `d${cellOwner}${playerKey}`;
-              return (
-                <button
-                  key={itemId}
-                  className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${
-                    active ? 'bg-blue-50 font-medium text-blue-700' : 'text-gray-700'
-                  }`}
-                  onClick={() => {
-                    onPlayerTypeChange(cellOwner, playerKey as PlayerType);
-                    setIsOpen(false);
-                  }}
-                >
-                  {playerKey}
-                </button>
-              );
-            })}
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+import { AppHeader } from '../app-header/AppHeader.tsx';
+import { AIErrorBoundary } from '../error-boundary/ErrorBoundary';
+import { GameStateView } from '../game-state-view/GameStateView';
+import { PlayerDropdown } from '../player-dropdown/PlayerDropdown.tsx';
 
 export const AppContent: FC = () => {
   const { gameState } = useGameState();
@@ -86,7 +17,7 @@ export const AppContent: FC = () => {
 
   const { playerCreators, isLoading, error } = usePlayerRegistry((actionToken) => {
     dispatchGameState({
-      type: GameStateActionType.SetActionToken,
+      type: GameStateActionTypeSetActionToken,
       payload: { actionToken },
     });
   });
@@ -94,59 +25,59 @@ export const AppContent: FC = () => {
   const { createNewGame, canCreateNewGame, toggleAutoNewGame, changePlayerType } =
     useGameController(playerCreators);
 
+  const onCreateNewGame = useCallback(() => {
+    createNewGame().catch(console.error);
+  }, [createNewGame]);
+
   if (isLoading) {
     return (
-      <div className={`${styles.view} flex h-full flex-col items-center justify-center`}>
-        <div>Loading players...</div>
-      </div>
+      <div className="flex h-full flex-col items-center justify-center">Loading players...</div>
     );
   }
 
   if (error) {
     return (
-      <div className={`${styles.view} flex h-full flex-col items-center justify-center`}>
-        <div className="text-red-600">Error initializing players: {error.message}</div>
+      <div className="flex h-full flex-col items-center justify-center text-red-700">
+        Error initializing players: {error.message}
       </div>
     );
   }
 
   return (
-    <div className={`${styles.view} flex h-full flex-col`}>
-      <Header>
-        <div className="flex flex-col gap-4 md:flex-row md:items-center">
-          <button
-            className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400"
-            disabled={!canCreateNewGame()}
-            onClick={createNewGame}
-          >
-            New game
-          </button>
+    <div className="flex h-full flex-col">
+      <AppHeader>
+        <button
+          className="rounded-md bg-white px-3 py-2 text-black shadow-sm shadow-indigo-500 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-35"
+          disabled={!canCreateNewGame()}
+          onClick={onCreateNewGame}
+        >
+          New game
+        </button>
 
-          <div className="flex flex-col gap-4 md:flex-row">
-            {Object.keys(configuration.playerTypes).map((cellOwnerKey) => (
-              <PlayerDropdown
-                key={cellOwnerKey}
-                cellOwner={cellOwnerKey as SpecificCellOwner}
-                currentPlayerType={configuration.playerTypes[cellOwnerKey as SpecificCellOwner]}
-                onPlayerTypeChange={changePlayerType}
-              />
-            ))}
-          </div>
+        {Object.keys(configuration.playerTypes).map((cellOwnerKey) => (
+          <PlayerDropdown
+            key={cellOwnerKey}
+            cellOwner={cellOwnerKey as SpecificCellOwner}
+            currentPlayerType={configuration.playerTypes[cellOwnerKey as SpecificCellOwner]}
+            playerCreators={playerCreators}
+            onPlayerTypeChange={changePlayerType}
+          />
+        ))}
 
-          <div className="flex items-center">
-            <label className="flex cursor-pointer items-center space-x-2">
-              <input
-                id="autoNewGame"
-                type="checkbox"
-                checked={configuration.autoNewGame}
-                onChange={toggleAutoNewGame}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">Auto new game</span>
-            </label>
-          </div>
-        </div>
-      </Header>
+        <label
+          className="flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 text-black hover:bg-gray-300"
+          htmlFor="autoNewGame"
+        >
+          <input
+            className="focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+            id="autoNewGame"
+            type="checkbox"
+            checked={configuration.autoNewGame}
+            onChange={toggleAutoNewGame}
+          />
+          <span>Auto new game</span>
+        </label>
+      </AppHeader>
       <AIErrorBoundary>
         <GameStateView gameState={gameState} />
       </AIErrorBoundary>

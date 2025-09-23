@@ -1,9 +1,9 @@
 import { Mat } from 'recurrent-js';
 import { DQNEnv, DQNOpt, DQNSolver, Solver } from 'reinforce-js';
 
-import { type BrainStatistics, loadAgent, persistAgent } from '../ai-agent/StorableAgent';
-import { type Decision, takeAny } from '../ai-agent/Decision';
 import { type AIAgentCreator } from '../ai-agent/AIAgent';
+import { type Decision, takeAny } from '../ai-agent/Decision';
+import { type BrainStatistics, loadAgent, persistAgent } from '../ai-agent/StorableAgent';
 import { Brains } from './DQNPretrainedBrain';
 import { type ReinforcedAgent } from './ReinforcedAgent';
 import { type StorableDQNAgent } from './StorableDQNAgent';
@@ -126,7 +126,7 @@ export const getDQNReinforcedAgent: AIAgentCreator<ReinforcedAgent> = async (
 ) => {
   const { height, width } = boardDimensions;
   const cellCount = width * height;
-  const id = `dqn-${cellOwner}-${width}x${height}-${cellCount}-${cellCount}`;
+  const id = `dqn-${cellOwner}-${width.toFixed()}x${height.toFixed()}-${cellCount.toFixed()}-${cellCount.toFixed()}`;
   const agentData = await loadBrainAndStatistics(id, () =>
     createSolver(width, height, cellCount, cellCount),
   );
@@ -145,12 +145,10 @@ export const getDQNReinforcedAgent: AIAgentCreator<ReinforcedAgent> = async (
   return {
     cellOwner,
 
-    async decide(prior): Promise<Decision> {
+    decide(prior): Promise<Decision> {
       const action = agentData.solver.decide(prior.states);
       agentData.solver.learn(-0.1);
-      return {
-        cellsAtToAttack: [action],
-      };
+      return Promise.resolve({ cellsAtToAttack: [action] });
     },
 
     async rememberDraw(): Promise<void> {

@@ -1,13 +1,13 @@
 import { type Reducer } from 'react';
 
+import { type GameConfigurationType } from './GameConfiguration';
+import {
+  type GameConfigurationActionType,
+  GameConfigurationActionTypeSetAutoNewGame,
+  GameConfigurationActionTypeSetPlayerType,
+} from './GameConfigurationActionType.ts';
 import { setAutoNewGame, type SetAutoNewGameActionPayload } from './SetAutoNewGameAction';
 import { setPlayerType, type SetPlayerTypeActionPayload } from './SetPlayerTypeAction';
-import { type GameConfigurationType } from './GameConfiguration';
-
-export enum GameConfigurationActionType {
-  SetAutoNewGame,
-  SetPlayerType,
-}
 
 export type GameConfigurationActionPayload =
   | SetAutoNewGameActionPayload
@@ -24,10 +24,10 @@ type ActionDelegate = (
 ) => GameConfigurationType;
 
 const typeToAction: Readonly<Record<GameConfigurationActionType, ActionDelegate>> = {
-  [GameConfigurationActionType.SetAutoNewGame]: (prevState, payload) =>
+  [GameConfigurationActionTypeSetAutoNewGame]: (prevState, payload) =>
     setAutoNewGame(prevState, payload as SetAutoNewGameActionPayload),
 
-  [GameConfigurationActionType.SetPlayerType]: (prevState, payload) =>
+  [GameConfigurationActionTypeSetPlayerType]: (prevState, payload) =>
     setPlayerType(prevState, payload as SetPlayerTypeActionPayload),
 };
 

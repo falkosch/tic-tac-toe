@@ -1,3 +1,8 @@
+import { CellOwnerNone } from '../../meta-model/CellOwner';
+import { type AIAgentCreator } from '../ai-agent/AIAgent';
+import { type Decision, takeAny } from '../ai-agent/Decision';
+import { loadAgent, persistAgent } from '../ai-agent/StorableAgent';
+import { Brains } from './EpsilonGreedyMenacePretrainedBrain';
 import {
   findFreeBeads,
   type MenaceAgent,
@@ -5,12 +10,7 @@ import {
   multiplyBeads,
   randomBead,
 } from './MenaceAgent';
-import { loadAgent, persistAgent } from '../ai-agent/StorableAgent';
-import { type Decision, takeAny } from '../ai-agent/Decision';
-import { type AIAgentCreator } from '../ai-agent/AIAgent';
-import { CellOwner } from '../../meta-model/CellOwner';
 import { type StorableMenaceAgent } from './StorableMenaceAgent';
-import { Brains } from './EpsilonGreedyMenacePretrainedBrain';
 
 type LearnPolicy = (beadsMemory: readonly number[], playedBead: number) => number[];
 
@@ -52,7 +52,7 @@ const selectEpsilonGreedyAction = (
   }
 
   const freeCellsAt = stateSpace.boardAsCellOwners
-    .map((v, i) => (v === CellOwner.None ? i : -1))
+    .map((v, i) => (v === CellOwnerNone ? i : -1))
     .filter((v) => v >= 0);
   return takeAny(freeCellsAt)[0];
 };
@@ -79,7 +79,7 @@ const learn = (learnPolicy: LearnPolicy, getMenaceMemory: () => StorableMenaceAg
 };
 
 export const getMenaceAgent: AIAgentCreator<MenaceAgent> = async (cellOwner, boardDimensions) => {
-  const id = `menace-${cellOwner}-${boardDimensions.width}x${boardDimensions.height}`;
+  const id = `menace-${cellOwner}-${boardDimensions.width.toFixed()}x${boardDimensions.height.toFixed()}`;
   const menaceMemory = await loadMenaceAgent(id);
 
   const persist = (): Promise<void> => {
@@ -95,11 +95,12 @@ export const getMenaceAgent: AIAgentCreator<MenaceAgent> = async (cellOwner, boa
   return {
     cellOwner,
 
-    async startNewGame(): Promise<void> {
+    startNewGame(): Promise<void> {
       menaceMemory.playedMoves = [];
+      return Promise.resolve();
     },
 
-    async decide(stateSpace): Promise<Decision> {
+    decide(stateSpace): Promise<Decision> {
       const { boardAsString } = stateSpace;
 
       // Add first beads for still unknown game states
@@ -112,9 +113,7 @@ export const getMenaceAgent: AIAgentCreator<MenaceAgent> = async (cellOwner, boa
         bead,
       });
 
-      return {
-        cellsAtToAttack: [bead],
-      };
+      return Promise.resolve({ cellsAtToAttack: [bead] });
     },
 
     async rememberDraw(): Promise<void> {

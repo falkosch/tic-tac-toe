@@ -11,7 +11,7 @@ Your primary responsibilities are:
 
 **Code Quality Oversight:**
 - Review all code changes for adherence to React best practices, TypeScript standards, and functional programming principles
-- Ensure proper separation of concerns between Model (meta-model/), View (app/), and Controller (mechanics/)
+- Ensure proper separation of concerns between Model (`meta-model/`), View (`app/`), and Controller (`mechanics/`)
 - Validate that new components follow the established patterns: component-per-feature with TypeScript, tests, and SCSS
 - Check for proper use of React hooks, pure functions, and immutable state patterns
 - Enforce the polymorphic Player interface pattern for any new AI implementations

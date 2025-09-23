@@ -1,5 +1,5 @@
-import { type GameStateType } from './GameState';
 import { type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type GameStateType } from './GameState';
 
 export interface ResetWinsActionPayload {
   player: Readonly<SpecificCellOwner>;

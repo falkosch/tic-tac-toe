@@ -1,13 +1,18 @@
-import { buildBoardModifier } from './Actions';
-import { countPoints, isDrawEnding, isOneWinnerEnding, pointsLeader } from './GameRules';
-import { findConsecutive } from './Consecutiveness';
-import { type AttackGameAction } from '../meta-model/GameAction';
 import { type Board, type BoardDimensions } from '../meta-model/Board';
-import { CellOwner, type SpecificCellOwner } from '../meta-model/CellOwner';
+import {
+  CellOwnerNone,
+  CellOwnerO,
+  CellOwnerX,
+  type SpecificCellOwner,
+} from '../meta-model/CellOwner';
+import { type AttackGameAction } from '../meta-model/GameAction';
 import { type GameActionHistory } from '../meta-model/GameActionHistory';
 import { type GameEndState } from '../meta-model/GameEndState';
 import { type GameView } from '../meta-model/GameView';
 import { type Player, type PlayerCreator } from '../meta-model/Player';
+import { buildBoardModifier } from './Actions';
+import { findConsecutive } from './Consecutiveness';
+import { countPoints, isDrawEnding, isOneWinnerEnding, pointsLeader } from './GameRules';
 
 export type JoiningPlayers = Record<SpecificCellOwner, PlayerCreator>;
 
@@ -27,7 +32,7 @@ const DefaultDimensions: Readonly<BoardDimensions> = {
 const newBoard = (boardDimensions: Readonly<BoardDimensions>): Board => {
   const { height, width } = boardDimensions;
   return {
-    cells: Array.from({ length: height * width }).map(() => CellOwner.None),
+    cells: Array.from({ length: height * width }).map(() => CellOwnerNone),
     dimensions: boardDimensions,
   };
 };
@@ -37,8 +42,8 @@ const newGameView = (): GameView => {
     board: newBoard(DefaultDimensions),
     consecutive: [],
     points: {
-      [CellOwner.O]: 0,
-      [CellOwner.X]: 0,
+      [CellOwnerO]: 0,
+      [CellOwnerX]: 0,
     },
   };
 };

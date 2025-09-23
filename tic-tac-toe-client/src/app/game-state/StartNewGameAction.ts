@@ -1,8 +1,8 @@
+import { type GameView } from '../../meta-model/GameView';
+import { type GameStateType } from './GameState';
 import { setActionToken } from './SetActionTokenAction';
 import { setGameView } from './SetGameViewAction';
 import { setWinner } from './SetWinnerAction';
-import { type GameStateType } from './GameState';
-import { type GameView } from '../../meta-model/GameView';
 
 export interface StartNewGameActionPayload {
   gameView: Readonly<GameView>;

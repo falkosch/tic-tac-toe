@@ -1,4 +1,4 @@
-import { CellOwner } from './CellOwner';
+import { type CellOwner } from './CellOwner';
 
 export interface BoardDimensions {
   height: number;
