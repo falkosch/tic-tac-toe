@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 import { beforeEach, describe, it } from 'vitest';
 
-import { CellView } from './CellView';
 import { type BoardDimensions } from '../../../meta-model/Board';
 import { type CellOwner, CellOwnerX } from '../../../meta-model/CellOwner';
+import { CellView } from './CellView';
 
 describe('CellView', () => {
   let boardDimensions: BoardDimensions;

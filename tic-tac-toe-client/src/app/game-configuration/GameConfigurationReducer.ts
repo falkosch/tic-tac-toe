@@ -1,13 +1,13 @@
 import { type Reducer } from 'react';
 
-import { setAutoNewGame, type SetAutoNewGameActionPayload } from './SetAutoNewGameAction';
-import { setPlayerType, type SetPlayerTypeActionPayload } from './SetPlayerTypeAction';
 import { type GameConfigurationType } from './GameConfiguration';
 import {
   type GameConfigurationActionType,
   GameConfigurationActionTypeSetAutoNewGame,
   GameConfigurationActionTypeSetPlayerType,
 } from './GameConfigurationActionType.ts';
+import { setAutoNewGame, type SetAutoNewGameActionPayload } from './SetAutoNewGameAction';
+import { setPlayerType, type SetPlayerTypeActionPayload } from './SetPlayerTypeAction';
 
 export type GameConfigurationActionPayload =
   | SetAutoNewGameActionPayload

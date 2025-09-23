@@ -1,5 +1,5 @@
-import { type GameConfigurationType } from './GameConfiguration';
 import { type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { type GameConfigurationType } from './GameConfiguration';
 import { type PlayerType } from './PlayerType.ts';
 
 export interface SetPlayerTypeActionPayload {

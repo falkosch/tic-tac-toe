@@ -1,16 +1,16 @@
 import { useCallback, useRef, useState } from 'react';
 
-import { useGame, useGameConfiguration, useGameState } from '../context/GameContext';
 import { runNewGame } from '../../mechanics/GameDirector';
 import { CellOwnerO, CellOwnerX, type SpecificCellOwner } from '../../meta-model/CellOwner';
-import { type PlayerCreators } from '../game-configuration/GameConfiguration';
-import { type Player } from '../../meta-model/Player';
 import { type AttackGameAction } from '../../meta-model/GameAction';
-import { type PlayerType } from '../game-configuration/PlayerType.ts';
+import { type Player } from '../../meta-model/Player';
+import { useGame, useGameConfiguration, useGameState } from '../context/GameContext';
+import { type PlayerCreators } from '../game-configuration/GameConfiguration';
 import {
   GameConfigurationActionTypeSetAutoNewGame,
   GameConfigurationActionTypeSetPlayerType,
 } from '../game-configuration/GameConfigurationActionType.ts';
+import { type PlayerType } from '../game-configuration/PlayerType.ts';
 import {
   GameStateActionTypeEndGame,
   GameStateActionTypeResetWins,

@@ -4,13 +4,13 @@ import {
   type GameConfigurationType,
   initialGameConfiguration,
 } from '../game-configuration/GameConfiguration';
-import { type GameStateType, initialGameState } from '../game-state/GameState';
 import {
   type GameConfigurationAction,
   gameConfigurationReducer,
 } from '../game-configuration/GameConfigurationReducer';
-import { gameStateReducer } from '../game-state/GameStateReducer';
+import { type GameStateType, initialGameState } from '../game-state/GameState';
 import { type GameStateAction } from '../game-state/GameStateActions.ts';
+import { gameStateReducer } from '../game-state/GameStateReducer';
 
 interface GameContextValue {
   gameState: GameStateType;

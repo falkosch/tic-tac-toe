@@ -1,12 +1,12 @@
+import { transformBoardCells } from '../../mechanics/BoardNormalization';
+import { type Board } from '../../meta-model/Board';
+import { CellOwnerNone, type SpecificCellOwner } from '../../meta-model/CellOwner';
 import {
   type AIAgent,
   buildNormalizedStateSpace,
   findDecisionForStateSpace,
   type NormalizedStateSpace,
 } from '../ai-agent/AIAgent';
-import { transformBoardCells } from '../../mechanics/BoardNormalization';
-import { type Board } from '../../meta-model/Board';
-import { CellOwnerNone, type SpecificCellOwner } from '../../meta-model/CellOwner';
 import { type Decision } from '../ai-agent/Decision';
 
 export interface ReinforcedStateSpace extends NormalizedStateSpace {

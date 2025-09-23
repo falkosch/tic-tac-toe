@@ -1,10 +1,11 @@
 import { type FC, memo, useCallback, useMemo } from 'react';
+
 import { coveredConsecutiveDirections } from '../../../mechanics/Consecutiveness';
 import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from '../../../mechanics/MapToImage';
-import { useGameState } from '../../context/GameContext';
 import { type BoardDimensions } from '../../../meta-model/Board';
 import { type CellOwner, CellOwnerO, CellOwnerX } from '../../../meta-model/CellOwner';
 import { type Consecutive } from '../../../meta-model/GameView';
+import { useGameState } from '../../context/GameContext';
 import { ImageStack, type ImageWithAlt } from '../image-stack/ImageStack';
 
 const ownerTypeToAltTextMap: Record<string, string> = {

@@ -1,7 +1,3 @@
-import { buildBoardModifier } from './Actions';
-import { countPoints, isDrawEnding, isOneWinnerEnding, pointsLeader } from './GameRules';
-import { findConsecutive } from './Consecutiveness';
-import { type AttackGameAction } from '../meta-model/GameAction';
 import { type Board, type BoardDimensions } from '../meta-model/Board';
 import {
   CellOwnerNone,
@@ -9,10 +5,14 @@ import {
   CellOwnerX,
   type SpecificCellOwner,
 } from '../meta-model/CellOwner';
+import { type AttackGameAction } from '../meta-model/GameAction';
 import { type GameActionHistory } from '../meta-model/GameActionHistory';
 import { type GameEndState } from '../meta-model/GameEndState';
 import { type GameView } from '../meta-model/GameView';
 import { type Player, type PlayerCreator } from '../meta-model/Player';
+import { buildBoardModifier } from './Actions';
+import { findConsecutive } from './Consecutiveness';
+import { countPoints, isDrawEnding, isOneWinnerEnding, pointsLeader } from './GameRules';
 
 export type JoiningPlayers = Record<SpecificCellOwner, PlayerCreator>;
 

@@ -1,9 +1,9 @@
 import { Mat } from 'recurrent-js';
 import { DQNEnv, DQNOpt, DQNSolver, Solver } from 'reinforce-js';
 
-import { type BrainStatistics, loadAgent, persistAgent } from '../ai-agent/StorableAgent';
-import { type Decision, takeAny } from '../ai-agent/Decision';
 import { type AIAgentCreator } from '../ai-agent/AIAgent';
+import { type Decision, takeAny } from '../ai-agent/Decision';
+import { type BrainStatistics, loadAgent, persistAgent } from '../ai-agent/StorableAgent';
 import { Brains } from './DQNPretrainedBrain';
 import { type ReinforcedAgent } from './ReinforcedAgent';
 import { type StorableDQNAgent } from './StorableDQNAgent';

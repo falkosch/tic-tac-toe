@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { createDefaultPlayerRegistry, PlayerRegistry } from '../../computer-players/PlayerRegistry';
-import { type PlayerCreator } from '../../meta-model/Player';
 import { type AttackGameAction } from '../../meta-model/GameAction';
+import { type PlayerCreator } from '../../meta-model/Player';
 import {
   type PlayerType,
   PlayerTypeAzure,

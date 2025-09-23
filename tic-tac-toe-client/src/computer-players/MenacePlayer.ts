@@ -1,12 +1,12 @@
-import { findMenaceDecision } from './menace-match-boxes/MenaceAgent';
-import { getMenaceAgent } from './menace-match-boxes/EpsilonGreedyMenaceAgent';
-import { notifyEndState } from './ai-agent/AIAgent';
+import { type SpecificCellOwner } from '../meta-model/CellOwner';
 import { type AttackGameAction } from '../meta-model/GameAction';
 import { type GameEndState } from '../meta-model/GameEndState';
 import { type GameView } from '../meta-model/GameView';
 import { type PlayerCreator } from '../meta-model/Player';
 import { type PlayerTurn } from '../meta-model/PlayerTurn';
-import { type SpecificCellOwner } from '../meta-model/CellOwner';
+import { notifyEndState } from './ai-agent/AIAgent';
+import { getMenaceAgent } from './menace-match-boxes/EpsilonGreedyMenaceAgent';
+import { findMenaceDecision } from './menace-match-boxes/MenaceAgent';
 
 export const createMenacePlayer: PlayerCreator = () => {
   return Promise.resolve({

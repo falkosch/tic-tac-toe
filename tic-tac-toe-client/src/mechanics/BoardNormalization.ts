@@ -1,3 +1,5 @@
+import { type Board, type BoardDimensions } from '../meta-model/Board';
+import { type CellOwner, CellOwnerNone } from '../meta-model/CellOwner';
 import {
   cellAtCoordinate,
   type CellCoordinates,
@@ -6,8 +8,6 @@ import {
   type LineDimensions,
   type LineIteratorsToCoordinates,
 } from './CellCoordinates';
-import { type Board, type BoardDimensions } from '../meta-model/Board';
-import { type CellOwner, CellOwnerNone } from '../meta-model/CellOwner';
 import { type Coordinates } from './Coordinates';
 
 export interface BoardNormalization {

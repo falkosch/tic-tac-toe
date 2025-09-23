@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { CellOwnerNone, CellOwnerO, CellOwnerX } from '../meta-model/CellOwner';
 import { type AttackGameAction } from '../meta-model/GameAction';
 import { type PlayerTurn } from '../meta-model/PlayerTurn';
-import { CellOwnerNone, CellOwnerO, CellOwnerX } from '../meta-model/CellOwner';
-
 // Now import the module after mocking
 import { createAzureFunctionPlayer } from './AzureFunctionPlayer';
 

@@ -1,4 +1,3 @@
-import { cellAtCoordinate, forEachLine, type LineIteratorToCoordinates } from './CellCoordinates';
 import { type Board } from '../meta-model/Board';
 import { CellOwnerNone } from '../meta-model/CellOwner';
 import {
@@ -9,6 +8,7 @@ import {
   ConsecutiveDirectionVertical,
 } from '../meta-model/ConsecutiveDirection.ts';
 import { type Consecutive } from '../meta-model/GameView.ts';
+import { cellAtCoordinate, forEachLine, type LineIteratorToCoordinates } from './CellCoordinates';
 
 type ConsecutiveConsumer = (nextConsecutive: Readonly<Consecutive>) => void;
 

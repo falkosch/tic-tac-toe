@@ -1,3 +1,6 @@
+import { transformBoardCells } from '../../mechanics/BoardNormalization';
+import { type Board } from '../../meta-model/Board';
+import { type CellOwner } from '../../meta-model/CellOwner';
 import {
   type AIAgent,
   buildNormalizedStateSpace,
@@ -5,9 +8,6 @@ import {
   type NormalizedStateSpace,
 } from '../ai-agent/AIAgent';
 import { type Decision, findFreeCellIndices, takeAny } from '../ai-agent/Decision';
-import { transformBoardCells } from '../../mechanics/BoardNormalization';
-import { type Board } from '../../meta-model/Board';
-import { type CellOwner } from '../../meta-model/CellOwner';
 
 export interface MenaceStateSpace extends NormalizedStateSpace {
   boardAsString: string;

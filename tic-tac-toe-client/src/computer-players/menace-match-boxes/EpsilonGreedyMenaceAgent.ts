@@ -1,3 +1,8 @@
+import { CellOwnerNone } from '../../meta-model/CellOwner';
+import { type AIAgentCreator } from '../ai-agent/AIAgent';
+import { type Decision, takeAny } from '../ai-agent/Decision';
+import { loadAgent, persistAgent } from '../ai-agent/StorableAgent';
+import { Brains } from './EpsilonGreedyMenacePretrainedBrain';
 import {
   findFreeBeads,
   type MenaceAgent,
@@ -5,12 +10,7 @@ import {
   multiplyBeads,
   randomBead,
 } from './MenaceAgent';
-import { loadAgent, persistAgent } from '../ai-agent/StorableAgent';
-import { type Decision, takeAny } from '../ai-agent/Decision';
-import { type AIAgentCreator } from '../ai-agent/AIAgent';
-import { CellOwnerNone } from '../../meta-model/CellOwner';
 import { type StorableMenaceAgent } from './StorableMenaceAgent';
-import { Brains } from './EpsilonGreedyMenacePretrainedBrain';
 
 type LearnPolicy = (beadsMemory: readonly number[], playedBead: number) => number[];
 

@@ -1,14 +1,14 @@
 import { type FC, useCallback } from 'react';
 
 import { type SpecificCellOwner } from '../../../meta-model/CellOwner';
-import { AIErrorBoundary } from '../error-boundary/ErrorBoundary';
-import { GameStateView } from '../game-state-view/GameStateView';
-import { AppHeader } from '../app-header/AppHeader.tsx';
 import { useGameConfiguration, useGameState } from '../../context/GameContext';
+import { GameStateActionTypeSetActionToken } from '../../game-state/GameStateActions.ts';
 import { useGameController } from '../../hooks/useGameController';
 import { usePlayerRegistry } from '../../hooks/usePlayerRegistry';
+import { AppHeader } from '../app-header/AppHeader.tsx';
+import { AIErrorBoundary } from '../error-boundary/ErrorBoundary';
+import { GameStateView } from '../game-state-view/GameStateView';
 import { PlayerDropdown } from '../player-dropdown/PlayerDropdown.tsx';
-import { GameStateActionTypeSetActionToken } from '../../game-state/GameStateActions.ts';
 
 export const AppContent: FC = () => {
   const { gameState } = useGameState();

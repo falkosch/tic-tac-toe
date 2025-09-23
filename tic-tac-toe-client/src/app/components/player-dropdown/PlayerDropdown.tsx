@@ -1,7 +1,8 @@
 import { type FC, useState } from 'react';
-import { type PlayerType } from '../../game-configuration/PlayerType.ts';
+
 import { type SpecificCellOwner } from '../../../meta-model/CellOwner.ts';
 import { type PlayerCreator } from '../../../meta-model/Player.ts';
+import { type PlayerType } from '../../game-configuration/PlayerType.ts';
 
 interface PlayerDropdownProps {
   cellOwner: SpecificCellOwner;

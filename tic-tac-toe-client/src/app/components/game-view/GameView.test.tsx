@@ -1,8 +1,9 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { renderWithProviders } from '../../../test-utils/testUtils';
-import { createMockGameView, createWinningGameView } from '../../../test-utils/mockData';
+
 import { CellOwnerNone, CellOwnerX } from '../../../meta-model/CellOwner';
+import { createMockGameView, createWinningGameView } from '../../../test-utils/mockData';
+import { renderWithProviders } from '../../../test-utils/testUtils';
 import { GameView } from './GameView';
 
 describe('GameView', () => {

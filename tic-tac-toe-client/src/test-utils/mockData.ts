@@ -1,20 +1,21 @@
 import { vi } from 'vitest';
+
+import { type GameConfigurationType } from '../app/game-configuration/GameConfiguration';
+import { PlayerTypeHuman, PlayerTypeMock } from '../app/game-configuration/PlayerType.ts';
+import { type GameStateType } from '../app/game-state/GameState';
+import { type Board } from '../meta-model/Board';
 import {
   CellOwnerNone,
   CellOwnerO,
   CellOwnerX,
   type SpecificCellOwner,
 } from '../meta-model/CellOwner';
-import { type Board } from '../meta-model/Board';
-import { type GameView } from '../meta-model/GameView';
-import { type GameStateType } from '../app/game-state/GameState';
-import { type GameConfigurationType } from '../app/game-configuration/GameConfiguration';
-import { type Player } from '../meta-model/Player';
-import { PlayerTypeHuman, PlayerTypeMock } from '../app/game-configuration/PlayerType.ts';
 import {
   ConsecutiveDirectionHorizontal,
   ConsecutiveDirectionVertical,
 } from '../meta-model/ConsecutiveDirection.ts';
+import { type GameView } from '../meta-model/GameView';
+import { type Player } from '../meta-model/Player';
 
 export const createMockBoard = (cells?: string[]): Board => ({
   dimensions: { width: 3, height: 3 },

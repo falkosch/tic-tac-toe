@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
 import { CellOwnerNone, CellOwnerO, CellOwnerX } from '../meta-model/CellOwner';
-
+import {
+  ConsecutiveDirectionDiagonalTL2BR,
+  ConsecutiveDirectionDiagonalTR2BL,
+  ConsecutiveDirectionHorizontal,
+  ConsecutiveDirectionVertical,
+} from '../meta-model/ConsecutiveDirection.ts';
 import strikeHorizontal from './assets/strike-horizontal.svg';
 import strikeTL2BR from './assets/strike-TL2BR.svg';
 import strikeTR2BL from './assets/strike-TR2BL.svg';
@@ -9,12 +14,6 @@ import strikeVertical from './assets/strike-vertical.svg';
 import strokeO from './assets/stroke-o.svg';
 import strokeX from './assets/stroke-x.svg';
 import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from './MapToImage';
-import {
-  ConsecutiveDirectionDiagonalTL2BR,
-  ConsecutiveDirectionDiagonalTR2BL,
-  ConsecutiveDirectionHorizontal,
-  ConsecutiveDirectionVertical,
-} from '../meta-model/ConsecutiveDirection.ts';
 
 describe('mapCellOwnerToImage', () => {
   it('maps None to undefined', () => {

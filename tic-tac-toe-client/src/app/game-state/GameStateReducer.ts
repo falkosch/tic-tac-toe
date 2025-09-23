@@ -2,12 +2,6 @@ import { type Reducer } from 'react';
 
 import { addWin } from './AddWinAction';
 import { endGame } from './EndGameAction';
-import { resetWins } from './ResetWinsAction';
-import { setActionToken } from './SetActionTokenAction';
-import { setGameView } from './SetGameViewAction';
-import { setWinner } from './SetWinnerAction';
-import { startNewGame } from './StartNewGameAction';
-import { updateGame } from './UpdateGameAction';
 import { type GameStateType } from './GameState';
 import {
   assertNever,
@@ -21,6 +15,12 @@ import {
   GameStateActionTypeStartNewGame,
   GameStateActionTypeUpdateGame,
 } from './GameStateActions';
+import { resetWins } from './ResetWinsAction';
+import { setActionToken } from './SetActionTokenAction';
+import { setGameView } from './SetGameViewAction';
+import { setWinner } from './SetWinnerAction';
+import { startNewGame } from './StartNewGameAction';
+import { updateGame } from './UpdateGameAction';
 
 export type GameStateReducer = Reducer<GameStateType, GameStateAction>;
 

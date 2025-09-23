@@ -1,5 +1,5 @@
-import { type FC } from 'react';
 import { type AxiosError } from 'axios';
+import { type FC } from 'react';
 
 import {
   type CellOwner,

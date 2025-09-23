@@ -1,5 +1,3 @@
-import { type PlayerCreator } from '../meta-model/Player';
-
 import {
   type PlayerType,
   PlayerTypeAzure,
@@ -7,6 +5,7 @@ import {
   PlayerTypeMenace,
   PlayerTypeMock,
 } from '../app/game-configuration/PlayerType.ts';
+import { type PlayerCreator } from '../meta-model/Player';
 
 export interface PlayerRegistryInterface {
   register(type: PlayerType, creator: PlayerCreator): void;

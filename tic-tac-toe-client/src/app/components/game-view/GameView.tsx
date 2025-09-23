@@ -1,8 +1,8 @@
 import React, { type FC, useMemo } from 'react';
 
-import { CellView } from '../cell-view/CellView';
-import { type GameView as ModelGameView } from '../../../meta-model/GameView';
 import { type CellOwner } from '../../../meta-model/CellOwner';
+import { type GameView as ModelGameView } from '../../../meta-model/GameView';
+import { CellView } from '../cell-view/CellView';
 
 interface Props {
   gameView: Readonly<ModelGameView>;
