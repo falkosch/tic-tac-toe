@@ -32,6 +32,7 @@ export const GameView: FC<Props> = React.memo(({ gameView }) => {
       style={{
         gridTemplateColumns: `repeat(${width.toFixed()}, 1fr)`,
         gridTemplateRows: `repeat(${height.toFixed()}, 1fr)`,
+        maxWidth: `calc(100vw - 4rem)`,
       }}
     >
       {memoizedCells.map((cell) => (

@@ -1,9 +1,13 @@
-import { type FC, type PropsWithChildren, useState } from 'react';
+import { type FC, type PropsWithChildren, useCallback, useState } from 'react';
 
 import logo from './logo.svg';
 
 export const AppHeader: FC<PropsWithChildren> = ({ children = undefined }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const onMenuOpen = useCallback(() => {
+    setIsMenuOpen(!isMenuOpen);
+  }, [isMenuOpen]);
 
   return (
     <header className="flex justify-between gap-5 bg-white px-5 shadow-lg shadow-indigo-300 md:justify-start">
@@ -22,9 +26,7 @@ export const AppHeader: FC<PropsWithChildren> = ({ children = undefined }) => {
         <div className="flex h-16 items-center">
           <div className="hidden items-center gap-3 md:flex">{children}</div>
           <button
-            onClick={() => {
-              setIsMenuOpen(!isMenuOpen);
-            }}
+            onClick={onMenuOpen}
             className="rounded-md p-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-inset md:hidden"
             aria-controls="mobile-menu"
             aria-expanded="false"

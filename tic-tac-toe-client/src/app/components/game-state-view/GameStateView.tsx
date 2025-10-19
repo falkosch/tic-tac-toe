@@ -12,10 +12,13 @@ export const GameStateView: FC<{
     {!gameState.gameView && <span className="text-5xl text-gray-500">Create a new game</span>}
     {gameState.gameView && (
       <>
-        <div className="grow rounded-xl bg-gray-100 p-3">
+        <div
+          className="grow rounded-xl bg-gray-100 p-3"
+          style={{ maxHeight: 'calc(100vw - 4rem)' }}
+        >
           <GameView gameView={gameState.gameView} />
         </div>
-        <div className="">
+        <div>
           <WinnerView winner={gameState.winner} wins={gameState.wins} />
           {!gameState.winner && <HumanPlayerStatusView />}
         </div>
