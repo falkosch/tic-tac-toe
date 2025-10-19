@@ -39,8 +39,5 @@ export const gameConfigurationReducer: GameConfigurationReducer = (
 ) => {
   const { type, payload } = gameConfigurationAction;
   const actionDelegate = typeToAction[type];
-  if (actionDelegate) {
-    return actionDelegate(prevState, payload);
-  }
-  throw new Error('unknown game configuration reducer action type');
+  return actionDelegate(prevState, payload);
 };

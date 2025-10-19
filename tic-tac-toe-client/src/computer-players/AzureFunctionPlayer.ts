@@ -69,6 +69,7 @@ const retryWithBackoff = async <T>(
   let lastError: Error;
   let attempt = 0;
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   while (true) {
     try {
       return await operation();

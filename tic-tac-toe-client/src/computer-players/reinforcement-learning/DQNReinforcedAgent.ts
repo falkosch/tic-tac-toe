@@ -107,6 +107,7 @@ const loadBrainAndStatistics = async (
 
     // Defy an NPE in the DQN solver when a tick in the learning is not at an experience 0-offset.
     // Only concerns persisted DQN brains as their experience stack is not persisted.
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const keepExperienceInterval = solver.getOpt().get('keepExperienceInterval');
     const experienceOffset = loadedAgentData.wins % keepExperienceInterval;
     // @ts-expect-error TS/2445 we need to patch this protected member

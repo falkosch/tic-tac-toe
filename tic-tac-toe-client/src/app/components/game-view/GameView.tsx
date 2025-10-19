@@ -37,7 +37,6 @@ export const GameView: FC<Props> = React.memo(({ gameView }) => {
       {memoizedCells.map((cell) => (
         <CellView
           key={`c${cell.cellAt.toFixed()}-${cell.cellOwner}-${cell.isWinning ? 'w' : ''}`}
-          boardDimensions={gameView.board.dimensions}
           cellAt={cell.cellAt}
           cellOwner={cell.cellOwner}
           consecutive={gameView.consecutive}
