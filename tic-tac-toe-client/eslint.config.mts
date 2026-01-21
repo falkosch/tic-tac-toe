@@ -17,7 +17,7 @@ export default defineConfig([
       js.configs.recommended,
       tseslint.configs.strictTypeChecked,
       tseslint.configs.stylisticTypeChecked,
-      reactHooks.configs['recommended-latest'],
+      reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
     languageOptions: {
@@ -29,7 +29,6 @@ export default defineConfig([
       },
     },
     rules: {
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'import/order': 'off',
       'sort-imports': 'off',
       'simple-import-sort/imports': [

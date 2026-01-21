@@ -4,7 +4,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
-export default defineConfig(() => ({
+export default defineConfig({
   define: {
     // https://github.com/vitejs/vite/issues/1973#issuecomment-787571499
     'process.env': {},
@@ -18,4 +18,4 @@ export default defineConfig(() => ({
     clearMocks: true,
     mockReset: true,
   },
-}));
+});
