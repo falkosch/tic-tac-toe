@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { createDefaultPlayerRegistry, PlayerRegistry } from '../../computer-players/PlayerRegistry';
-import { PlayerType } from '../game-configuration/GameConfiguration';
-import { type PlayerCreator } from '../../meta-model/Player';
 import { type AttackGameAction } from '../../meta-model/GameAction';
+import { type PlayerCreator } from '../../meta-model/Player';
+import {
+  type PlayerType,
+  PlayerTypeAzure,
+  PlayerTypeDQN,
+  PlayerTypeHuman,
+  PlayerTypeMenace,
+  PlayerTypeMock,
+} from '../game-configuration/PlayerType.ts';
 
 interface UsePlayerRegistryReturn {
   registry: PlayerRegistry | null;
@@ -23,24 +30,26 @@ export const usePlayerRegistry = (
   const [error, setError] = useState<Error | null>(null);
 
   const createHumanPlayerCreator = useCallback((): PlayerCreator => {
-    return async () => ({
-      takeTurn: () =>
-        new Promise<AttackGameAction>((resolve, reject) => {
-          const actionToken = (affectedCellsAt?: readonly number[], err?: Error): void => {
-            if (err) {
-              reject(err);
-            } else if (affectedCellsAt) {
-              resolve({ affectedCellsAt });
-            } else {
-              resolve({ affectedCellsAt: [] });
-            }
-          };
+    return () => {
+      return Promise.resolve({
+        takeTurn: () =>
+          new Promise<AttackGameAction>((resolve, reject) => {
+            const actionToken = (affectedCellsAt?: readonly number[], err?: Error): void => {
+              if (err) {
+                reject(err);
+              } else if (affectedCellsAt) {
+                resolve({ affectedCellsAt });
+              } else {
+                resolve({ affectedCellsAt: [] });
+              }
+            };
 
-          if (onActionToken) {
-            onActionToken(actionToken);
-          }
-        }),
-    });
+            if (onActionToken) {
+              onActionToken(actionToken);
+            }
+          }),
+      });
+    };
   }, [onActionToken]);
 
   useEffect(() => {
@@ -68,18 +77,18 @@ export const usePlayerRegistry = (
   }, []);
 
   const playerCreators: Record<PlayerType, PlayerCreator> = {
-    [PlayerType.Human]: createHumanPlayerCreator(),
-    [PlayerType.Mock]:
-      registry?.create(PlayerType.Mock) ??
+    [PlayerTypeHuman]: createHumanPlayerCreator(),
+    [PlayerTypeMock]:
+      registry?.create(PlayerTypeMock) ??
       (() => Promise.reject(new Error('Mock player not available'))),
-    [PlayerType.DQN]:
-      registry?.create(PlayerType.DQN) ??
+    [PlayerTypeDQN]:
+      registry?.create(PlayerTypeDQN) ??
       (() => Promise.reject(new Error('DQN player not available'))),
-    [PlayerType.Menace]:
-      registry?.create(PlayerType.Menace) ??
+    [PlayerTypeMenace]:
+      registry?.create(PlayerTypeMenace) ??
       (() => Promise.reject(new Error('Menace player not available'))),
-    [PlayerType.Azure]:
-      registry?.create(PlayerType.Azure) ??
+    [PlayerTypeAzure]:
+      registry?.create(PlayerTypeAzure) ??
       (() => Promise.reject(new Error('Azure player not available'))),
   };
 

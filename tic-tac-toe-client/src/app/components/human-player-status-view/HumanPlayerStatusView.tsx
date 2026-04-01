@@ -1,15 +1,17 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import { useGameState } from '../../context/GameContext';
-
-import styles from './HumanPlayerStatusView.module.css';
 
 export const HumanPlayerStatusView: FC = () => {
   const { gameState } = useGameState();
 
   return (
-    <div className={styles.view}>
-      {gameState.actionToken ? <>It&apos;s your turn!</> : <>Other player is serving...</>}
+    <div className="text-4xl">
+      {gameState.actionToken ? (
+        <span className="text-indigo-700">It&apos;s your turn!</span>
+      ) : (
+        <span className="text-gray-700">Other player is serving...</span>
+      )}
     </div>
   );
 };

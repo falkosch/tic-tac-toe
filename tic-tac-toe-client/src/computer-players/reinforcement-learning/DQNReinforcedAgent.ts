@@ -1,9 +1,9 @@
 import { Mat } from 'recurrent-js';
 import { DQNEnv, DQNOpt, DQNSolver, Solver } from 'reinforce-js';
 
-import { type BrainStatistics, loadAgent, persistAgent } from '../ai-agent/StorableAgent';
-import { type Decision, takeAny } from '../ai-agent/Decision';
 import { type AIAgentCreator } from '../ai-agent/AIAgent';
+import { type Decision, takeAny } from '../ai-agent/Decision';
+import { type BrainStatistics, loadAgent, persistAgent } from '../ai-agent/StorableAgent';
 import { Brains } from './DQNPretrainedBrain';
 import { type ReinforcedAgent } from './ReinforcedAgent';
 import { type StorableDQNAgent } from './StorableDQNAgent';
@@ -107,6 +107,7 @@ const loadBrainAndStatistics = async (
 
     // Defy an NPE in the DQN solver when a tick in the learning is not at an experience 0-offset.
     // Only concerns persisted DQN brains as their experience stack is not persisted.
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const keepExperienceInterval = solver.getOpt().get('keepExperienceInterval');
     const experienceOffset = loadedAgentData.wins % keepExperienceInterval;
     // @ts-expect-error TS/2445 we need to patch this protected member
@@ -126,7 +127,7 @@ export const getDQNReinforcedAgent: AIAgentCreator<ReinforcedAgent> = async (
 ) => {
   const { height, width } = boardDimensions;
   const cellCount = width * height;
-  const id = `dqn-${cellOwner}-${width}x${height}-${cellCount}-${cellCount}`;
+  const id = `dqn-${cellOwner}-${width.toFixed()}x${height.toFixed()}-${cellCount.toFixed()}-${cellCount.toFixed()}`;
   const agentData = await loadBrainAndStatistics(id, () =>
     createSolver(width, height, cellCount, cellCount),
   );
@@ -145,12 +146,10 @@ export const getDQNReinforcedAgent: AIAgentCreator<ReinforcedAgent> = async (
   return {
     cellOwner,
 
-    async decide(prior): Promise<Decision> {
+    decide(prior): Promise<Decision> {
       const action = agentData.solver.decide(prior.states);
       agentData.solver.learn(-0.1);
-      return {
-        cellsAtToAttack: [action],
-      };
+      return Promise.resolve({ cellsAtToAttack: [action] });
     },
 
     async rememberDraw(): Promise<void> {

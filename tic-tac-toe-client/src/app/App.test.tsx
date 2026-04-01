@@ -3,7 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from './App';
-import { PlayerType } from './game-configuration/GameConfiguration';
+import {
+  PlayerTypeAzure,
+  PlayerTypeDQN,
+  PlayerTypeHuman,
+  PlayerTypeMenace,
+  PlayerTypeMock,
+} from './game-configuration/PlayerType.ts';
 
 describe('App', () => {
   const originalEnv = process.env;
@@ -45,7 +51,7 @@ describe('App', () => {
         const playerXDropdown = screen.getByText('Player X');
         await user.click(playerXDropdown);
 
-        expect(screen.getByText(PlayerType.Azure)).toBeInTheDocument();
+        expect(screen.getByText(PlayerTypeAzure)).toBeInTheDocument();
       });
 
       it('includes Azure Function player in Player O dropdown', async () => {
@@ -55,7 +61,7 @@ describe('App', () => {
         const playerODropdown = screen.getByText('Player O');
         await user.click(playerODropdown);
 
-        expect(screen.getByText(PlayerType.Azure)).toBeInTheDocument();
+        expect(screen.getByText(PlayerTypeAzure)).toBeInTheDocument();
       });
 
       it('allows selecting Azure Function player for Player X', async () => {
@@ -65,12 +71,12 @@ describe('App', () => {
         const playerXDropdown = screen.getByText('Player X');
         await user.click(playerXDropdown);
 
-        const azureOption = screen.getByText(PlayerType.Azure);
+        const azureOption = screen.getByText(PlayerTypeAzure);
         await user.click(azureOption);
 
         // Verify Azure Function can be selected again (indicating it was successfully set)
         await user.click(playerXDropdown);
-        const activeAzureOption = screen.getByText(PlayerType.Azure);
+        const activeAzureOption = screen.getByText(PlayerTypeAzure);
         expect(activeAzureOption.closest('.dropdown-item')).toHaveClass('active');
       });
 
@@ -81,12 +87,12 @@ describe('App', () => {
         const playerODropdown = screen.getByText('Player O');
         await user.click(playerODropdown);
 
-        const azureOption = screen.getByText(PlayerType.Azure);
+        const azureOption = screen.getByText(PlayerTypeAzure);
         await user.click(azureOption);
 
         // Verify Azure Function can be selected again (indicating it was successfully set)
         await user.click(playerODropdown);
-        const activeAzureOption = screen.getByText(PlayerType.Azure);
+        const activeAzureOption = screen.getByText(PlayerTypeAzure);
         expect(activeAzureOption.closest('.dropdown-item')).toHaveClass('active');
       });
     });
@@ -103,7 +109,7 @@ describe('App', () => {
         const playerXDropdown = screen.getByText('Player X');
         await user.click(playerXDropdown);
 
-        expect(screen.queryByText(PlayerType.Azure)).not.toBeInTheDocument();
+        expect(screen.queryByText(PlayerTypeAzure)).not.toBeInTheDocument();
       });
 
       it('does NOT include Azure Function player in Player O dropdown', async () => {
@@ -113,7 +119,7 @@ describe('App', () => {
         const playerODropdown = screen.getByText('Player O');
         await user.click(playerODropdown);
 
-        expect(screen.queryByText(PlayerType.Azure)).not.toBeInTheDocument();
+        expect(screen.queryByText(PlayerTypeAzure)).not.toBeInTheDocument();
       });
     });
 
@@ -129,7 +135,7 @@ describe('App', () => {
         const playerXDropdown = screen.getByText('Player X');
         await user.click(playerXDropdown);
 
-        expect(screen.queryByText(PlayerType.Azure)).not.toBeInTheDocument();
+        expect(screen.queryByText(PlayerTypeAzure)).not.toBeInTheDocument();
       });
 
       it('does NOT include Azure Function player in Player O dropdown', async () => {
@@ -139,7 +145,7 @@ describe('App', () => {
         const playerODropdown = screen.getByText('Player O');
         await user.click(playerODropdown);
 
-        expect(screen.queryByText(PlayerType.Azure)).not.toBeInTheDocument();
+        expect(screen.queryByText(PlayerTypeAzure)).not.toBeInTheDocument();
       });
     });
 
@@ -155,7 +161,7 @@ describe('App', () => {
         const playerXDropdown = screen.getByText('Player X');
         await user.click(playerXDropdown);
 
-        expect(screen.queryByText(PlayerType.Azure)).not.toBeInTheDocument();
+        expect(screen.queryByText(PlayerTypeAzure)).not.toBeInTheDocument();
       });
 
       it('does NOT include Azure Function player in Player O dropdown', async () => {
@@ -165,7 +171,7 @@ describe('App', () => {
         const playerODropdown = screen.getByText('Player O');
         await user.click(playerODropdown);
 
-        expect(screen.queryByText(PlayerType.Azure)).not.toBeInTheDocument();
+        expect(screen.queryByText(PlayerTypeAzure)).not.toBeInTheDocument();
       });
     });
   });
@@ -195,10 +201,10 @@ describe('App', () => {
           const playerXDropdown = screen.getByText('Player X');
           await user.click(playerXDropdown);
 
-          expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
-          expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
-          expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();
-          expect(screen.getByText(PlayerType.Mock)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeHuman)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeMenace)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeDQN)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeMock)).toBeInTheDocument();
         });
 
         it('includes all standard players in Player O dropdown', async () => {
@@ -208,10 +214,10 @@ describe('App', () => {
           const playerODropdown = screen.getByText('Player O');
           await user.click(playerODropdown);
 
-          expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
-          expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
-          expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();
-          expect(screen.getByText(PlayerType.Mock)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeHuman)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeMenace)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeDQN)).toBeInTheDocument();
+          expect(screen.getByText(PlayerTypeMock)).toBeInTheDocument();
         });
       });
     });
@@ -231,16 +237,16 @@ describe('App', () => {
       await user.click(playerXDropdown);
 
       // Human should be active by default
-      const humanOption = screen.getByText(PlayerType.Human);
+      const humanOption = screen.getByText(PlayerTypeHuman);
       expect(humanOption.closest('.dropdown-item')).toHaveClass('active');
 
       // Select Menace
-      const menaceOption = screen.getByText(PlayerType.Menace);
+      const menaceOption = screen.getByText(PlayerTypeMenace);
       await user.click(menaceOption);
 
       // Verify Menace is now active
       await user.click(playerXDropdown);
-      const activeMenaceOption = screen.getByText(PlayerType.Menace);
+      const activeMenaceOption = screen.getByText(PlayerTypeMenace);
       expect(activeMenaceOption.closest('.dropdown-item')).toHaveClass('active');
     });
 
@@ -253,16 +259,16 @@ describe('App', () => {
       await user.click(playerODropdown);
 
       // DQN should be active by default
-      const dqnOption = screen.getByText(PlayerType.DQN);
+      const dqnOption = screen.getByText(PlayerTypeDQN);
       expect(dqnOption.closest('.dropdown-item')).toHaveClass('active');
 
       // Select Human
-      const humanOption = screen.getByText(PlayerType.Human);
+      const humanOption = screen.getByText(PlayerTypeHuman);
       await user.click(humanOption);
 
       // Verify Human is now active
       await user.click(playerODropdown);
-      const activeHumanOption = screen.getByText(PlayerType.Human);
+      const activeHumanOption = screen.getByText(PlayerTypeHuman);
       expect(activeHumanOption.closest('.dropdown-item')).toHaveClass('active');
     });
   });
@@ -277,11 +283,11 @@ describe('App', () => {
       const playerXDropdown = screen.getByText('Player X');
       await user.click(playerXDropdown);
 
-      expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
-      expect(screen.getByText(PlayerType.Mock)).toBeInTheDocument();
-      expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();
-      expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
-      expect(screen.getByText(PlayerType.Azure)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeHuman)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeMock)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeDQN)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeMenace)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeAzure)).toBeInTheDocument();
     });
 
     it('renders dropdowns correctly when Azure Function is not available', async () => {
@@ -293,11 +299,11 @@ describe('App', () => {
       const playerXDropdown = screen.getByText('Player X');
       await user.click(playerXDropdown);
 
-      expect(screen.getByText(PlayerType.Human)).toBeInTheDocument();
-      expect(screen.getByText(PlayerType.Mock)).toBeInTheDocument();
-      expect(screen.getByText(PlayerType.DQN)).toBeInTheDocument();
-      expect(screen.getByText(PlayerType.Menace)).toBeInTheDocument();
-      expect(screen.queryByText(PlayerType.Azure)).not.toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeHuman)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeMock)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeDQN)).toBeInTheDocument();
+      expect(screen.getByText(PlayerTypeMenace)).toBeInTheDocument();
+      expect(screen.queryByText(PlayerTypeAzure)).not.toBeInTheDocument();
     });
   });
 
@@ -307,7 +313,7 @@ describe('App', () => {
       const user = userEvent.setup();
       render(<App />);
 
-      // Start game should be available with default configuration (Human vs DQN)
+      // Start game should be available with the default configuration (Human vs. DQN)
       const newGameButton = screen.getByText('New game');
       expect(newGameButton).not.toBeDisabled();
 
@@ -326,7 +332,7 @@ describe('App', () => {
       // Configure Player X as Azure Function
       const playerXDropdown = screen.getByText('Player X');
       await user.click(playerXDropdown);
-      const azureOption = screen.getByText(PlayerType.Azure);
+      const azureOption = screen.getByText(PlayerTypeAzure);
       await user.click(azureOption);
 
       // Start game should be available

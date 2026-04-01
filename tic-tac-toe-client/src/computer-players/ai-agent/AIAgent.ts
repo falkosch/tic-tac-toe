@@ -1,14 +1,14 @@
-import { cellAtCoordinate, cellCoordinates } from '../../mechanics/CellCoordinates';
 import {
   type BoardNormalization,
   determineBoardNormalization,
   inverseNormalization,
   transformCoordinates,
 } from '../../mechanics/BoardNormalization';
+import { cellAtCoordinate, cellCoordinates } from '../../mechanics/CellCoordinates';
 import { type Board, type BoardDimensions } from '../../meta-model/Board';
 import { type SpecificCellOwner } from '../../meta-model/CellOwner';
-import { type Decision } from './Decision';
 import { type GameEndState } from '../../meta-model/GameEndState';
+import { type Decision } from './Decision';
 
 export type AIAgentCreator<AIAgentType> = (
   cellOwner: Readonly<SpecificCellOwner>,

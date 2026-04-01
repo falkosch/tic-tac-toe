@@ -67,14 +67,14 @@ const createIndexedDBPersistence = (database: Readonly<IDBDatabase>): BrainPersi
           .put(data, id);
       });
     },
-    async load(id) {
-      return new Promise((loadResolve, loadReject) => {
+    load<BrainType extends BrainStatistics>(id: string) {
+      return new Promise<StorableAgent<BrainType> | undefined>((loadResolve, loadReject) => {
         const request = createTransaction(database, false, undefined, loadReject)
           .objectStore(indexedDBConfiguration.objectStore)
           .get(id);
 
         request.onsuccess = () => {
-          loadResolve(request.result);
+          loadResolve(request.result as StorableAgent<BrainType> | undefined);
         };
 
         request.onerror = () => {
@@ -119,13 +119,14 @@ const localStorageIsAccessible = (): boolean => {
 
 const createLocalStoragePersistence = (): BrainPersistence => {
   return {
-    async store(id, data) {
+    store(id, data) {
       const jsonData = JSON.stringify(data);
       localStorage.setItem(id, jsonData);
+      return Promise.resolve();
     },
-    async load(id) {
+    load(id) {
       const stored = localStorage.getItem(id);
-      return stored ? JSON.parse(stored) : undefined;
+      return Promise.resolve(stored ? JSON.parse(stored) : undefined);
     },
   };
 };
@@ -133,11 +134,12 @@ const createLocalStoragePersistence = (): BrainPersistence => {
 const createTransientInMemoryPersistence = (): BrainPersistence => {
   const memory: Record<string, StorableAgent> = {};
   return {
-    async store(id, data) {
+    store(id, data) {
       memory[id] = data as StorableAgent;
+      return Promise.resolve();
     },
-    async load(id) {
-      return memory[id];
+    load(id) {
+      return Promise.resolve(memory[id]);
     },
   };
 };
@@ -172,6 +174,7 @@ export const loadAgent = async <BrainType extends BrainStatistics>(
 ): Promise<BrainType | undefined> => {
   const persistence = await persistenceInitialization;
   const stored = await persistence.load<BrainType>(id);
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (stored && stored.version === version && stored.brain) {
     return stored.brain;
   }

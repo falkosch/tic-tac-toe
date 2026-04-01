@@ -1,11 +1,12 @@
-import React, { type FC, type ReactElement, type ReactNode } from 'react';
 import { render, type RenderOptions, type RenderResult } from '@testing-library/react';
+import { type FC, type ReactElement, type ReactNode } from 'react';
+
 import { GameProvider } from '../app/context/GameContext';
-import { type GameStateType, initialGameState } from '../app/game-state/GameState';
 import {
   type GameConfigurationType,
   initialGameConfiguration,
 } from '../app/game-configuration/GameConfiguration';
+import { type GameStateType, initialGameState } from '../app/game-state/GameState';
 
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   initialGameState?: GameStateType;
@@ -48,5 +49,4 @@ export const renderWithProviders = (
   return render(component, { wrapper: Wrapper, ...renderOptions });
 };
 
-export * from '@testing-library/react';
 export { renderWithProviders as render };

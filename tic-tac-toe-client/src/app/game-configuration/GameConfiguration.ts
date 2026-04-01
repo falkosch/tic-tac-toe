@@ -1,13 +1,6 @@
-import { CellOwner, type SpecificCellOwner } from '../../meta-model/CellOwner';
+import { CellOwnerO, CellOwnerX, type SpecificCellOwner } from '../../meta-model/CellOwner';
 import { type PlayerCreator } from '../../meta-model/Player';
-
-export enum PlayerType {
-  Human = 'Human player',
-  Mock = 'Random AI (local)',
-  DQN = 'DQN AI (local)',
-  Menace = 'Menace AI (local)',
-  Azure = 'Azure function (remote)',
-}
+import { type PlayerType, PlayerTypeDQN, PlayerTypeHuman } from './PlayerType.ts';
 
 export type PlayerCreators = Record<Readonly<PlayerType>, PlayerCreator>;
 
@@ -21,7 +14,7 @@ export interface GameConfigurationType {
 export const initialGameConfiguration: Readonly<GameConfigurationType> = {
   autoNewGame: false,
   playerTypes: {
-    [CellOwner.X]: PlayerType.Human,
-    [CellOwner.O]: PlayerType.DQN,
+    [CellOwnerX]: PlayerTypeHuman,
+    [CellOwnerO]: PlayerTypeDQN,
   },
 };

@@ -1,25 +1,33 @@
 import { vi } from 'vitest';
-import { CellOwner } from '../meta-model/CellOwner';
-import { type Board } from '../meta-model/Board';
-import { ConsecutiveDirection, type GameView } from '../meta-model/GameView';
+
+import { type GameConfigurationType } from '../app/game-configuration/GameConfiguration';
+import { PlayerTypeHuman, PlayerTypeMock } from '../app/game-configuration/PlayerType.ts';
 import { type GameStateType } from '../app/game-state/GameState';
+import { type Board } from '../meta-model/Board';
 import {
-  type GameConfigurationType,
-  PlayerType,
-} from '../app/game-configuration/GameConfiguration';
+  CellOwnerNone,
+  CellOwnerO,
+  CellOwnerX,
+  type SpecificCellOwner,
+} from '../meta-model/CellOwner';
+import {
+  ConsecutiveDirectionHorizontal,
+  ConsecutiveDirectionVertical,
+} from '../meta-model/ConsecutiveDirection.ts';
+import { type GameView } from '../meta-model/GameView';
 import { type Player } from '../meta-model/Player';
 
 export const createMockBoard = (cells?: string[]): Board => ({
   dimensions: { width: 3, height: 3 },
-  cells: cells ?? Array(9).fill(CellOwner.None),
+  cells: cells ?? Array(9).fill(CellOwnerNone),
 });
 
 export const createMockGameView = (overrides: Partial<GameView> = {}): GameView => ({
   board: createMockBoard(),
   consecutive: [],
   points: {
-    [CellOwner.X]: 0,
-    [CellOwner.O]: 0,
+    [CellOwnerX]: 0,
+    [CellOwnerO]: 0,
   },
   ...overrides,
 });
@@ -29,8 +37,8 @@ export const createMockGameState = (overrides: Partial<GameStateType> = {}): Gam
   actionToken: undefined,
   winner: undefined,
   wins: {
-    [CellOwner.X]: 0,
-    [CellOwner.O]: 0,
+    [CellOwnerX]: 0,
+    [CellOwnerO]: 0,
   },
   ...overrides,
 });
@@ -39,8 +47,8 @@ export const createMockGameConfiguration = (
   overrides: Partial<GameConfigurationType> = {},
 ): GameConfigurationType => ({
   playerTypes: {
-    [CellOwner.X]: PlayerType.Human,
-    [CellOwner.O]: PlayerType.Mock,
+    [CellOwnerX]: PlayerTypeHuman,
+    [CellOwnerO]: PlayerTypeMock,
   },
   autoNewGame: false,
   ...overrides,
@@ -53,28 +61,28 @@ export const createMockPlayer = (): Player => ({
   onGameViewUpdate: vi.fn().mockResolvedValue(undefined),
 });
 
-export const createWinningGameView = (winner: CellOwner.X | CellOwner.O): GameView => {
-  const cells = Array(9).fill(CellOwner.None);
+export const createWinningGameView = (winner: SpecificCellOwner): GameView => {
+  const cells = Array(9).fill(CellOwnerNone);
 
-  if (winner === CellOwner.X) {
-    cells[0] = CellOwner.X;
-    cells[1] = CellOwner.X;
-    cells[2] = CellOwner.X;
+  if (winner === CellOwnerX) {
+    cells[0] = CellOwnerX;
+    cells[1] = CellOwnerX;
+    cells[2] = CellOwnerX;
   } else {
-    cells[0] = CellOwner.O;
-    cells[3] = CellOwner.O;
-    cells[6] = CellOwner.O;
+    cells[0] = CellOwnerO;
+    cells[3] = CellOwnerO;
+    cells[6] = CellOwnerO;
   }
 
   return createMockGameView({
     board: createMockBoard(cells),
     consecutive:
-      winner === CellOwner.X
-        ? [{ cellsAt: [0, 1, 2], direction: ConsecutiveDirection.Horizontal }]
-        : [{ cellsAt: [0, 3, 6], direction: ConsecutiveDirection.Vertical }],
+      winner === CellOwnerX
+        ? [{ cellsAt: [0, 1, 2], direction: ConsecutiveDirectionHorizontal }]
+        : [{ cellsAt: [0, 3, 6], direction: ConsecutiveDirectionVertical }],
     points: {
-      [CellOwner.X]: winner === CellOwner.X ? 3 : 0,
-      [CellOwner.O]: winner === CellOwner.O ? 3 : 0,
+      [CellOwnerX]: winner === CellOwnerX ? 3 : 0,
+      [CellOwnerO]: winner === CellOwnerO ? 3 : 0,
     },
   });
 };

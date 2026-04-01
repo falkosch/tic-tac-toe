@@ -1,4 +1,4 @@
-import { CellOwner } from '../../meta-model/CellOwner';
+import { type CellOwner, CellOwnerO, CellOwnerX } from '../../meta-model/CellOwner';
 import { type GameView, type Points } from '../../meta-model/GameView';
 
 export type ActionToken = (affectedCellsAt?: readonly number[], error?: Readonly<Error>) => void;
@@ -12,7 +12,7 @@ export interface GameStateType {
 
 export const initialGameState: Readonly<GameStateType> = {
   wins: {
-    [CellOwner.O]: 0,
-    [CellOwner.X]: 0,
+    [CellOwnerO]: 0,
+    [CellOwnerX]: 0,
   },
 };

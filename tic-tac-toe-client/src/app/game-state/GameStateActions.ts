@@ -7,54 +7,62 @@ import { type SetWinnerActionPayload } from './SetWinnerAction';
 import { type StartNewGameActionPayload } from './StartNewGameAction';
 import { type UpdateGameActionPayload } from './UpdateGameAction';
 
-export enum GameStateActionType {
-  AddWin = 'ADD_WIN',
-  EndGame = 'END_GAME',
-  ResetWins = 'RESET_WINS',
-  SetActionToken = 'SET_ACTION_TOKEN',
-  SetGameView = 'SET_GAME_VIEW',
-  SetWinner = 'SET_WINNER',
-  StartNewGame = 'START_NEW_GAME',
-  UpdateGame = 'UPDATE_GAME',
-}
+export const GameStateActionTypeAddWin = 'ADD_WIN';
+export const GameStateActionTypeEndGame = 'END_GAME';
+export const GameStateActionTypeResetWins = 'RESET_WINS';
+export const GameStateActionTypeSetActionToken = 'SET_ACTION_TOKEN';
+export const GameStateActionTypeSetGameView = 'SET_GAME_VIEW';
+export const GameStateActionTypeSetWinner = 'SET_WINNER';
+export const GameStateActionTypeStartNewGame = 'START_NEW_GAME';
+export const GameStateActionTypeUpdateGame = 'UPDATE_GAME';
+
+export type GameStateActionType =
+  | typeof GameStateActionTypeAddWin
+  | typeof GameStateActionTypeEndGame
+  | typeof GameStateActionTypeResetWins
+  | typeof GameStateActionTypeSetActionToken
+  | typeof GameStateActionTypeSetGameView
+  | typeof GameStateActionTypeSetWinner
+  | typeof GameStateActionTypeStartNewGame
+  | typeof GameStateActionTypeUpdateGame;
 
 interface AddWinAction {
-  type: GameStateActionType.AddWin;
+  type: typeof GameStateActionTypeAddWin;
   payload: AddWinActionPayload;
 }
 
 interface EndGameAction {
-  type: GameStateActionType.EndGame;
+  type: typeof GameStateActionTypeEndGame;
   payload: EndGameActionPayload;
 }
 
 interface ResetWinsAction {
-  type: GameStateActionType.ResetWins;
+  type: typeof GameStateActionTypeResetWins;
   payload: ResetWinsActionPayload;
 }
 
 interface SetActionTokenAction {
-  type: GameStateActionType.SetActionToken;
+  type: typeof GameStateActionTypeSetActionToken;
   payload: SetActionTokenActionPayload;
 }
 
 interface SetGameViewAction {
-  type: GameStateActionType.SetGameView;
+  type: typeof GameStateActionTypeSetGameView;
   payload: SetGameViewActionPayload;
 }
 
 interface SetWinnerAction {
-  type: GameStateActionType.SetWinner;
+  type: typeof GameStateActionTypeSetWinner;
   payload: SetWinnerActionPayload;
 }
 
 interface StartNewGameAction {
-  type: GameStateActionType.StartNewGame;
+  type: typeof GameStateActionTypeStartNewGame;
   payload: StartNewGameActionPayload;
 }
 
 interface UpdateGameAction {
-  type: GameStateActionType.UpdateGame;
+  type: typeof GameStateActionTypeUpdateGame;
   payload: UpdateGameActionPayload;
 }
 

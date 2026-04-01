@@ -1,7 +1,0 @@
-.view {
-  border: 0.5rem solid;
-  border-radius: 1rem;
-  flex: 0 0 calc(100vmin - 104px);
-  height: calc(100vmin - 104px);
-  width: calc(100vmin - 104px);
-}

@@ -1,7 +1,6 @@
-export const enum CellOwner {
-  None = ' ',
-  X = 'X',
-  O = 'O',
-}
+export const CellOwnerNone = ' ';
+export const CellOwnerX = 'X';
+export const CellOwnerO = 'O';
 
-export type SpecificCellOwner = CellOwner.X | CellOwner.O;
+export type CellOwner = typeof CellOwnerNone | typeof CellOwnerX | typeof CellOwnerO;
+export type SpecificCellOwner = Exclude<CellOwner, typeof CellOwnerNone>;

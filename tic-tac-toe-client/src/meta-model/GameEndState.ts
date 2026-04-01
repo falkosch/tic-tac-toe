@@ -1,5 +1,5 @@
-import { type GameView } from './GameView';
 import { type SpecificCellOwner } from './CellOwner';
+import { type GameView } from './GameView';
 
 export interface GameEndStateVisitor {
   drawEndState(moveLimitReached: boolean): void;

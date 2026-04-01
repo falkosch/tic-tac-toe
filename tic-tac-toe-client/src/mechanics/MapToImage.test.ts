@@ -1,8 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { CellOwner } from '../meta-model/CellOwner';
-import { ConsecutiveDirection } from '../meta-model/GameView';
-
+import { CellOwnerNone, CellOwnerO, CellOwnerX } from '../meta-model/CellOwner';
+import {
+  ConsecutiveDirectionDiagonalTL2BR,
+  ConsecutiveDirectionDiagonalTR2BL,
+  ConsecutiveDirectionHorizontal,
+  ConsecutiveDirectionVertical,
+} from '../meta-model/ConsecutiveDirection.ts';
 import strikeHorizontal from './assets/strike-horizontal.svg';
 import strikeTL2BR from './assets/strike-TL2BR.svg';
 import strikeTR2BL from './assets/strike-TR2BL.svg';
@@ -13,15 +17,15 @@ import { mapCellOwnerToImage, mapConsecutiveDirectionToImage } from './MapToImag
 
 describe('mapCellOwnerToImage', () => {
   it('maps None to undefined', () => {
-    expect(mapCellOwnerToImage(CellOwner.None)).toBeUndefined();
+    expect(mapCellOwnerToImage(CellOwnerNone)).toBeUndefined();
   });
 
   it('maps O to the O-stroke image', () => {
-    expect(mapCellOwnerToImage(CellOwner.O)).toBe(strokeO);
+    expect(mapCellOwnerToImage(CellOwnerO)).toBe(strokeO);
   });
 
   it('maps X to the X-stroke image', () => {
-    expect(mapCellOwnerToImage(CellOwner.X)).toBe(strokeX);
+    expect(mapCellOwnerToImage(CellOwnerX)).toBe(strokeX);
   });
 });
 
@@ -31,18 +35,18 @@ describe('mapConsecutiveDirectionToImage', () => {
   });
 
   it('maps Horizontal to the horizontal-strike image', () => {
-    expect(mapConsecutiveDirectionToImage(ConsecutiveDirection.Horizontal)).toBe(strikeHorizontal);
+    expect(mapConsecutiveDirectionToImage(ConsecutiveDirectionHorizontal)).toBe(strikeHorizontal);
   });
 
   it('maps Vertical to the vertical-strike image', () => {
-    expect(mapConsecutiveDirectionToImage(ConsecutiveDirection.Vertical)).toBe(strikeVertical);
+    expect(mapConsecutiveDirectionToImage(ConsecutiveDirectionVertical)).toBe(strikeVertical);
   });
 
   it('maps DiagonalTL2BR to the TL2BR-strike image', () => {
-    expect(mapConsecutiveDirectionToImage(ConsecutiveDirection.DiagonalTL2BR)).toBe(strikeTL2BR);
+    expect(mapConsecutiveDirectionToImage(ConsecutiveDirectionDiagonalTL2BR)).toBe(strikeTL2BR);
   });
 
   it('maps DiagonalTR2BL to the TR2BL-strike image', () => {
-    expect(mapConsecutiveDirectionToImage(ConsecutiveDirection.DiagonalTR2BL)).toBe(strikeTR2BL);
+    expect(mapConsecutiveDirectionToImage(ConsecutiveDirectionDiagonalTR2BL)).toBe(strikeTR2BL);
   });
 });

@@ -1,23 +1,23 @@
 import { type BoardDimensions } from '../meta-model/Board';
 import { type CellCoordinates } from './CellCoordinates';
 import { type Coordinates } from './Coordinates';
-
-export enum EdgeClassifier {
-  Lower = 'l',
-  Inner = 'i',
-  Upper = 'u',
-}
+import {
+  type EdgeClassifier,
+  EdgeClassifierInner,
+  EdgeClassifierLower,
+  EdgeClassifierUpper,
+} from './EdgeClassifier.ts';
 
 export type EdgeClassifiers = Coordinates<EdgeClassifier>;
 
 export const cellEdgeClassifier = (coordinate: number, dimension: number): EdgeClassifier => {
   if (coordinate <= 0) {
-    return EdgeClassifier.Lower;
+    return EdgeClassifierLower;
   }
   if (coordinate + 1 >= dimension) {
-    return EdgeClassifier.Upper;
+    return EdgeClassifierUpper;
   }
-  return EdgeClassifier.Inner;
+  return EdgeClassifierInner;
 };
 
 export const cellEdgeClassifiers = (

@@ -1,4 +1,4 @@
-import { CellOwner } from '../../meta-model/CellOwner';
+import { type CellOwner, CellOwnerNone } from '../../meta-model/CellOwner';
 
 export interface Decision {
   cellsAtToAttack: readonly number[];
@@ -7,7 +7,7 @@ export interface Decision {
 export const findFreeCellIndices = (cells: readonly CellOwner[]): number[] => {
   const freeCellIndices: number[] = [];
   cells.forEach((cellOwner, index) => {
-    if (cellOwner === CellOwner.None) {
+    if (cellOwner === CellOwnerNone) {
       freeCellIndices.push(index);
     }
   });

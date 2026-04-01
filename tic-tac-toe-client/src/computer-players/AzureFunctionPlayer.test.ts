@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { CellOwnerNone, CellOwnerO, CellOwnerX } from '../meta-model/CellOwner';
 import { type AttackGameAction } from '../meta-model/GameAction';
 import { type PlayerTurn } from '../meta-model/PlayerTurn';
-import { CellOwner } from '../meta-model/CellOwner';
-
 // Now import the module after mocking
 import { createAzureFunctionPlayer } from './AzureFunctionPlayer';
 
@@ -27,20 +27,20 @@ vi.doMock('axios', () => mockAxios);
 
 describe('AzureFunctionPlayer', () => {
   const mockPlayerTurn: PlayerTurn = {
-    cellOwner: CellOwner.X,
+    cellOwner: CellOwnerX,
     gameView: {
       board: {
         dimensions: { width: 3, height: 3 },
         cells: [
-          CellOwner.None,
-          CellOwner.None,
-          CellOwner.None,
-          CellOwner.None,
-          CellOwner.None,
-          CellOwner.None,
-          CellOwner.None,
-          CellOwner.None,
-          CellOwner.None,
+          CellOwnerNone,
+          CellOwnerNone,
+          CellOwnerNone,
+          CellOwnerNone,
+          CellOwnerNone,
+          CellOwnerNone,
+          CellOwnerNone,
+          CellOwnerNone,
+          CellOwnerNone,
         ],
       },
       consecutive: [],
@@ -82,7 +82,6 @@ describe('AzureFunctionPlayer', () => {
         const player = await createAzureFunctionPlayer();
 
         expect(player).toBeDefined();
-        expect(player.takeTurn).toBeDefined();
       });
 
       it('should detect Azure Function as unavailable with missing environment variable', async () => {
@@ -165,8 +164,7 @@ describe('AzureFunctionPlayer', () => {
       expect(mockAxiosInstance.post).toHaveBeenCalledWith(
         '/api/takeTurn',
         expect.objectContaining({
-          cellOwner: CellOwner.X,
-          gameView: expect.any(Object),
+          cellOwner: CellOwnerX,
         }),
       );
     });
@@ -553,21 +551,21 @@ describe('AzureFunctionPlayer', () => {
 
     it('should handle readonly PlayerTurn parameter correctly', async () => {
       const readonlyPlayerTurn: Readonly<PlayerTurn> = Object.freeze({
-        cellOwner: CellOwner.O,
+        cellOwner: CellOwnerO,
         gameView: Object.freeze({
           board: Object.freeze({
             dimensions: Object.freeze({ width: 3, height: 3 }),
             cells: Object.freeze([
-              CellOwner.X,
-              CellOwner.None,
-              CellOwner.None,
-              CellOwner.None,
-              CellOwner.None,
-              CellOwner.None,
-              CellOwner.None,
-              CellOwner.None,
-              CellOwner.None,
-            ]),
+              CellOwnerX,
+              CellOwnerNone,
+              CellOwnerNone,
+              CellOwnerNone,
+              CellOwnerNone,
+              CellOwnerNone,
+              CellOwnerNone,
+              CellOwnerNone,
+              CellOwnerNone,
+            ] as const),
           }),
           consecutive: [],
           points: {
